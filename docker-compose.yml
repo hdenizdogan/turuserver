@@ -1,0 +1,118 @@
+services:
+  #jellyfin for media streaming
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    restart: always
+    ports:
+      - "8096:8096"
+    environment:
+      - BASE_URL=/jellyfin
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_cache:/cache
+      - /mnt/media:/media
+    env_file:
+      - .env
+  #browser based qbittorrent
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
+    environment:
+      - BASE_URL=/qbittorrent
+    env_file:
+      - .env
+    volumes:
+      - /mnt/media:/media
+      - /mnt/media:/downloads
+      - /mnt/docker/qbittorrent/config:/config
+  #jellyseerr for content requests
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    restart: unless-stopped
+    depends_on:
+      - jellyfin
+    ports:
+      - "5055:5055"
+    env_file:
+      - .env
+    volumes:
+      - /mnt/docker/jellyseer/config:/app/config
+
+
+
+  #filebrowser for uploads/downloads
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    user: "${PUID:-1000}:${PGID:-1000}"
+    volumes:
+      - /mnt/media:/srv
+      - filebrowser_db:/database
+    ports:
+      - "8081:80"
+    env_file:
+      - .env
+      -
+  #portainer for container controls
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - BASE_URL=/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+  #nginx for reverse proxy and subpath creation for all projects
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+    depends_on:
+      - jellyfin
+      - qbittorrent
+      - jellyseerr
+      - portainer
+    ports:
+      - "80:80"
+  #tailscale for free public/private internet access with https
+  tailscale:
+    image: tailscale/tailscale
+    container_name: tailscale
+    hostname: turuserver
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - ./tailscale-data:/var/lib/tailscale
+    env_file:
+      - .env
+    depends_on:
+      - nginx
+    command: >
+      sh -c "
+        tailscaled & sleep 2 &&
+        tailscale up --auth-key=$TS_AUTHKEY --hostname=turuserver &&
+        tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
+      "
+    restart: unless-stopped
+
+volumes:
+  portainer_data:
+  jellyfin_config:
+  filebrowser_db:
+  jellyfin_cache:
