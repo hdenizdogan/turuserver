@@ -60,7 +60,6 @@ services:
       - "8081:80"
     env_file:
       - .env
-      -
   #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
