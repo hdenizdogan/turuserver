@@ -8,14 +8,13 @@ services:
       - "8096:8096"
     environment:
       - BASE_URL=/jellyfin
-    group_add:
-      - "993" # render group
     devices:
       - /dev/dri:/dev/dri
     volumes:
       - jellyfin_config:/config
       - jellyfin_cache:/cache
       - /mnt/media:/media
+      - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     env_file:
       - .env
   #browser based qbittorrent
@@ -48,8 +47,6 @@ services:
       - .env
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
-
-
 
   #filebrowser for uploads/downloads
   filebrowser:
