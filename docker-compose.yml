@@ -73,6 +73,17 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+  agent:
+    image: portainer/agent:latest
+    container_name: portainer_agent
+    restart: unless-stopped
+    ports:
+      - "9001:9001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /:/host
+    networks:
+      - portainer_net
   #nginx for reverse proxy and subpath creation for all projects
   nginx:
     image: nginx:alpine
@@ -111,6 +122,9 @@ services:
         tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
       "
     restart: unless-stopped
+
+networks:
+  portainer_net:
 
 volumes:
   portainer_data:
