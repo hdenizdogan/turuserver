@@ -8,6 +8,10 @@ services:
       - "8096:8096"
     environment:
       - BASE_URL=/jellyfin
+    group_add:
+      - "993" # render group
+    devices:
+      - /dev/dri:/dev/dri
     volumes:
       - jellyfin_config:/config
       - jellyfin_cache:/cache
@@ -86,17 +90,6 @@ services:
       - portainer
     ports:
       - "80:80"
-
-  glances:
-    image: nicolargo/glances:latest
-    container_name: glances
-    restart: unless-stopped
-    ports:
-      - "61208:61208"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - GLANCES_OPT=-w
 
   #tailscale for free public/private internet access with https
   tailscale:
