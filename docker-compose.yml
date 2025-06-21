@@ -126,5 +126,4 @@ networks:
 volumes:
   portainer_data:
   jellyfin_config:
-  filebrowser_db:
   jellyfin_cache:
