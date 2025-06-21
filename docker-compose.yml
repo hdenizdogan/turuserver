@@ -48,19 +48,15 @@ services:
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
 
-  #filebrowser for uploads/downloads
-  filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: filebrowser
+  #filestash for uploads/downloads
+  filestash:
+    image: machines/filestash:latest
+    container_name: filestash
     restart: unless-stopped
-    user: "${PUID:-1000}:${PGID:-1000}"
-    volumes:
-      - /mnt/media:/srv
-      - filebrowser_db:/database
     ports:
-      - "8081:80"
-    env_file:
-      - .env
+      - "8334:8334"
+    volumes:
+      - /mnt/media:/data
   #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
