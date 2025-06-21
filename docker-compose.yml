@@ -71,28 +71,6 @@ services:
       - /:/host
     networks:
       - portainer_net
-
-  casaos:
-    image: casaos/casaos-ce:latest
-    container_name: casaos
-    privileged: true
-    restart: unless-stopped
-    expose:
-      - "10080"
-    env_file:
-      - .env
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /run/udev:/run/udev:ro
-      - /mnt:/mnt
-      - /media:/media
-      - /etc/machine-id:/etc/machine-id
-      - /etc/localtime:/etc/localtime:ro
-      - casaos_config:/etc/casaos
-      - casaos_data:/var/lib/casaos
-    depends_on:
-      - nginx
-
   #nginx for reverse proxy and subpath creation for all projects
   nginx:
     image: nginx:alpine
@@ -107,7 +85,6 @@ services:
       - portainer
     ports:
       - "80:80"
-
 
   #tailscale for free public/private internet access with https
   tailscale:
@@ -140,5 +117,3 @@ volumes:
   portainer_data:
   jellyfin_config:
   jellyfin_cache:
-  casaos_config:
-  casaos_data:
