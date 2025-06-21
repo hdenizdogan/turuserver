@@ -128,6 +128,7 @@ services:
     volumes:
       - tailscale-varlib:/var/lib/tailscale
       - /dev/net/tun:/dev/net/tun
+      - /etc/resolv.conf:/etc/resolv.conf:ro
     network_mode: "host"
     restart: unless-stopped
 
