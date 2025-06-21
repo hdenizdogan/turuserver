@@ -47,7 +47,6 @@ services:
       - .env
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
-      -
   #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
