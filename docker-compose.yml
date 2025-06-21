@@ -73,7 +73,7 @@ services:
       - portainer_net
 
   casaos:
-    image: ghcr.io/icewhale/casaos:latest
+    image: casaos/casaos-ce:latest
     container_name: casaos
     privileged: true
     restart: unless-stopped
