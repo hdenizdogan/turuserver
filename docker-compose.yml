@@ -107,7 +107,7 @@ services:
     command: >
       sh -c "
         tailscaled & sleep 2 &&
-        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=turuserver --advertise-exit-node &&
+        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=turuserver &&
         tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
       "
     restart: unless-stopped
