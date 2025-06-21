@@ -47,16 +47,7 @@ services:
       - .env
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
-
-  #filestash for uploads/downloads
-  filestash:
-    image: machines/filestash:latest
-    container_name: filestash
-    restart: unless-stopped
-    ports:
-      - "8334:8334"
-    volumes:
-      - /mnt/media:/data
+      -
   #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
