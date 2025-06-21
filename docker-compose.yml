@@ -85,6 +85,8 @@ services:
       - portainer
     ports:
       - "80:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   #tailscale for free public/private internet access with https
   tailscale:
