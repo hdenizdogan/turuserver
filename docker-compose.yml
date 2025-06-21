@@ -112,31 +112,10 @@ services:
       "
     restart: unless-stopped
 
-  #tailscale as an exit node
-  tailscale-exit:
-    image: tailscale/tailscale:latest
-    container_name: tailscale-exit
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    environment:
-      - TS_ROUTES=0.0.0.0/0,::/0
-      - TS_EXIT_NODE=true
-      - TS_STATE_DIR=/var/lib/tailscale
-    env_file:
-      - .env
-    volumes:
-      - tailscale-varlib:/var/lib/tailscale
-      - /dev/net/tun:/dev/net/tun
-      - /etc/resolv.conf:/etc/resolv.conf:ro
-    network_mode: "host"
-    restart: unless-stopped
-
 networks:
   portainer_net:
 
 volumes:
-  tailscale-varlib:
   portainer_data:
   jellyfin_config:
   jellyfin_cache:
