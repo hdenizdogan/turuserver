@@ -30,6 +30,19 @@ services:
       - /mnt/media:/media
       - /mnt/media:/downloads
       - /mnt/docker/radarr/config:/config
+  #prowlarr for managing indexers
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+    ports:
+      - "9696:9696"
+    environment:
+      - BASE_URL=/prowlarr
+    env_file:
+      - .env
+    volumes:
+      - /mnt/docker/prowlarr/config:/config
 
   #jellyfin for media streaming
   jellyfin:
