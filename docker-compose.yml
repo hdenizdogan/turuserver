@@ -26,8 +26,6 @@ services:
     restart: unless-stopped
     ports:
       - "9696:9696"
-    environment:
-      - BASE_URL=/prowlarr
     env_file:
       - .env
     volumes:
@@ -40,8 +38,6 @@ services:
     restart: unless-stopped
     ports:
       - "8989:8989"
-    environment:
-      - BASE_URL=/sonarr
     env_file:
       - .env
     volumes:
@@ -56,8 +52,6 @@ services:
     restart: unless-stopped
     ports:
       - "7878:7878"
-    environment:
-      - BASE_URL=/radarr
     env_file:
       - .env
     volumes:
