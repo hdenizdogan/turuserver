@@ -135,11 +135,6 @@ services:
       - qbittorrent
       - jellyseerr
       - portainer
-      - prowlarr
-      - sonarr
-      - radarr
-      - lidarr
-      - homarr
     ports:
       - "80:80"
     extra_hosts:
