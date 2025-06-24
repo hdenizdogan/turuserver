@@ -27,6 +27,9 @@ services:
       - "9696:9696"
     env_file:
       - .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - /mnt/docker/prowlarr:/config
 
@@ -39,6 +42,9 @@ services:
       - "8989:8989"
     env_file:
       - .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - /mnt/docker/sonarr:/config
       - /mnt/media:/mnt/media
@@ -52,6 +58,9 @@ services:
       - "7878:7878"
     env_file:
       - .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - /mnt/docker/radarr:/config
       - /mnt/media:/mnt/media
@@ -67,6 +76,8 @@ services:
       - "6881:6881/udp"
     environment:
       - BASE_URL=/qbittorrent
+      - PUID=${PUID}
+      - PGID=${PGID}
     env_file:
       - .env
     volumes:
