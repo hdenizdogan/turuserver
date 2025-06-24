@@ -122,4 +122,3 @@ volumes:
   jellyfin_config:
   jellyfin_cache:
   netdata_config:
-  netdata_cache:
