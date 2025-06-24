@@ -92,6 +92,8 @@ services:
       - jellyfin
     ports:
       - "5055:5055"
+    environment:
+      - BASE_URL=/jellyseerr
     env_file:
       - .env
     volumes:
