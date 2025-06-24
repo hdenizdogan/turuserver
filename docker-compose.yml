@@ -121,4 +121,3 @@ volumes:
   portainer_data:
   jellyfin_config:
   jellyfin_cache:
-  netdata_config:
