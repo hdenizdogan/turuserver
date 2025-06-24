@@ -41,8 +41,7 @@ services:
       - .env
     volumes:
       - /mnt/docker/sonarr:/config
-      - /mnt/media:/media
-      - /mnt/media:/downloads
+      - /mnt/media:/mnt/media
 
   # radarr for movie automation
   radarr:
@@ -55,8 +54,7 @@ services:
       - .env
     volumes:
       - /mnt/docker/radarr:/config
-      - /mnt/media:/media
-      - /mnt/media:/downloads
+      - /mnt/media:/mnt/media
 
   #browser based qbittorrent
   qbittorrent:
@@ -72,8 +70,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /mnt/media:/media
-      - /mnt/media:/downloads
+      - /mnt/media:/mnt/media
       - /mnt/docker/qbittorrent/config:/config
 
   #jellyseerr for content requests
