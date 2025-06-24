@@ -89,7 +89,7 @@ services:
       - .env
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
-      - /mnt/media:/media
+      - /mnt/media:/mnt/media
 
   #portainer for container controls
   portainer:
