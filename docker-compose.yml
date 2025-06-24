@@ -68,6 +68,22 @@ services:
       - /mnt/media:/mnt/media
       - /mnt/media:/downloads
 
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+    ports:
+      - "6767:6767"
+    env_file:
+      - .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - /mnt/media:/mnt/media
+      - /mnt/docker/bazarr:/config
+
+
   #browser based qbittorrent
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
