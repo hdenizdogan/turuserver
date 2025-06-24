@@ -1,6 +1,5 @@
 services:
 
-
   #jellyfin for media streaming
   jellyfin:
     image: jellyfin/jellyfin
@@ -90,6 +89,7 @@ services:
       - .env
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
+      - /mnt/media:/media
 
   #portainer for container controls
   portainer:
