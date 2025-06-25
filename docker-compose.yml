@@ -1,7 +1,6 @@
-version: "3.9"
+﻿services:
 
-services:
-
+  #jellyfin for media streaming
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
@@ -19,7 +18,7 @@ services:
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     env_file:
       - .env
-
+  # prowlarr for indexer management
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -33,8 +32,9 @@ services:
       - PGID=${PGID}
     volumes:
       - /mnt/docker/prowlarr:/config
-      - /mnt/media/torrent:/downloads
+      - /mnt/media:/downloads
 
+  # sonarr for TV series automation
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -48,9 +48,10 @@ services:
       - PGID=${PGID}
     volumes:
       - /mnt/docker/sonarr:/config
-      - /mnt/media/torrent/Shows:/shows
-      - /mnt/media/torrent:/downloads
+      - /mnt/media:/mnt/media
+      - /mnt/media:/downloads
 
+  # radarr for movie automation
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -64,8 +65,8 @@ services:
       - PGID=${PGID}
     volumes:
       - /mnt/docker/radarr:/config
-      - /mnt/media/torrent/Movies:/movies
-      - /mnt/media/torrent:/downloads
+      - /mnt/media:/mnt/media
+      - /mnt/media:/downloads
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -82,6 +83,8 @@ services:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
 
+
+  #browser based qbittorrent
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -97,9 +100,11 @@ services:
     env_file:
       - .env
     volumes:
-      - /mnt/media/torrent:/downloads
+      - /mnt/media:/mnt/media
+      - /mnt/media:/downloads
       - /mnt/docker/qbittorrent/config:/config
 
+  #jellyseerr for content requests
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
@@ -114,6 +119,7 @@ services:
       - /mnt/docker/jellyseer/config:/app/config
       - /mnt/media:/mnt/media
 
+  #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -139,6 +145,7 @@ services:
     networks:
       - portainer_net
 
+  #nginx for reverse proxy and subpath creation for all projects
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -155,6 +162,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  #tailscale for free public/private internet access with https
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
@@ -173,7 +181,7 @@ services:
     command: >
       sh -c "
         tailscaled & sleep 2 &&
-        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=$HOSTNAME &&
+        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=turuserver &&
         tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
       "
     restart: unless-stopped
