@@ -32,7 +32,7 @@ services:
       - PGID=${PGID}
     volumes:
       - /mnt/docker/prowlarr:/config
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/downloads
 
   # sonarr for TV series automation
   sonarr:
@@ -49,7 +49,7 @@ services:
     volumes:
       - /mnt/docker/sonarr:/config
       - /mnt/media:/mnt/media
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/downloads
 
   # radarr for movie automation
   radarr:
@@ -66,7 +66,7 @@ services:
     volumes:
       - /mnt/docker/radarr:/config
       - /mnt/media:/mnt/media
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/downloads
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -101,7 +101,7 @@ services:
       - .env
     volumes:
       - /mnt/media:/mnt/media
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
 
   #jellyseerr for content requests
