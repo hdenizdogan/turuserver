@@ -40,7 +40,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=jellyfin-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:8096
+        tailscale funnel --bg 8096
       "
     restart: unless-stopped
 
@@ -81,7 +81,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=prowlarr-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:9696
+        tailscale funnel --bg 9696
       "
     restart: unless-stopped
 
@@ -122,7 +122,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=sonarr-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:8989
+        tailscale funnel --bg 8989
       "
     restart: unless-stopped
 
@@ -163,7 +163,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=radarr-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:7878
+        tailscale funnel --bg 7878
       "
     restart: unless-stopped
 
@@ -202,7 +202,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=bazarr-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:6767
+        tailscale funnel --bg 6767
       "
     restart: unless-stopped
 
@@ -245,7 +245,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=qbittorrent-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:8080
+        tailscale funnel --bg 8080
       "
     restart: unless-stopped
 
@@ -283,7 +283,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=jellyseerr-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:5055
+        tailscale funnel --bg 5055
       "
     restart: unless-stopped
 
@@ -319,7 +319,7 @@ services:
       sh -c "
         tailscaled & sleep 2 &&
         tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=portainer-turuserver &&
-        tailscale funnel --https=443 --set-path=127.0.0.1:9000
+        tailscale funnel --bg 9000
       "
     restart: unless-stopped
 
