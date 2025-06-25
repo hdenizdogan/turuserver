@@ -103,7 +103,7 @@
       - .env
     volumes:
       - /mnt/media:/mnt/media
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
 
   #jellyseerr for content requests
