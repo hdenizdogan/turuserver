@@ -32,7 +32,8 @@
       - PGID=${PGID}
     volumes:
       - /mnt/docker/prowlarr:/config
-      - /mnt/media:/downloads
+      - /mnt/media:/mnt/media
+      - /mnt/media/torrent:/mnt/media/torrent
 
   # sonarr for TV series automation
   sonarr:
@@ -47,9 +48,9 @@
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - /mnt/docker/sonarr:/config
+      - /mnt/docker/radarr:/config
       - /mnt/media:/mnt/media
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/mnt/media/torrent
 
   # radarr for movie automation
   radarr:
@@ -66,7 +67,8 @@
     volumes:
       - /mnt/docker/radarr:/config
       - /mnt/media:/mnt/media
-      - /mnt/media:/downloads
+      - /mnt/media/torrent:/mnt/media/torrent
+
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
