@@ -34,6 +34,7 @@
       - /mnt/docker/prowlarr:/config
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
 
   # sonarr for TV series automation
   sonarr:
@@ -51,6 +52,7 @@
       - /mnt/docker/radarr:/config
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
 
   # radarr for movie automation
   radarr:
@@ -68,6 +70,7 @@
       - /mnt/docker/radarr:/config
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
 
 
   bazarr:
