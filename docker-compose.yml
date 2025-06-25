@@ -1,12 +1,8 @@
 ﻿services:
-
-  #jellyfin for media streaming
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: always
-    ports:
-      - "8096:8096"
     environment:
       - BASE_URL=/jellyfin
     devices:
@@ -18,13 +14,11 @@
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     env_file:
       - .env
-  # prowlarr for indexer management
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-    ports:
-      - "9696:9696"
     env_file:
       - .env
     environment:
@@ -36,31 +30,25 @@
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
 
-  # sonarr for TV series automation
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-    ports:
-      - "8989:8989"
     env_file:
       - .env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - /mnt/docker/radarr:/config
+      - /mnt/docker/sonarr:/config
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
 
-  # radarr for movie automation
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-    ports:
-      - "7878:7878"
     env_file:
       - .env
     environment:
@@ -71,14 +59,11 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
-    ports:
-      - "6767:6767"
     env_file:
       - .env
     environment:
@@ -88,16 +73,10 @@
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
 
-
-  #browser based qbittorrent
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-    ports:
-      - "8080:8080"
-      - "6881:6881"
-      - "6881:6881/udp"
     environment:
       - BASE_URL=/qbittorrent
       - PUID=${PUID}
@@ -109,28 +88,22 @@
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
 
-  #jellyseerr for content requests
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     restart: unless-stopped
     depends_on:
       - jellyfin
-    ports:
-      - "5055:5055"
     env_file:
       - .env
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
       - /mnt/media:/mnt/media
 
-  #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
-    ports:
-      - "9000:9000"
     environment:
       - BASE_URL=/portainer
     volumes:
@@ -141,16 +114,11 @@
     image: portainer/agent:latest
     container_name: portainer_agent
     restart: always
-    ports:
-      - "9001:9001"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /:/host
-    networks:
-      - portainer_net
 
-  #nginx for reverse proxy and subpath creation for all projects
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -167,7 +135,6 @@
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  #tailscale for free public/private internet access with https
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
@@ -186,15 +153,16 @@
     command: >
       sh -c "
         tailscaled & sleep 2 &&
-        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=turuserver &&
+        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=$HOSTNAME &&
         tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
       "
     restart: unless-stopped
-
-networks:
-  portainer_net:
 
 volumes:
   portainer_data:
   jellyfin_config:
   jellyfin_cache:
+
+networks:
+  default:
+    name: app_net
