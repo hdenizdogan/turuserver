@@ -1,10 +1,9 @@
 ﻿services:
+  # Jellyfin media server
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: always
-    environment:
-      - BASE_URL=/jellyfin
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -15,36 +14,30 @@
     env_file:
       - .env
 
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
-    restart: unless-stopped
+  jellyfin_tailscale:
+    image: tailscale/tailscale
+    container_name: jellyfin_tailscale
+    hostname: jellyfin-turuserver
+    network_mode: "container:jellyfin"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - ./tailscale-data/jellyfin:/var/lib/tailscale
     env_file:
       - .env
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-    volumes:
-      - /mnt/docker/prowlarr:/config
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
-
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
+    depends_on:
+      - jellyfin
+    command: >
+      sh -c "
+        tailscaled & sleep 2 &&
+        tailscale up --auth-key=$TSAUTHKEY --hostname=jellyfin-turuserver &&
+        tailscale funnel --https=443 --set-path=/ 127.0.0.1:8096
+      "
     restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-    volumes:
-      - /mnt/docker/sonarr:/config
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
 
+  # Radarr movie automation
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -60,9 +53,33 @@
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
 
-  bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
-    container_name: bazarr
+  radarr_tailscale:
+    image: tailscale/tailscale
+    container_name: radarr_tailscale
+    hostname: radarr-turuserver
+    network_mode: "container:radarr"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - ./tailscale-data/radarr:/var/lib/tailscale
+    env_file:
+      - .env
+    depends_on:
+      - radarr
+    command: >
+      sh -c "
+        tailscaled & sleep 2 &&
+        tailscale up --auth-key=$TSAUTHKEY --hostname=radarr-turuserver &&
+        tailscale funnel --https=443 --set-path=/ 127.0.0.1:7878
+      "
+    restart: unless-stopped
+
+  # Sonarr TV series automation
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
     restart: unless-stopped
     env_file:
       - .env
@@ -70,9 +87,35 @@
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
+      - /mnt/docker/sonarr:/config
       - /mnt/media:/mnt/media
-      - /mnt/docker/bazarr:/config
+      - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
 
+  sonarr_tailscale:
+    image: tailscale/tailscale
+    container_name: sonarr_tailscale
+    hostname: sonarr-turuserver
+    network_mode: "container:sonarr"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - ./tailscale-data/sonarr:/var/lib/tailscale
+    env_file:
+      - .env
+    depends_on:
+      - sonarr
+    command: >
+      sh -c "
+        tailscaled & sleep 2 &&
+        tailscale up --auth-key=$TSAUTHKEY --hostname=sonarr-turuserver &&
+        tailscale funnel --https=443 --set-path=/ 127.0.0.1:8989
+      "
+    restart: unless-stopped
+
+  # qBittorrent browser client
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -88,36 +131,28 @@
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
 
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
-    restart: unless-stopped
-    depends_on:
-      - jellyfin
+  qbittorrent_tailscale:
+    image: tailscale/tailscale
+    container_name: qbittorrent_tailscale
+    hostname: qbittorrent-turuserver
+    network_mode: "container:qbittorrent"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - ./tailscale-data/qbittorrent:/var/lib/tailscale
     env_file:
       - .env
-    volumes:
-      - /mnt/docker/jellyseer/config:/app/config
-      - /mnt/media:/mnt/media
-
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
+    depends_on:
+      - qbittorrent
+    command: >
+      sh -c "
+        tailscaled & sleep 2 &&
+        tailscale up --auth-key=$TSAUTHKEY --hostname=qbittorrent-turuserver &&
+        tailscale funnel --https=443 --set-path=/ 127.0.0.1:8080
+      "
     restart: unless-stopped
-    environment:
-      - BASE_URL=/portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-
-  agent:
-    image: portainer/agent:latest
-    container_name: portainer_agent
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-      - /:/host
 
   nginx:
     image: nginx:alpine
@@ -127,42 +162,13 @@
     restart: unless-stopped
     depends_on:
       - jellyfin
+      - radarr
+      - sonarr
       - qbittorrent
-      - jellyseerr
-      - portainer
     ports:
-      - "80:80"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "80:80"   # expose port 80 on host
 
-  tailscale:
-    image: tailscale/tailscale
-    container_name: tailscale
-    hostname: turuserver
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    volumes:
-      - /dev/net/tun:/dev/net/tun
-      - ./tailscale-data:/var/lib/tailscale
-    env_file:
-      - .env
-    depends_on:
-      - nginx
-    command: >
-      sh -c "
-        tailscaled & sleep 2 &&
-        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=$HOSTNAME &&
-        tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
-      "
-    restart: unless-stopped
 
 volumes:
-  portainer_data:
   jellyfin_config:
   jellyfin_cache:
-
-networks:
-  default:
-    name: app_net
