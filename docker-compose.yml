@@ -279,14 +279,14 @@
       "
 
   tsdproxy:
-    image: ghcr.io/pintobike/tsdproxy:latest
-    container_name: tsdproxy
-    ports:
-      - "80:80"
+    image: almeidapaulopt/tsdproxy:1
     volumes:
-      - ./tsdproxy.toml:/etc/tsdproxy.toml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - datadir:/data
+      - mnt/docker/tsdproxy:/config
     restart: unless-stopped
-    network_mode: host  # allows access to localhost services
+    ports:
+      - "8080:8080"
 
 
 networks:
@@ -298,3 +298,4 @@ networks:
   qbittorrent_net:
   jellyseerr_net:
   portainer_net:
+  datadir:
