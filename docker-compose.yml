@@ -6,6 +6,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyfin"
+      tsdproxy.funnel: "true"
     ports:
       - "8096:8096"
     environment:
@@ -27,6 +28,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "prowlarr"
+      tsdproxy.funnel: "true"
     ports:
       - "9696:9696"
     env_file:
@@ -48,6 +50,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "sonarr"
+      tsdproxy.funnel: "true"
     ports:
       - "8989:8989"
     env_file:
@@ -69,6 +72,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "radarr"
+      tsdproxy.funnel: "true"
     ports:
       - "7878:7878"
     env_file:
@@ -90,6 +94,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "bazarr"
+      tsdproxy.funnel: "true"
     ports:
       - "6767:6767"
     env_file:
@@ -111,6 +116,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "qbittorrent"
+      tsdproxy.funnel: "true"
     ports:
       - "8080:8080"
       - "6881:6881"
@@ -136,6 +142,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyseerr"
+      tsdproxy.funnel: "true"
     ports:
       - "5055:5055"
     env_file:
@@ -149,10 +156,12 @@
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "portainer"
+      tsdproxy.funnel: "true"
     ports:
       - "9000:9000"
-    environment:
-      - BASE_URL=/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -186,30 +195,6 @@
       - "80:80"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-  #tailscale for free public/private internet access with https
-  tailscale:
-    image: tailscale/tailscale
-    container_name: tailscale
-    hostname: turuserver
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    volumes:
-      - /dev/net/tun:/dev/net/tun
-      - ./tailscale-data:/var/lib/tailscale
-    env_file:
-      - .env
-    depends_on:
-      - nginx
-    command: >
-      sh -c "
-        tailscaled & sleep 2 &&
-        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=turuserver &&
-        tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
-      "
-    restart: unless-stopped
 
   ## tsdproxy
   tsdproxy:
