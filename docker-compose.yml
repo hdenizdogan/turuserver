@@ -9,8 +9,6 @@
       tsdproxy.funnel: "true"
     ports:
       - "8096:8096"
-    environment:
-      - BASE_URL=/jellyfin
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -102,7 +100,6 @@
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - BASE_URL=/bazarr
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
@@ -122,7 +119,6 @@
       - "6881:6881"
       - "6881:6881/udp"
     environment:
-      - BASE_URL=/qbittorrent
       - PUID=${PUID}
       - PGID=${PGID}
     env_file:
