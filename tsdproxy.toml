@@ -8,7 +8,7 @@ port = 8096
 port = 6767
 
 [subdomains.qbittorrent]
-port = 8080
+port = 8085
 
 [subdomains.radarr]
 port = 7878
