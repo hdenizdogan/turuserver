@@ -49,7 +49,7 @@
       - PUID=${PUID}
       - PGID=${PGID}
     volumes:
-      - /mnt/docker/radarr:/config
+      - /mnt/docker/sonarr:/config
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
