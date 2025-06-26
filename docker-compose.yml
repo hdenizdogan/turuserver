@@ -3,6 +3,9 @@
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: always
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyfin"
     ports:
       - "8096:8096"
     environment:
@@ -21,6 +24,9 @@
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "prowlarr"
     ports:
       - "9696:9696"
     env_file:
@@ -39,6 +45,9 @@
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "sonarr"
     ports:
       - "8989:8989"
     env_file:
@@ -57,6 +66,9 @@
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "radarr"
     ports:
       - "7878:7878"
     env_file:
@@ -75,6 +87,9 @@
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "bazarr"
     ports:
       - "6767:6767"
     env_file:
@@ -93,6 +108,9 @@
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "qbittorrent"
     ports:
       - "8080:8080"
       - "6881:6881"
@@ -115,6 +133,9 @@
     restart: unless-stopped
     depends_on:
       - jellyfin
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyseerr"
     ports:
       - "5055:5055"
     env_file:
@@ -190,15 +211,28 @@
       "
     restart: unless-stopped
 
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "pdf"
+    ports:
+      - 8080:8080
+
+  ## tsdproxy
   tsdproxy:
-    image: almeidapaulopt/tsdproxy:1
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - datadir:/data
-      - /mnt/docker/tsdproxy:/config
+      - tsdproxydata:/data
+    environment:
+      # Get AuthKey from your Tailscale account
+      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+      # Address of docker server (access to example.com ports)
+      - TSDPROXY_HOSTNAME=10.42.37.238
+      - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
-    ports:
-      - "8080:8080"
 
 networks:
   portainer_net:
