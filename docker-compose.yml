@@ -282,7 +282,7 @@
     image: almeidapaulopt/tsdproxy:1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - datadir:/data
+      - /datadir:/data
       - mnt/docker/tsdproxy:/config
     restart: unless-stopped
     ports:
