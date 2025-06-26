@@ -115,7 +115,7 @@
       tsdproxy.name: "qbittorrent"
       tsdproxy.funnel: "true"
     ports:
-      - "8081:8080"
+      - "8090:8080"
       - "6881:6881"
       - "6881:6881/udp"
     environment:
