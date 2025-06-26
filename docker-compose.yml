@@ -278,6 +278,17 @@
         tailscale funnel --bg 9000
       "
 
+  tsdproxy:
+    image: ghcr.io/pintobike/tsdproxy:latest
+    container_name: tsdproxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./tsdproxy.toml:/etc/tsdproxy.toml:ro
+    restart: unless-stopped
+    network_mode: host  # allows access to localhost services
+
+
 networks:
   jellyfin_net:
   prowlarr_net:

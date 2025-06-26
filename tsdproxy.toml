@@ -1,0 +1,23 @@
+[default]
+port = 5055 # default backend (e.g. jellyseerr)
+
+[subdomains.jellyfin]
+port = 8096
+
+[subdomains.bazarr]
+port = 6767
+
+[subdomains.qbittorrent]
+port = 8080
+
+[subdomains.radarr]
+port = 7878
+
+[subdomains.sonarr]
+port = 8989
+
+[subdomains.prowlarr]
+port = 9696
+
+[subdomains.portainer]
+port = 9000
