@@ -195,7 +195,7 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - datadir:/data
-      - mnt/docker/tsdproxy:/config
+      - /mnt/docker/tsdproxy:/config
     restart: unless-stopped
     ports:
       - "8080:8080"
