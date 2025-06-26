@@ -211,14 +211,6 @@
       "
     restart: unless-stopped
 
-  stirling-pdf:
-    image: stirlingtools/stirling-pdf:latest
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "pdf"
-    ports:
-      - 8080:8080
-
   ## tsdproxy
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
