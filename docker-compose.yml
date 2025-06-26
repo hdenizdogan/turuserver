@@ -84,6 +84,7 @@
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+      - BASE_URL=/bazarr
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
