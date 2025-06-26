@@ -200,6 +200,9 @@
     ports:
       - "8080:8080"
 
+networks:
+  portainer_net:
+
 volumes:
   portainer_data:
   jellyfin_config:
