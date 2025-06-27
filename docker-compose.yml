@@ -18,7 +18,9 @@
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     env_file:
       - .env
-  # prowlarr for indexer management
+    networks:
+      - app_net
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -39,8 +41,9 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
+    networks:
+      - app_net
 
-  # sonarr for TV series automation
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -61,8 +64,9 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
+    networks:
+      - app_net
 
-  # radarr for movie automation
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -83,7 +87,8 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-
+    networks:
+      - app_net
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -103,9 +108,9 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
+    networks:
+      - app_net
 
-
-  #browser based qbittorrent
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -128,8 +133,9 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
+    networks:
+      - app_net
 
-  #jellyseerr for content requests
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
@@ -147,8 +153,9 @@
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
       - /mnt/media:/mnt/media
+    networks:
+      - app_net
 
-  #portainer for container controls
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -162,6 +169,8 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - app_net
 
   agent:
     image: portainer/agent:latest
@@ -176,7 +185,6 @@
     networks:
       - portainer_net
 
-  #nginx for reverse proxy and subpath creation for all projects
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -190,10 +198,9 @@
       - portainer
     ports:
       - "80:80"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    networks:
+      - app_net
 
-  ## tsdproxy
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
     container_name: tsdproxy
@@ -201,15 +208,18 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - tsdproxydata:/data
     environment:
-      # Get AuthKey from your Tailscale account
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      # Address of docker server (access to example.com ports)
       - TSDPROXY_HOSTNAME=10.42.37.238
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
+    networks:
+      - app_net
 
 networks:
   portainer_net:
+  app_net:
+    driver: bridge
+
 
 volumes:
   portainer_data:
