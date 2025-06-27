@@ -29,6 +29,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "prowlarr"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8090
     ports:
       - "9696:9696"
     env_file:
@@ -52,6 +53,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "sonarr"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8989
     ports:
       - "8989:8989"
     env_file:
