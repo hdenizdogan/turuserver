@@ -211,7 +211,7 @@
       - tsdproxydata:/data
     environment:
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - TSDPROXY_HOSTNAME=10.42.37.238
+      - TSDPROXY_HOSTNAME=172.18.0.1
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
     networks:
