@@ -1,14 +1,14 @@
 ﻿services:
-
-  #jellyfin for media streaming
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: always
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyfin"
+      tsdproxy.funnel: "true"
     ports:
       - "8096:8096"
-    environment:
-      - BASE_URL=/jellyfin
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -23,6 +23,10 @@
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "prowlarr"
+      tsdproxy.funnel: "true"
     ports:
       - "9696:9696"
     env_file:
@@ -41,6 +45,10 @@
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "sonarr"
+      tsdproxy.funnel: "true"
     ports:
       - "8989:8989"
     env_file:
@@ -59,6 +67,10 @@
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "radarr"
+      tsdproxy.funnel: "true"
     ports:
       - "7878:7878"
     env_file:
@@ -77,6 +89,10 @@
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "bazarr"
+      tsdproxy.funnel: "true"
     ports:
       - "6767:6767"
     env_file:
@@ -84,7 +100,6 @@
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - BASE_URL=/bazarr
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
@@ -95,14 +110,18 @@
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "qbittorrent"
+      tsdproxy.funnel: "true"
     ports:
-      - "8080:8080"
+      - "8090:8090"
       - "6881:6881"
       - "6881:6881/udp"
     environment:
-      - BASE_URL=/qbittorrent
       - PUID=${PUID}
       - PGID=${PGID}
+      - WEBUI_PORT=8090
     env_file:
       - .env
     volumes:
@@ -117,6 +136,10 @@
     restart: unless-stopped
     depends_on:
       - jellyfin
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyseerr"
+      tsdproxy.funnel: "true"
     ports:
       - "5055:5055"
     env_file:
@@ -130,10 +153,12 @@
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "portainer"
+      tsdproxy.funnel: "true"
     ports:
       - "9000:9000"
-    environment:
-      - BASE_URL=/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -168,28 +193,19 @@
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  #tailscale for free public/private internet access with https
-  tailscale:
-    image: tailscale/tailscale
-    container_name: tailscale
-    hostname: turuserver
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
+  ## tsdproxy
+  tsdproxy:
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
     volumes:
-      - /dev/net/tun:/dev/net/tun
-      - ./tailscale-data:/var/lib/tailscale
-    env_file:
-      - .env
-    depends_on:
-      - nginx
-    command: >
-      sh -c "
-        tailscaled & sleep 2 &&
-        tailscale up --auth-key=$TSFUNNEL_AUTHKEY --hostname=turuserver &&
-        tailscale funnel --https=443 --set-path=/ 127.0.0.1:80
-      "
+      - /var/run/docker.sock:/var/run/docker.sock
+      - tsdproxydata:/data
+    environment:
+      # Get AuthKey from your Tailscale account
+      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+      # Address of docker server (access to example.com ports)
+      - TSDPROXY_HOSTNAME=10.42.37.238
+      - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
 
 networks:
@@ -199,3 +215,4 @@ volumes:
   portainer_data:
   jellyfin_config:
   jellyfin_cache:
+  tsdproxydata:
