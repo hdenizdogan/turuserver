@@ -115,12 +115,13 @@
       tsdproxy.name: "qbittorrent"
       tsdproxy.funnel: "true"
     ports:
-      - "8090:8080"
+      - "8090:8090"
       - "6881:6881"
       - "6881:6881/udp"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+      - WEBUI_PORT=8090
     env_file:
       - .env
     volumes:
