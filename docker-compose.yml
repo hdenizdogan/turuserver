@@ -77,6 +77,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "radarr"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 7878
     ports:
       - "7878:7878"
     env_file:
@@ -100,6 +101,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "bazarr"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 6767
     ports:
       - "6767:6767"
     env_file:
@@ -121,6 +123,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "qbittorrent"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8090
     ports:
       - "8090:8090"
       - "6881:6881"
@@ -148,6 +151,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyseerr"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 5055
     ports:
       - "5055:5055"
     env_file:
@@ -166,6 +170,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "portainer"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 9000
     ports:
       - "9000:9000"
     volumes:
