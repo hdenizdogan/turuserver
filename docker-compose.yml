@@ -116,7 +116,7 @@
       - app_net
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:5.1.0-r0-ls398
     container_name: qbittorrent
     restart: unless-stopped
     labels:
@@ -137,7 +137,7 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
-      - /mnt/qbitconfig:/config
+      - /mnt/docker/qbittorrent/config:/config
     networks:
       - app_net
 
