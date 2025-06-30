@@ -139,7 +139,7 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
-      - qbittorrent_config:/config
+      - /mnt/docker/qbittorrent/config:/config
     networks:
       - app_net
 
