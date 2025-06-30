@@ -139,7 +139,7 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
-      - ./test-qbit-config:/config
+      - qbittorrent_config:/config
     networks:
       - app_net
 
@@ -236,4 +236,5 @@ volumes:
   portainer_data:
   jellyfin_config:
   jellyfin_cache:
+  qbittorrent_config:
   tsdproxydata:
