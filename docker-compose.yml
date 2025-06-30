@@ -119,8 +119,6 @@
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-    stop_signal: SIGINT
-    stop_grace_period: 30s
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "qbittorrent"
