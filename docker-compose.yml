@@ -118,7 +118,6 @@
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
-    user: root
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
