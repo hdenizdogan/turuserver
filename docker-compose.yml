@@ -166,11 +166,6 @@
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "flaresolverr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8191
     ports:
       - "8191:8191"
     environment:
