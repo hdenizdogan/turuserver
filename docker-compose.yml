@@ -170,7 +170,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "flaresolverr"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5055
+      tsdproxy.container_port: 8191
     ports:
       - "8191:8191"
     environment:
