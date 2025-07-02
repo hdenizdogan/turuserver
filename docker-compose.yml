@@ -221,7 +221,8 @@
     ports:
       - "80:80"
     networks:
-      - app_net
+      app_net:
+        ipv4_address: 172.18.0.3
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
@@ -241,6 +242,10 @@ networks:
   portainer_net:
   app_net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+
 
 
 volumes:
