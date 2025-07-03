@@ -198,6 +198,25 @@
     networks:
       - app_net
 
+  ytdlp-web:
+    image: ghcr.io/kgretzky/yt-dlp-web:latest
+    container_name: ytdlp-web
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "ytdownload"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8999
+    ports:
+      - "8999:8080"
+    volumes:
+      - /tmp/yt-dlp:/app/downloads  # Temp folder to avoid storing files
+    env_file:
+      - .env
+    networks:
+      - app_net
+
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
