@@ -7,6 +7,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8096
     ports:
       - "8096:8096"
     devices:
