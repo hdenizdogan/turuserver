@@ -198,21 +198,19 @@
     networks:
       - app_net
 
-  youtube-downloader:
-    image: bajankristof/youtube-downloader:latest
-    container_name: youtube-downloader
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
-      tsdproxy.name: "ytdownload"
+      tsdproxy.name: "metube"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8999
     ports:
-      - "8999:3000"
+      - "8999:8081"
     volumes:
       - /tmp/yt-dlp:/app/downloads  # Temp folder to avoid storing files
-    environment:
-      - DOWNLOAD_DIR=/app/downloads
     networks:
       - app_net
 
