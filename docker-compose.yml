@@ -198,9 +198,9 @@
     networks:
       - app_net
 
-  ytdlp-web:
-    image: ghcr.io/kgretzky/yt-dlp-web:latest
-    container_name: ytdlp-web
+  youtube-downloader:
+    image: bajankristof/youtube-downloader:latest
+    container_name: youtube-downloader
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
@@ -208,11 +208,11 @@
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8999
     ports:
-      - "8999:8080"
+      - "8999:3000"
     volumes:
       - /tmp/yt-dlp:/app/downloads  # Temp folder to avoid storing files
-    env_file:
-      - .env
+    environment:
+      - DOWNLOAD_DIR=/app/downloads
     networks:
       - app_net
 
