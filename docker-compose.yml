@@ -185,7 +185,7 @@
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 5050
     ports:
-      - "5050:5050"
+      - "5050:8080"
     volumes:
       - ./StirlingPDF/trainingData:/usr/share/tessdata # Required for extra OCR languages
       - ./StirlingPDF/extraConfigs:/configs
