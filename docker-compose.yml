@@ -177,6 +177,13 @@
 
   stirling-pdf:
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "stirling"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 7070
     ports:
       - "7070:7070"
     volumes:
