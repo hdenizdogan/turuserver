@@ -170,10 +170,8 @@
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Istanbul
+    env_file:
+      - .env
     volumes:
       - /mnt/docker/unmanic:/config
       - /mnt/media:/library
