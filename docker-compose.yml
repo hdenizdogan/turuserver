@@ -141,7 +141,7 @@
       - app_net
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.1.0-r0-ls398
+    image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
     labels:
