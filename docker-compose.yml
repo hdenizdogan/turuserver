@@ -178,6 +178,8 @@
       - /mnt/tmp/unmanic:/tmp/unmanic
     ports:
       - "8888:8888"
+    devices:
+      - /dev/dri:/dev/dri
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "unmanic"
