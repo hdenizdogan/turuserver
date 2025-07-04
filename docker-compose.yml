@@ -174,7 +174,7 @@
       - .env
     volumes:
       - /mnt/docker/unmanic:/config
-      - /mnt/media:/library
+      - /mnt/media/torrent:/torrent
       - /mnt/tmp/unmanic:/tmp/unmanic
     ports:
       - "8888:8888"
