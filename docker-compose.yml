@@ -179,7 +179,7 @@
       - /mnt/media:/srv
       - ./filebrowser-config:/config
     ports:
-      - "8520:1234"
+      - "1234:1234"
     restart: unless-stopped
     networks:
       - app_net
