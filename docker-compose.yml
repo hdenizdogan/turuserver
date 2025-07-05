@@ -172,17 +172,18 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "filebrowser"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
+      tsdproxy.container_port: 8082
     env_file:
       - .env
     volumes:
       - /mnt/media:/srv
       - ./filebrowser-config:/config
     ports:
-      - "8520:80"
+      - "8520:8082"
     restart: unless-stopped
     networks:
       - app_net
+
 
   unmanic:
     image: josh5/unmanic:latest
