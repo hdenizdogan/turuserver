@@ -172,14 +172,14 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "filebrowser"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 1234
+      tsdproxy.container_port: 80
     env_file:
       - .env
     volumes:
       - /mnt/media:/srv
       - ./filebrowser-config:/config
     ports:
-      - "1234:1234"
+      - "1234:80"
     restart: unless-stopped
     networks:
       - app_net
@@ -246,7 +246,7 @@
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
-      tsdproxy.name: "stirling"
+      tsdproxy.name: "pdf"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 5050
     ports:
