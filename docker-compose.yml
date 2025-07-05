@@ -172,7 +172,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "filebrowser"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8520
+      tsdproxy.container_port: 80
     env_file:
       - .env
     volumes:
