@@ -172,14 +172,14 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "filebrowser"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8082
+      tsdproxy.container_port: 1234
     env_file:
       - .env
     volumes:
       - /mnt/media:/srv
       - ./filebrowser-config:/config
     ports:
-      - "8520:8082"
+      - "8520:1234"
     restart: unless-stopped
     networks:
       - app_net
