@@ -165,6 +165,22 @@
       - /mnt/docker/qbittorrent/config:/config
     networks:
       - app_net
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "filebrowser"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8082
+    env_file:
+      - .env
+    volumes:
+      - /mnt/media:/srv
+      - ./filebrowser-config:/config
+    ports:
+      - "8082:80"
+    restart: unless-stopped
 
   unmanic:
     image: josh5/unmanic:latest
