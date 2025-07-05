@@ -181,6 +181,8 @@
     ports:
       - "8070:80"
     restart: unless-stopped
+    networks:
+      - app_net
 
   unmanic:
     image: josh5/unmanic:latest
