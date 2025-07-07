@@ -206,8 +206,6 @@
       tsdproxy.container_port: 8888
     networks:
       - app_net
-    cpus: 1.5
-    mem_limit: 3g
 
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
