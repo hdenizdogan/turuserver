@@ -9,7 +9,7 @@
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
     ports:
-      - "0.0.0.0:8096:8096"
+      - "8096:8096"
     devices:
       - /dev/dri:/dev/dri
     volumes:
