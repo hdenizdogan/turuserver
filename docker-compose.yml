@@ -142,6 +142,28 @@
     networks:
       - app_net
 
+  unmanic:
+    image: josh5/unmanic:latest
+    container_name: unmanic
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - /mnt/docker/unmanic:/config
+      - /mnt/media/torrent:/library
+      - /mnt/tmp/unmanic:/tmp/unmanic
+    ports:
+      - "8888:8888"
+    devices:
+      - /dev/dri:/dev/dri
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "unmanic"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8888
+    networks:
+      - app_net
+
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
