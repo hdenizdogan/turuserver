@@ -34,7 +34,7 @@
       - .env
     volumes:
       - /mnt/media:/srv
-      - ./filebrowser-config:/config
+      - /mnt/docker/filebrowser-config:/config
     ports:
       - "1234:80"
     restart: unless-stopped
