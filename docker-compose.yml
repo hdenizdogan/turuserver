@@ -13,8 +13,8 @@
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - jellyfin_config:/config
-      - jellyfin_cache:/cache
+      - /mnt/docker/jellyfin_config:/config
+      - /mnt/docker/jellyfin_cache:/cache
       - /mnt/media:/media
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     env_file:
@@ -216,7 +216,7 @@
     ports:
       - "5050:8080"
     volumes:
-      - ./StirlingPDF/trainingData:/usr/share/tessdata # Required for extra OCR languages
+      - ./StirlingPDF/trainingData:/usr/share/tessdata
       - ./StirlingPDF/extraConfigs:/configs
       - ./StirlingPDF/customFiles:/customFiles/
       - ./StirlingPDF/logs:/logs/
@@ -239,7 +239,7 @@
     ports:
       - "8999:8081"
     volumes:
-      - /tmp/yt-dlp:/app/downloads  # Temp folder to avoid storing files
+      - /tmp/yt-dlp:/app/downloads
     networks:
       - app_net
 
@@ -257,7 +257,7 @@
       - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - /mnt/docker/portainer_data:/data
     networks:
       - app_net
 
@@ -298,7 +298,7 @@
     container_name: tsdproxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - tsdproxydata:/data
+      - /mnt/docker/tsdproxydata:/data
     environment:
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - TSDPROXY_HOSTNAME=172.18.0.1
@@ -314,11 +314,3 @@ networks:
     ipam:
       config:
         - subnet: 172.18.0.0/24
-
-
-
-volumes:
-  portainer_data:
-  jellyfin_config:
-  jellyfin_cache:
-  tsdproxydata:
