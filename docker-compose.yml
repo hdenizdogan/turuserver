@@ -245,7 +245,7 @@
 
 
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:linux-amd64
     container_name: portainer
     restart: unless-stopped
     labels:
