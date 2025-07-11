@@ -294,22 +294,6 @@
     networks:
       - portainer_net
 
-  dashy:
-    image: lissy93/dashy:latest
-    container_name: dashy
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "dashy"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    ports:
-      - "8100:80"
-    volumes:
-      - ./dashy-config.yml:/app/public/conf.yml
-    restart: unless-stopped
-    networks:
-      - app_net
-
   nginx:
     image: nginx:alpine
     extra_hosts:
