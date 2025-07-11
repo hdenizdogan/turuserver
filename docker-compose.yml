@@ -294,23 +294,6 @@
     networks:
       - portainer_net
 
-  glances:
-    image: nicolargo/glances:latest
-    container_name: glances
-    restart: unless-stopped
-    ports:
-      - "61208:61208"
-    environment:
-      - GLANCES_OPT=-w
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/machine-id:/etc/machine-id:ro
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /dev:/dev:ro
-    pid: "host"
-    privileged: true
-
   nginx:
     image: nginx:alpine
     extra_hosts:
