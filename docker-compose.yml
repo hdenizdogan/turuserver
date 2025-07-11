@@ -38,7 +38,7 @@
       - .env
     ports:
       - '7575:7575'
-    user: "1000:111"
+    #user: "1000:111"
     networks:
       - app_net
   filebrowser:
