@@ -2,7 +2,7 @@
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
-    restart: always
+    restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyfin"
@@ -22,6 +22,24 @@
     networks:
       - app_net
 
+  homarr:
+    container_name: homarr
+    image: ghcr.io/homarr-labs/homarr:latest
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "homarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 7575
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/homarr/appdata:/appdata
+    env_file:
+      - .env
+    ports:
+      - '7575:7575'
+    networks:
+      - app_net
   filebrowser:
     image: filebrowser/filebrowser
     container_name: filebrowser
