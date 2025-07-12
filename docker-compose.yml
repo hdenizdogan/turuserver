@@ -293,18 +293,23 @@
       - /:/host
     networks:
       - portainer_net
-  dashdot:
+
+  dash:
     image: mauricenino/dashdot:latest
-    container_name: dashdot
+    container_name: dash
     restart: unless-stopped
     ports:
       - "3001:3001"
     environment:
       - DASHDOT_ENABLE_CPU_TEMPERATURE=true
+      - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
+      - DASHDOT_ACCEPT_OOKLA_EULA=true
       - DASHDOT_SHOW_HOST=true
     volumes:
       - /:/mnt/host:ro
-    privileged: true # needed for CPU temp and disk info
+    privileged: true
+    networks:
+      - app_net
 
 
   nginx:
