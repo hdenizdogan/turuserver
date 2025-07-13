@@ -38,8 +38,7 @@
       - .env
     ports:
       - '7575:7575'
-    group_add:
-      - 111
+    user: "0:0"
     networks:
       - app_net
 
