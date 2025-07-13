@@ -42,24 +42,6 @@
       - 111
     networks:
       - app_net
-  filebrowser:
-    image: filebrowser/filebrowser
-    container_name: filebrowser
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "filebrowser"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    env_file:
-      - .env
-    volumes:
-      - /mnt/media:/srv
-      - /mnt/docker/filebrowser-config:/config
-    ports:
-      - "1234:80"
-    restart: unless-stopped
-    networks:
-      - app_net
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -232,7 +214,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "pdf"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5050
+      tsdproxy.container_port: 8080
     ports:
       - "5050:8080"
     volumes:
