@@ -290,10 +290,6 @@
     volumes:
       - /:/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys:/sys:ro
-      - /proc:/proc:ro
-      - /dev:/dev:ro
-      - /etc/os-release:/etc/os-release:ro
     privileged: true
     networks:
       - app_net
