@@ -38,8 +38,6 @@
       - .env
     ports:
       - '7575:7575'
-    group_add:
-      - 111
     networks:
       - app_net
 
