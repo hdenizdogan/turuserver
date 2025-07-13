@@ -288,6 +288,7 @@
       - DASHDOT_ACCEPT_OOKLA_EULA=true
       - DASHDOT_SHOW_HOST=true
     volumes:
+      - /:/mnt/host:ro
       - /:/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     privileged: true
