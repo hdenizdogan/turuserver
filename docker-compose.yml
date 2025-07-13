@@ -32,7 +32,7 @@
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 7575
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:rw
       - /mnt/docker/homarr/appdata:/appdata
     env_file:
       - .env
