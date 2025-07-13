@@ -32,11 +32,10 @@
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 7575
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/homarr/appdata:/appdata
     env_file:
       - .env
-    privileged: true
     ports:
       - '7575:7575'
     networks:
