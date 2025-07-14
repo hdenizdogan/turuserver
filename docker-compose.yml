@@ -33,6 +33,7 @@
       tsdproxy.container_port: 7575
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /mnt/docker/homarr/appdata:/appdata
     env_file:
       - .env
