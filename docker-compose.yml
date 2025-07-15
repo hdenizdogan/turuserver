@@ -115,9 +115,15 @@
       - /mnt/media/torrent:/downloads
     networks:
       - app_net
+
   lidarr:
     image: ghcr.io/linuxserver/lidarr:latest
     container_name: lidarr
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "lidarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8686
     env_file:
       - .env
     volumes:
