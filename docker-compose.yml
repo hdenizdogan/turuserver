@@ -123,6 +123,8 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/lidarr:/config
+      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent:/mnt/media/torrent
     ports:
       - "8686:8686"
     restart: unless-stopped
