@@ -10,6 +10,8 @@
       tsdproxy.container_port: 8096
     ports:
       - "8096:8096"
+      - "1900:1900/udp"
+      - "7359:7359/udp"
     devices:
       - /dev/dri:/dev/dri
     volumes:
