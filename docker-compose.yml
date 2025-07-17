@@ -221,7 +221,7 @@
 
   jellystat:
     container_name: jellystat
-    image: crobibero/jellystat:latest
+    image: cyfershepard/jellystat:latest
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellystat"
