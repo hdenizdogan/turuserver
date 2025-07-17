@@ -204,8 +204,6 @@
     image: fallenbagel/jellyseerr:2.7.0
     container_name: jellyseerr
     restart: unless-stopped
-    depends_on:
-      - jellyfin
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyseerr"
@@ -304,11 +302,6 @@
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     restart: unless-stopped
-    depends_on:
-      - jellyfin
-      - qbittorrent
-      - jellyseerr
-      - portainer
     ports:
       - "80:80"
     networks:
