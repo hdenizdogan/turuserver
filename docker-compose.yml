@@ -277,9 +277,10 @@
       - app_net
 
   dash:
-    image: mauricenino/dashdot:latest
+    image: mauricenino/dashdot:nvidia
     container_name: dash
     restart: unless-stopped
+    privileged: true
     ports:
       - "3001:3001"
     environment:
