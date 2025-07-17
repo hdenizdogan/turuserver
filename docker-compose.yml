@@ -219,6 +219,25 @@
     networks:
       - app_net
 
+  jellystat:
+    container_name: jellystat
+    image: crobibero/jellystat:latest
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellystat"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - jellystat-db:/app/backend/instance
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - app_net
+
+
   stirling-pdf:
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
     container_name: stirling
@@ -332,3 +351,4 @@ networks:
 
 volumes:
   portainer_data:
+  jellystat-db:
