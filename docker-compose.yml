@@ -338,4 +338,3 @@ networks:
 
 volumes:
   portainer_data:
-  jellystat-db:
