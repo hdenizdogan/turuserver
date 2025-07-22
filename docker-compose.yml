@@ -242,7 +242,7 @@
     ports:
       - "8999:8081"
     volumes:
-      - /tmp/yt-dlp:/app/downloads
+      - /mnt/media/:/app/downloads
     networks:
       - app_net
 
