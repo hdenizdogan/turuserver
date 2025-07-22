@@ -179,7 +179,7 @@
     volumes:
       - /mnt/docker/unmanic:/config
       - /mnt/media/torrent:/library
-      - /mnt/tmp/unmanic:/tmp/unmanic
+      - /tmp/unmanic:/tmp/unmanic
     ports:
       - "8888:8888"
     devices:
@@ -242,7 +242,7 @@
     ports:
       - "8999:8081"
     volumes:
-      - /mnt/media/:/app/downloads
+      - /tmp/metube:/app/downloads
     networks:
       - app_net
 
