@@ -103,21 +103,6 @@
     networks:
       - app_net
 
-  lidarr:
-    image: ghcr.io/linuxserver/lidarr:latest
-    container_name: lidarr
-    env_file:
-      - .env
-    volumes:
-      - /mnt/media/torrent/Musics:/Musics
-      - /mnt/docker/lidarr:/config
-      - /mnt/media/torrent:/downloads
-    ports:
-      - "8686:8686"
-    restart: unless-stopped
-    networks:
-      - app_net
-
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
