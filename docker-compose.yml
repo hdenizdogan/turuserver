@@ -28,7 +28,6 @@
     container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
     restart: unless-stopped
-    privileged: true
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "homarr"
