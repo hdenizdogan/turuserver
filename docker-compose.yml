@@ -37,8 +37,10 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /mnt/docker/homarr/appdata:/appdata
-    env_file:
-      - .env
+    environment:
+      - PUID=${PUID}
+      - PGID=111
+      - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
     ports:
       - '7575:7575'
     networks:
