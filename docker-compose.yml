@@ -292,6 +292,20 @@
       app_net:
         ipv4_address: 172.18.0.200
 
+  jellyfin-proxy:
+    image: nginx:alpine
+    container_name: jellyfin-proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /mnt/docker/tsdproxydata/default/jellyfin/certs/:/certs:ro
+    ports:
+      - "443:443"
+    restart: unless-stopped
+    networks:
+      - app_net
+
+
+
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
     container_name: tsdproxy
