@@ -292,7 +292,23 @@
       app_net:
         ipv4_address: 172.18.0.200
 
-
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
+    ports:
+      - "81:81"      # Web UI
+      - "444:443"    # HTTPS (custom to avoid conflict with your nginx)
+      - "8080:80"    # HTTP (custom)
+    environment:
+      DB_SQLITE_FILE: "/data/database.sqlite"
+      DISABLE_IPV6: 'true'
+    volumes:
+      - /mnt/docker/npm/data:/data
+      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
+      - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
+    networks:
+      - app_net
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
