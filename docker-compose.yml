@@ -196,18 +196,6 @@
     networks:
       - app_net
 
-  maintainerr:
-    image: ghcr.io/jorenn92/maintainerr:latest
-    volumes:
-      - /mnt/media/torrent:/opt/data
-    env_file:
-      - .env
-    ports:
-      - "6246:6246"
-    restart: unless-stopped
-    networks:
-      - app_net
-
 
   stirling-pdf:
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
