@@ -198,13 +198,19 @@
 
   maintainerr:
     image: ghcr.io/jorenn92/maintainerr:latest
+    container_name: maintainerr
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "maintainerr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 6246
     volumes:
       - /mnt/media/torrent:/opt/data
     env_file:
       - .env
     ports:
       - "6246:6246"
-    restart: unless-stopped
     networks:
       - app_net
 
