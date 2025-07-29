@@ -322,6 +322,20 @@
     networks:
       - app_net
 
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_NOTIFICATION_PUSHOVER_TOKEN=$WATCHTOWER_NOTIFICATION_PUSHOVER_TOKEN
+      - WATCHTOWER_NOTIFICATION_PUSHOVER_USER=$WATCHTOWER_PUSHOVER_USER_KEY
+      - WATCHTOWER_NOTIFICATIONS=pushover
+    command: --cleanup
+    networks:
+      - app_net
+
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
     container_name: tsdproxy
