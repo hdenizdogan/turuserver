@@ -64,8 +64,6 @@
       - PGID=${PGID}
     volumes:
       - /mnt/docker/prowlarr:/config
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
     networks:
       - app_net
@@ -88,8 +86,6 @@
       - PGID=${PGID}
     volumes:
       - /mnt/docker/sonarr:/config
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
     networks:
       - app_net
@@ -112,8 +108,6 @@
       - PGID=${PGID}
     volumes:
       - /mnt/docker/radarr:/config
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
     networks:
       - app_net
