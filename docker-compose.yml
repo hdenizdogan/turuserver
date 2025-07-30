@@ -50,6 +50,11 @@
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "prowlarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 9696
     ports:
       - "9696:9696"
     env_file:
@@ -69,6 +74,11 @@
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "sonarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8989
     ports:
       - "8989:8989"
     env_file:
@@ -88,6 +98,11 @@
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "radarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 7878
     ports:
       - "7878:7878"
     env_file:
