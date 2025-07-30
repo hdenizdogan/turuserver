@@ -88,7 +88,7 @@
     volumes:
       - /mnt/docker/sonarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent/transcoding/shows:/mnt/media/torrent/transcoding/shows
     networks:
       - app_net
 
@@ -111,7 +111,7 @@
     volumes:
       - /mnt/docker/radarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent/transcoding/movies:/mnt/media/torrent/transcoding/movies
     networks:
       - app_net
 
