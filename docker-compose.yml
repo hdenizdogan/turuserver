@@ -268,29 +268,6 @@
     networks:
       - app_net
 
-  dash:
-    image: mauricenino/dashdot:latest
-    container_name: dash
-    restart: unless-stopped
-    privileged: true
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "dash"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 3001
-    ports:
-      - "3001:3001"
-    environment:
-      - DASHDOT_ENABLE_CPU_TEMPERATURE=true
-      - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
-      - DASHDOT_ACCEPT_OOKLA_EULA=true
-      - DASHDOT_SHOW_HOST=true
-    volumes:
-      - /:/mnt/host:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - app_net
-
 
   nginx:
     image: nginx:alpine
@@ -330,11 +307,6 @@
     pid: host
     network_mode: host
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "netdata"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 19999
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
