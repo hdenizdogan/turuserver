@@ -191,6 +191,30 @@
     networks:
       - app_net
 
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    container_name: tdarr
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "tdarr"
+      tsdproxy.funnel: "false"
+      tsdproxy.container_port: 8265
+    ports:
+      - "8265:8265"  # Web UI
+      - "8266:8266"  # Node
+    env_file:
+      - .env
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /mnt/media/torrent:/media
+      - /mnt/docker/tdarr/config:/app/configs
+      - /mnt/docker/tdarr/server:/app/server
+      - /mnt/docker/tdarr/logs:/app/logs
+    networks:
+      - app_net
+
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
