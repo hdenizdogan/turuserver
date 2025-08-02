@@ -54,6 +54,8 @@
       - '3000:3000'
     depends_on:
       - jellystat-db
+    networks:
+      - app_net
 
   homarr:
     container_name: homarr
