@@ -33,7 +33,7 @@
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     volumes:
-      - 'postgres-data:/var/lib/postgresql/data'
+      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
     networks:
       - app_net
 
@@ -49,7 +49,7 @@
       JWT_SECRET: $JELLYSTAT_JWT_SECRET
       TZ: $TZ
     volumes:
-      - 'jellystat-backup-data:/app/backend/backup-data'
+      - /mnt/docker/jellystat-backup-data:/app/backend/backup-data
     ports:
       - '3000:3000'
     depends_on:
