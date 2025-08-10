@@ -369,7 +369,7 @@
     ports:
       - "8053:53/tcp"     # DNS TCP
       - "8053:53/udp"     # DNS UDP
-      - "3005:3000"         # HTTP UI
+      - "3005:80"         # HTTP UI
       - "8443:443"        # HTTPS UI + DoH
     volumes:
       - /mnt/docker/adguard/work:/opt/adguardhome/work
