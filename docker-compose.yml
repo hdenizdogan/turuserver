@@ -357,26 +357,6 @@
     networks:
       - app_net
 
-  adguard:
-    image: adguard/adguardhome:latest
-    container_name: adguard
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "adguard"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 443
-    ports:
-      - "8053:53/tcp"     # DNS TCP
-      - "8053:53/udp"     # DNS UDP
-      - "3005:80"         # HTTP UI
-      - "8443:443"        # HTTPS UI + DoH
-    volumes:
-      - /mnt/docker/adguard/work:/opt/adguardhome/work
-      - /mnt/docker/adguard/conf:/opt/adguardhome/conf
-    networks:
-      - app_net
-
 
   netdata:
     image: netdata/netdata
