@@ -366,8 +366,8 @@
       tsdproxy.funnel: "true"
     restart: unless-stopped
     ports:
-      - "8053:53/tcp"     # DNS TCP
-      - "8053:53/udp"     # DNS UDP
+      - "53:53/tcp"     # DNS TCP
+      - "53:53/udp"     # DNS UDP
       - "3002:3000"       #initialization
       - "3005:80"         # HTTP UI
       - "8853:853"        # DNS-over-TLS
