@@ -368,7 +368,7 @@
     ports:
       - "8053:53/tcp"     # DNS TCP
       - "8053:53/udp"     # DNS UDP
-      - "3000:80"         # HTTP UI
+      - "3005:80"         # HTTP UI
       - "8443:443"        # HTTPS UI + DoH
       - "8853:853"        # DNS-over-TLS
     volumes:
