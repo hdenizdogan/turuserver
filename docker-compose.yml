@@ -356,6 +356,26 @@
       - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
     networks:
       - app_net
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "adguard"
+      tsdproxy.container_port: "443"
+      tsdproxy.funnel: "true"
+    restart: unless-stopped
+    ports:
+      - "8053:53/tcp"     # DNS TCP
+      - "8053:53/udp"     # DNS UDP
+      - "3000:80"         # HTTP UI
+      - "8443:443"        # HTTPS UI + DoH
+      - "8853:853"        # DNS-over-TLS
+    volumes:
+      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
+      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
+    networks:
+      - app_net
 
 
   netdata:
