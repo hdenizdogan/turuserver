@@ -359,11 +359,6 @@
   adguard:
     image: adguard/adguardhome:latest
     container_name: adguard
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "adguard"
-      tsdproxy.container_port: "80"
-      tsdproxy.funnel: "true"
     restart: unless-stopped
     ports:
       - "8053:53/tcp"     # DNS TCP
