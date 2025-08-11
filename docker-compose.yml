@@ -365,7 +365,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "adguard"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 443
+      tsdproxy.container_port: 80
       tsdproxy.rewrite.1.source: "^/$"
       tsdproxy.rewrite.1.target: "/dns-query"
     ports:
