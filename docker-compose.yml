@@ -365,6 +365,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "adguard"
       tsdproxy.funnel: "true"
+      tsdproxy.container_port: 80
     ports:
       - "8053:53/tcp"     # DNS TCP
       - "8053:53/udp"     # DNS UDP
@@ -375,7 +376,6 @@
     volumes:
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-      - /mnt/docker/tsdproxydata/default/certs:/certs:ro
     networks:
       - app_net
 
