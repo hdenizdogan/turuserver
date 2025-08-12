@@ -65,6 +65,7 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "homarr"
 #      tsdproxy.funnel: "true"
+#      tsdproxy.ephemeral: "true"
 #      tsdproxy.container_port: 7575
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
@@ -253,6 +254,7 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "pdf"
 #      tsdproxy.funnel: "true"
+#      tsdproxy.ephemeral: "true"
 #      tsdproxy.container_port: 8080
 #    ports:
 #      - "5050:8080"
@@ -276,6 +278,7 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "metube"
 #      tsdproxy.funnel: "true"
+#      tsdproxy.ephemeral: "true"
 #      tsdproxy.container_port: 8081
 #    ports:
 #      - "8999:8081"
@@ -293,6 +296,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "dash"
       tsdproxy.funnel: "true"
+      tsdproxy.ephemeral: "true"
       tsdproxy.container_port: 3001
     ports:
       - "3001:3001"
