@@ -57,27 +57,27 @@
     networks:
       - app_net
 
-  homarr:
-    container_name: homarr
-    image: ghcr.io/homarr-labs/homarr:latest
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "homarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 7575
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-      - /mnt/docker/homarr/appdata:/appdata
-    environment:
-      - PUID=$PUID
-      - PGID=111
-      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
-    ports:
-      - '7575:7575'
-    networks:
-      - app_net
+#  homarr:
+#    container_name: homarr
+#    image: ghcr.io/homarr-labs/homarr:latest
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "homarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 7575
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /var/lib/docker/volumes:/var/lib/docker/volumes
+#      - /mnt/docker/homarr/appdata:/appdata
+#    environment:
+#      - PUID=$PUID
+#      - PGID=111
+#      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
+#    ports:
+#      - '7575:7575'
+#    networks:
+#      - app_net
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -245,44 +245,44 @@
       - app_net
 
 
-  stirling-pdf:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-    container_name: stirling
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "pdf"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8080
-    ports:
-      - "5050:8080"
-    volumes:
-      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
-      - /mnt/docker/StirlingPDF/extraConfigs:/configs
-      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
-      - /mnt/docker/StirlingPDF/logs:/logs/
-      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
-    environment:
-      - DOCKER_ENABLE_SECURITY=false
-      - LANGS=["tr_TR"]
-    networks:
-      - app_net
+#  stirling-pdf:
+#    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+#    container_name: stirling
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "pdf"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8080
+#    ports:
+#      - "5050:8080"
+#    volumes:
+#      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
+#      - /mnt/docker/StirlingPDF/extraConfigs:/configs
+#      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
+#      - /mnt/docker/StirlingPDF/logs:/logs/
+#      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
+#    environment:
+#      - DOCKER_ENABLE_SECURITY=false
+#      - LANGS=["tr_TR"]
+#    networks:
+#      - app_net
 
-  metube:
-    image: ghcr.io/alexta69/metube
-    container_name: metube
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "metube"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8081
-    ports:
-      - "8999:8081"
-    volumes:
-      - /tmp/metube:/app/downloads
-    networks:
-      - app_net
+#  metube:
+#    image: ghcr.io/alexta69/metube
+#    container_name: metube
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "metube"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8081
+#    ports:
+#      - "8999:8081"
+#    volumes:
+#      - /tmp/metube:/app/downloads
+#    networks:
+#      - app_net
 
   dash:
     image: mauricenino/dashdot:latest
