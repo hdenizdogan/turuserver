@@ -336,14 +336,13 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "adguard"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 443
+      tsdproxy.container_port: 80
     ports:
       - "8053:53/tcp"     # DNS TCP
       - "8053:53/udp"     # DNS UDP
       - "3002:3000"       #initialization
       - "3005:80"         # HTTP UI
       - "8853:853"        # DNS-over-TLS
-      - "443:443"        # DNS-over-HTTPS
     volumes:
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
