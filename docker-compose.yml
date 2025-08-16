@@ -347,6 +347,7 @@
     volumes:
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
+      - /mnt/docker/tsdproxydata/default:/certificates:ro
     networks:
       - app_net
 
