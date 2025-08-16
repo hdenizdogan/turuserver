@@ -337,6 +337,7 @@
       tsdproxy.name: "adguard"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 443
+      tsdproxy.scheme: "https"
     ports:
       - "8053:53/tcp" # DNS TCP
       - "8053:53/udp" # DNS UDP
