@@ -334,7 +334,7 @@
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "adguard"
-      tsdproxy.container_port: 443
+      tsdproxy.container_port: 80
       tsdproxy.funnel: "true"
     restart: unless-stopped
     ports:
