@@ -336,12 +336,11 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "adguard"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
+      tsdproxy.container_port: 3000
     ports:
       - "8053:53/tcp" # DNS TCP
       - "8053:53/udp" # DNS UDP
       - "3002:3000" #initialization
-      - "3005:80" # HTTP UI
       - "8853:853" # DNS-over-TLS
       - "8443:443/tcp" # DNS-over-HTTPS
       - "8443:443/udp" # DNS-over-HTTPS
