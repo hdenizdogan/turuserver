@@ -389,12 +389,12 @@
     restart: unless-stopped
     container_name: watchtower
     environment:
-      - TZ=Europe/Istanbul
+      - TZ=${TZ}
       - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
       - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --no-startup-message --interval 21600
+    command: --cleanup --no-startup-message
     networks:
       - app_net
 
