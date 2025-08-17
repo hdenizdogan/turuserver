@@ -335,7 +335,7 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "adguard"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
+      tsdproxy.container_port: 443
     restart: unless-stopped
     ports:
       - "8053:53/tcp"     # DNS TCP
