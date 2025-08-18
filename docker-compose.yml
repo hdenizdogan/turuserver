@@ -324,7 +324,7 @@
       - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - /mnt/docker/portainer_data:/data
     networks:
       - app_net
 
@@ -418,6 +418,3 @@ networks:
     ipam:
       config:
         - subnet: 172.18.0.0/24
-
-volumes:
-  portainer_data:
