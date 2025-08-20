@@ -323,7 +323,9 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "filebrowser"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8080
+      tsdproxy.container_port: 80
+    ports:
+      - "3010:80"
     volumes:
       - /mnt/docker/filebrowser_data:/database
       - /mnt/media:/srv
