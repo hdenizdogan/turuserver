@@ -59,6 +59,11 @@
     image: ghcr.io/wizarrrr/wizarr
     ports:
       - '5690:5690'
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "wizarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 5690
     volumes:
       - /mnt/docker/wizarr:/data
     environment:
