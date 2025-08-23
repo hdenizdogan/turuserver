@@ -413,7 +413,7 @@
       - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --no-startup-message --schedule "0 0 4 * * *"
+    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
     networks:
       - app_net
 
