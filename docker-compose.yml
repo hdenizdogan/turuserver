@@ -66,6 +66,8 @@
       tsdproxy.container_port: 5690
     volumes:
       - /mnt/docker/wizarr:/data
+    depends_on:
+      - jellyfin
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
