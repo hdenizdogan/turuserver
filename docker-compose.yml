@@ -57,6 +57,7 @@
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
+    restart: unless-stopped
     ports:
       - '5690:5690'
     labels:
@@ -66,8 +67,6 @@
       tsdproxy.container_port: 5690
     volumes:
       - /mnt/docker/wizarr:/data
-    depends_on:
-      - jellyfin
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
