@@ -18,7 +18,7 @@
       - /mnt/media:/media
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
-      - TZ=$TZ
+      - TZ=${TZ}
     networks:
       - app_net
 
@@ -209,7 +209,7 @@
       - PUID=${PUID}
       - PGID=${PGID}
       - WEBUI_PORT=8090
-      - TZ=$TZ
+      - TZ=${TZ}
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
@@ -229,7 +229,7 @@
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=$TZ
+      - TZ=${TZ}
     volumes:
       - /mnt/docker/unmanic:/config
       - /mnt/media/torrent:/library
