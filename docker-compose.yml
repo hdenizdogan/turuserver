@@ -328,26 +328,26 @@
       - app_net
 
 
-  filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: filebrowser
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "filebrowser"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    ports:
-      - "3010:80"
-    volumes:
-      - /mnt/docker/filebrowser_data:/database
-      - /mnt/media:/srv
-    restart: unless-stopped
-    networks:
-      - app_net
+#  filebrowser:
+#    image: filebrowser/filebrowser:latest
+#    container_name: filebrowser
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "filebrowser"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+#    ports:
+#      - "3010:80"
+#    volumes:
+#      - /mnt/docker/filebrowser_data:/database
+#      - /mnt/media:/srv
+#    restart: unless-stopped
+#    networks:
+#      - app_net
 
 
   portainer:
