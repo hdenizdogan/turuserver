@@ -294,7 +294,6 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "metube"
       tsdproxy.funnel: "true"
-      tsdproxy.ephemeral: "true"
       tsdproxy.container_port: 8081
     ports:
       - "8999:8081"
