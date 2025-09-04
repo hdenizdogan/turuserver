@@ -168,6 +168,11 @@
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "bazarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 6767
     ports:
       - "6767:6767"
     environment:
@@ -408,6 +413,11 @@
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx_proxy_manager
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "nginx"
+      tsdproxy.funnel: "false"
+      tsdproxy.container_port: 81
     ports:
       - "81:81"      # Web UI
       - "443:443"    # HTTPS
