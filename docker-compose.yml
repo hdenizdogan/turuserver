@@ -430,7 +430,8 @@
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
       - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
     networks:
-      - app_net
+       app_net:
+         ipv4_address: 172.18.0.199
 
   watchtower:
     image: containrrr/watchtower
