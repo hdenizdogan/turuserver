@@ -454,7 +454,8 @@
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
     networks:
-      - app_net
+      app_net:
+        ipv4_address: 172.18.0.198
 
 networks:
   app_net:
