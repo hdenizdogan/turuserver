@@ -120,6 +120,28 @@
     networks:
       - app_net
 
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "lidarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8686
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/lidarr:/config
+      - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
+    ports:
+      - "8686:8686"
+    restart: unless-stopped
+    networks:
+      - app_net
+
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
