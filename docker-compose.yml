@@ -445,6 +445,9 @@
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+    ports:
+      - "3000:3000"
+      - "3001:3001"
     volumes:
       - /mnt/docker/brave:/config
     shm_size: "1gb"
