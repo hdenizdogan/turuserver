@@ -431,28 +431,6 @@
       app_net:
         ipv4_address: 172.18.0.200
 
-  brave:
-    image: lscr.io/linuxserver/brave:latest
-    container_name: brave
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "brave"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 3001
-    security_opt:
-      - seccomp:unconfined #optional
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    ports:
-      - "3000:3000"
-      - "3003:3001"
-    volumes:
-      - /mnt/docker/brave:/config
-    shm_size: "1gb"
-    restart: unless-stopped
-
   npm:
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx_proxy_manager
