@@ -431,6 +431,21 @@
       app_net:
         ipv4_address: 172.18.0.200
 
+  brave:
+    image: jlesage/brave
+    container_name: brave
+    ports:
+      - "5800:5800"   # noVNC web UI (open in your browser)
+      - "5900:5900"   # optional direct VNC access
+    volumes:
+      - /mnt/docker/config:/config:rw        # Brave profile/settings
+      - /mnt/media/downloads:/config/Downloads:rw
+    environment:
+      - USER_ID=${PUID}
+      - GROUP_ID=${PGID}
+      - TZ=${TZ}
+    restart: unless-stopped
+
   npm:
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx_proxy_manager
