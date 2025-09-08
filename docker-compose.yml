@@ -97,23 +97,23 @@
 #      - '7575:7575'
 #    networks:
 #      - app_net
-  lidatube:
-    image: thewicklowwolf/lidatube:latest
-    container_name: lidatube
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "lidatube"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5000
-    volumes:
-      - /mnt/docker/lidatube:/lidatube/config
-      - /mnt/media/torrent:/lidatube/downloads
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "5000:5000"
-    restart: unless-stopped
-    networks:
-      - app_net
+#  lidatube:
+#    image: thewicklowwolf/lidatube:latest
+#    container_name: lidatube
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "lidatube"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 5000
+#    volumes:
+#      - /mnt/docker/lidatube:/lidatube/config
+#      - /mnt/media/torrent:/lidatube/downloads
+#      - /etc/localtime:/etc/localtime:ro
+#    ports:
+#      - "5000:5000"
+#    restart: unless-stopped
+#    networks:
+#      - app_net
 
 
   prowlarr:
