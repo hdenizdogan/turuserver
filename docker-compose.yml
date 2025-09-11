@@ -140,7 +140,7 @@
       - app_net
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: blampe/lidarr:latest
     container_name: lidarr
     labels:
       tsdproxy.enable: "true"
