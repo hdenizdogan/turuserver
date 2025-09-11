@@ -108,7 +108,7 @@
       tsdproxy.container_port: 5000
     volumes:
       - /mnt/docker/lidatube:/lidatube/config
-      - /mnt/media/torrent:/lidatube/downloads
+      - /mnt/media/torrent/Musics:/lidatube/downloads
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "5000:5000"
