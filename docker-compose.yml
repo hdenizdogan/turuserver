@@ -446,9 +446,10 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /mnt/nextcloud:/mnt/docker-aio-config
-#    ports:
-#      - "8080:8080"   # AIO setup UI
-#      - "8443:8443"   # Nextcloud main HTTPS
+    ports:
+      - "80:80"
+      - "8080:8080"   # AIO setup UI
+      - "8443:8443"   # Nextcloud main HTTPS
     environment:
       - APACHE_PORT=11000
       - APACHE_IP_BINDING=0.0.0.0
@@ -460,38 +461,38 @@
     networks:
       - turunetwork
 
-  nginx:
-    image: nginx:alpine
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    container_name: nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    networks:
-      turunetwork:
-        ipv4_address: 172.18.0.200
-
-  npm:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: nginx_proxy_manager
-    restart: unless-stopped
-    ports:
-      - "81:81"      # Web UI
-      - "443:443"    # HTTPS
-      - "8080:80"    # HTTP
-    environment:
-      DB_SQLITE_FILE: "/data/database.sqlite"
-      DISABLE_IPV6: 'true'
-    volumes:
-      - /mnt/docker/npm/data:/data
-      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-      - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
-    networks:
-       turunetwork:
-         ipv4_address: 172.18.0.199
+#  nginx:
+#    image: nginx:alpine
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    container_name: nginx
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+#    restart: unless-stopped
+#    ports:
+#      - "80:80"
+#    networks:
+#      turunetwork:
+#        ipv4_address: 172.18.0.200
+#
+#  npm:
+#    image: jc21/nginx-proxy-manager:latest
+#    container_name: nginx_proxy_manager
+#    restart: unless-stopped
+#    ports:
+#      - "81:81"      # Web UI
+#      - "443:443"    # HTTPS
+#      - "8080:80"    # HTTP
+#    environment:
+#      DB_SQLITE_FILE: "/data/database.sqlite"
+#      DISABLE_IPV6: 'true'
+#    volumes:
+#      - /mnt/docker/npm/data:/data
+#      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
+#      - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
+#    networks:
+#       turunetwork:
+#         ipv4_address: 172.18.0.199
 
   watchtower:
     image: containrrr/watchtower
