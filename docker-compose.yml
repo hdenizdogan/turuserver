@@ -22,7 +22,7 @@
     environment:
       - TZ=${TZ}
     networks:
-      - app_net
+      - turunetwork
 
 #  jellystat-db:
 #    image: 'postgres:15.2'
@@ -35,7 +35,7 @@
 #    volumes:
 #      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
 #    networks:
-#      - app_net
+#      - turunetwork
 #
 #  jellystat:
 #    image: 'cyfershepard/jellystat:latest'
@@ -55,7 +55,7 @@
 #    depends_on:
 #      - jellystat-db
 #    networks:
-#      - app_net
+#      - turunetwork
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
@@ -75,7 +75,7 @@
       - TZ=${TZ}
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
     networks:
-      - app_net
+      - turunetwork
 
 #  homarr:
 #    container_name: homarr
@@ -98,7 +98,7 @@
 #    ports:
 #      - '7575:7575'
 #    networks:
-#      - app_net
+#      - turunetwork
 
   lidatube:
     image: thewicklowwolf/lidatube:latest
@@ -118,7 +118,7 @@
     environment:
       - attempt_lidarr_import=true
     networks:
-      - app_net
+      - turunetwork
 
 
   prowlarr:
@@ -141,7 +141,7 @@
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
     networks:
-      - app_net
+      - turunetwork
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -163,7 +163,7 @@
       - "8686:8686"
     restart: unless-stopped
     networks:
-      - app_net
+      - turunetwork
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -185,7 +185,7 @@
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
     networks:
-      - app_net
+      - turunetwork
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -207,7 +207,7 @@
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
     networks:
-      - app_net
+      - turunetwork
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -228,7 +228,7 @@
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
     networks:
-      - app_net
+      - turunetwork
 
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
@@ -240,7 +240,7 @@
     ports:
       - "8191:8191"
     networks:
-      - app_net
+      - turunetwork
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -265,7 +265,7 @@
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
     networks:
-      - app_net
+      - turunetwork
 
   unmanic:
     image: josh5/unmanic:latest
@@ -289,7 +289,7 @@
     devices:
       - /dev/dri:/dev/dri
     networks:
-      - app_net
+      - turunetwork
 
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
@@ -309,7 +309,7 @@
       - /mnt/docker/jellyseer/config:/app/config
       - /mnt/media:/mnt/media
     networks:
-      - app_net
+      - turunetwork
 
 
 #  stirling-pdf:
@@ -334,7 +334,7 @@
 #      - DOCKER_ENABLE_SECURITY=false
 #      - LANGS=["tr_TR"]
 #    networks:
-#      - app_net
+#      - turunetwork
 
   metube:
     image: ghcr.io/alexta69/metube
@@ -350,7 +350,7 @@
     volumes:
       - /tmp/metube:/app/downloads
     networks:
-      - app_net
+      - turunetwork
 
   dash:
     image: mauricenino/dashdot:latest
@@ -374,7 +374,7 @@
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - app_net
+      - turunetwork
 
 
 #  filebrowser:
@@ -396,7 +396,7 @@
 #      - /mnt/media:/srv
 #    restart: unless-stopped
 #    networks:
-#      - app_net
+#      - turunetwork
 
 
   portainer:
@@ -414,7 +414,7 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
     networks:
-      - app_net
+      - turunetwork
 
 #  adguard:
 #    image: adguard/adguardhome:latest
@@ -437,9 +437,53 @@
 #      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
 #      - /mnt/docker/tsdproxydata/default/adguard/certs:/certs:ro
 #    networks:
-#      - app_net
+#      - turunetwork
 
+  nextcloud:
+    image: nextcloud:29-fpm
+    container_name: nextcloud
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "nextcloud"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 9000 # PHP-FPM port
+    restart: unless-stopped
+    environment:
+      - MYSQL_HOST=MYSQL_HOST
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - REDIS_HOST=nextcloud_redis #the name of the service that is on the docker service
+    volumes:
+      - /mnt/docker/nextcloud/app:/var/www/html
+      - /mnt/docker/nextcloud/data:/var/www/html/data
+    depends_on:
+      - nextcloud_db
+      - nextcloud_redis
+    networks:
+      - turunetwork
 
+  nextcloud_db:
+    image: mariadb:11
+    container_name: nextcloud_db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    volumes:
+      - /mnt/docker/nextcloud/db:/var/lib/mysql
+    networks:
+      - turunetwork
+
+  nextcloud_redis:
+    image: redis:7
+    container_name: nextcloud_redis
+    restart: unless-stopped
+    networks:
+      - turunetwork  
   nginx:
     image: nginx:alpine
     extra_hosts:
@@ -451,7 +495,7 @@
     ports:
       - "80:80"
     networks:
-      app_net:
+      turunetwork:
         ipv4_address: 172.18.0.200
 
   npm:
@@ -470,7 +514,7 @@
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
       - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
     networks:
-       app_net:
+       turunetwork:
          ipv4_address: 172.18.0.199
 
   watchtower:
@@ -485,7 +529,7 @@
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
     networks:
-      - app_net
+      - turunetwork
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
@@ -499,11 +543,11 @@
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
     networks:
-      app_net:
+      turunetwork:
         ipv4_address: 172.18.0.198
 
 networks:
-  app_net:
+  turunetwork:
     driver: bridge
     ipam:
       config:
