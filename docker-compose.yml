@@ -448,7 +448,7 @@
       tsdproxy.name: "dash"
       tsdproxy.funnel: "true"
       tsdproxy.ephemeral: "true"
-      tsdproxy.container_port: 8080
+      tsdproxy.container_port: 80
     links:
       - nextcloud_db
     volumes:
