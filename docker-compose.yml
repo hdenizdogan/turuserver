@@ -446,14 +446,11 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-    environment:
-      - APACHE_PORT=11000
-      - SKIP_DOMAIN_VALIDATION=true
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "nextcloud"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 11000
+      tsdproxy.container_port: 80
     networks:
       - turunetwork
 
