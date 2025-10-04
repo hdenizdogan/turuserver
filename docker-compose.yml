@@ -399,22 +399,22 @@
 #      - turunetwork
 
 
-  portainer:
-    image: portainer/portainer-ce:linux-amd64
-    container_name: portainer
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "portainer"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9000
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/portainer_data:/data
-    networks:
-      - turunetwork
+#  portainer:
+#    image: portainer/portainer-ce:linux-amd64
+#    container_name: portainer
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "portainer"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 9000
+#    ports:
+#      - "9000:9000"
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /mnt/docker/portainer_data:/data
+#    networks:
+#      - turunetwork
 
 #  adguard:
 #    image: adguard/adguardhome:latest
