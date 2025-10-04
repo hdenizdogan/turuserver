@@ -439,9 +439,9 @@
 #    networks:
 #      - turunetwork
 
-  nextcloud:
+  nextcloud-aio-mastercontainer:
     image: nextcloud/all-in-one:latest
-    container_name: nextcloud
+    container_name: nextcloud-aio-mastercontainer
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -519,9 +519,9 @@
       turunetwork:
         ipv4_address: 172.18.0.198
 
-volumes: # If you want to store the data on a different drive, see https://github.com/nextcloud/all-in-one#how-to-store-the-filesinstallation-on-a-separate-drive
-  nextcloud:
-    name: nextcloud
+volumes:
+  nextcloud-aio-mastercontainer:
+    name: nextcloud-aio-mastercontainer
 
 networks:
   turunetwork:
