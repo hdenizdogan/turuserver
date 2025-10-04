@@ -520,8 +520,8 @@
         ipv4_address: 172.18.0.198
 
 volumes:
-  nextcloud-aio-mastercontainer:
-    name: nextcloud-aio-mastercontainer
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
 
 networks:
   turunetwork:
