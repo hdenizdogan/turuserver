@@ -439,20 +439,20 @@
 #    networks:
 #      - turunetwork
 
-  nextcloud-aio-mastercontainer:
-    image: nextcloud/all-in-one:latest
-    container_name: nextcloud-aio-mastercontainer
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "nextcloud"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8080
-    networks:
-      - turunetwork
+#  nextcloud-aio-mastercontainer:
+#    image: nextcloud/all-in-one:latest
+#    container_name: nextcloud-aio-mastercontainer
+#    restart: unless-stopped
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "nextcloud"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8080
+#    networks:
+#      - turunetwork
 
   nginx:
     image: nginx:alpine
