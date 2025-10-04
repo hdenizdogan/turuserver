@@ -439,27 +439,23 @@
 #    networks:
 #      - turunetwork
 
-#  nextcloud:
-#    image: nextcloud/all-in-one:latest
-#    container_name: nextcloud
-#    restart: unless-stopped
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#      - /mnt/nextcloud:/mnt/docker-aio-config
-#    ports:
-#      - "80:80"
-#      - "8080:8080"   # AIO setup UI
-#      - "8443:8443"   # Nextcloud main HTTPS
-#    environment:
-#      - APACHE_PORT=11000
-#      - APACHE_IP_BINDING=0.0.0.0
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "nextcloud"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8443
-#    networks:
-#      - turunetwork
+  nextcloud-aio-mastercontainer:
+    image: nextcloud/all-in-one:latest
+    container_name: nextcloud-aio-mastercontainer
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/nextcloud:/mnt/docker-aio-config
+    environment:
+      - APACHE_PORT=11000
+      - SKIP_DOMAIN_VALIDATION=true
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "nextcloud"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 11000
+    networks:
+      - turunetwork
 
   nginx:
     image: nginx:alpine
