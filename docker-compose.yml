@@ -399,22 +399,22 @@
 #      - turunetwork
 
 
-#  portainer:
-#    image: portainer/portainer-ce:linux-amd64
-#    container_name: portainer
-#    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "portainer"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 9000
-#    ports:
-#      - "9000:9000"
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/portainer_data:/data
-#    networks:
-#      - turunetwork
+  portainer:
+    image: portainer/portainer-ce:linux-amd64
+    container_name: portainer
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "portainer"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 9000
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/portainer_data:/data
+    networks:
+      - turunetwork
 
 #  adguard:
 #    image: adguard/adguardhome:latest
@@ -440,26 +440,18 @@
 #      - turunetwork
 
   nextcloud:
-    image: nextcloud:29-fpm
-    container_name: nextcloud
+    image: nextcloud
+    restart: always
     labels:
       tsdproxy.enable: "true"
-      tsdproxy.name: "nextcloud"
+      tsdproxy.name: "dash"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9000 # PHP-FPM port
-    restart: unless-stopped
-    environment:
-      - MYSQL_HOST=$MYSQL_HOST
-      - MYSQL_DATABASE=$MYSQL_DATABASE
-      - MYSQL_USER=$MYSQL_USER
-      - MYSQL_PASSWORD=$MYSQL_PASSWORD
-      - REDIS_HOST=nextcloud_redis #the name of the service that is on the docker service
-    volumes:
-      - /mnt/docker/nextcloud/app:/var/www/html
-      - /mnt/docker/nextcloud/data:/var/www/html/data
-    depends_on:
+      tsdproxy.ephemeral: "true"
+      tsdproxy.container_port: 8080
+    links:
       - nextcloud_db
-      - nextcloud_redis
+    volumes:
+      - /mnt/docker/nextcloud:/var/www/html
     networks:
       - turunetwork
 
@@ -474,16 +466,10 @@
       - MYSQL_USER=$MYSQL_USER
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
     volumes:
-      - /mnt/docker/nextcloud/db:/var/lib/mysql
+      - /mnt/docker/nextcloud_db:/var/lib/mysql
     networks:
       - turunetwork
 
-  nextcloud_redis:
-    image: redis:7
-    container_name: nextcloud_redis
-    restart: unless-stopped
-    networks:
-      - turunetwork  
   nginx:
     image: nginx:alpine
     extra_hosts:
