@@ -440,7 +440,7 @@
 #      - turunetwork
 
   nextcloud:
-    container_name: nextcloud_db
+    container_name: nextcloud
     image: nextcloud
     restart: always
     labels:
