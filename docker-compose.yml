@@ -467,7 +467,7 @@
       - MYSQL_USER=$MYSQL_USER
       - MYSQL_PASSWORD=$MYSQL_PASSWORD
     volumes:
-      - /mnt/docker/nextcloud_db:/var/lib/mysql
+      - /mnt/media/nextcloud_db:/var/lib/mysql
     networks:
       - turunetwork
 
