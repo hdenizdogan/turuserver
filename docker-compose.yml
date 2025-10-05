@@ -540,8 +540,9 @@
       env_file:
         - .env
       restart: always
-      devices:
-        - /dev/dri:/dev/dri
+      extends:
+       file: hwaccel.ml.yml
+       service: openvino
       networks:
         - turunetwork
 
