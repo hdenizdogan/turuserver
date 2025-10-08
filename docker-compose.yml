@@ -311,6 +311,25 @@
     networks:
       - turunetwork
 
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "homeassistant"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8123
+    ports:
+      - "8123:8123"
+    volumes:
+      - /mnt/docker/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - turunetwork
+
 
 #  stirling-pdf:
 #    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
