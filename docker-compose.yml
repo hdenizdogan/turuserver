@@ -8,6 +8,8 @@
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
+    ports:
+      - "8096:8096"
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -18,7 +20,8 @@
       - /mnt/docker/tsdproxydata/default/jellyfin/certs:/certs:ro
     environment:
       - TZ=${TZ}
-    network_mode: host
+    networks:
+      - turunetwork
 
 #  jellystat-db:
 #    image: 'postgres:15.2'
