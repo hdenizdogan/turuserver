@@ -8,6 +8,8 @@
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
+    group_add:
+      - "993"
     devices:
       - /dev/dri:/dev/dri
     volumes:
