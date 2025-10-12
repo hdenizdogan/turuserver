@@ -18,7 +18,11 @@
       - /mnt/docker/tsdproxydata/default/jellyfin/certs:/certs:ro
     environment:
       - TZ=${TZ}
-    network_mode: host
+    ports:
+      - "8096:8096"
+    networks:
+      - turunetwork
+#    network_mode: host
 
 #  jellystat-db:
 #    image: 'postgres:15.2'
