@@ -8,8 +8,6 @@
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
-    ports:
-      - "8096:8096"
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -20,8 +18,7 @@
       - /mnt/docker/tsdproxydata/default/jellyfin/certs:/certs:ro
     environment:
       - TZ=${TZ}
-    networks:
-      - turunetwork
+    network_mode: host
 
 #  jellystat-db:
 #    image: 'postgres:15.2'
@@ -310,24 +307,24 @@
     networks:
       - turunetwork
 
-  homeassistant:
-    container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "homeassistant"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8123
-    volumes:
-      - /mnt/docker/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-      - /run/dbus:/run/dbus:ro
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    privileged: true
-    network_mode: host
+#  homeassistant:
+#    container_name: homeassistant
+#    image: "ghcr.io/home-assistant/home-assistant:stable"
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "homeassistant"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8123
+#    volumes:
+#      - /mnt/docker/homeassistant:/config
+#      - /etc/localtime:/etc/localtime:ro
+#      - /run/dbus:/run/dbus:ro
+#    restart: unless-stopped
+#    cap_add:
+#      - NET_ADMIN
+#      - NET_RAW
+#    privileged: true
+#    network_mode: host
 
 
 #  stirling-pdf:
