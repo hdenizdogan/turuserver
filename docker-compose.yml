@@ -428,7 +428,7 @@
       - /etc/hostname:/etc/hostname:ro
       - /etc/os-release:/etc/os-release:ro
     environment:
-      - GLANCES_OPT=-w --password       # start in web server mode
+      - GLANCES_OPT=-w      # start in web server mode
 
 
 #  filebrowser:
