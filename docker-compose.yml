@@ -427,7 +427,6 @@
       - /var/run/docker.sock:/var/run/docker.sock:ro  # show Docker containers
       - /etc/hostname:/etc/hostname:ro
       - /etc/os-release:/etc/os-release:ro
-      - /mnt/docker/glances/config:/root/.config/glances
     environment:
       - GLANCES_OPT=-w --password       # start in web server mode
 
