@@ -588,7 +588,7 @@
       #   file: hwaccel.ml.yml
       #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
       volumes:
-        - model-cache:/cache
+        - /mnt/docker/immich_machine_learning/cache:/cache
       env_file:
         - .env
       restart: always
@@ -629,8 +629,6 @@
       networks:
         - turunetwork
 
-volumes:
-  model-cache:
 
 networks:
   turunetwork:
