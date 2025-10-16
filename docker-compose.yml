@@ -410,8 +410,7 @@
     volumes:
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - turunetwork
+    network_mode: host
 
 
 #  filebrowser:
