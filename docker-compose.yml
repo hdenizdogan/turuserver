@@ -390,10 +390,16 @@
 #      - turunetwork
 
   dash:
-    image: mauricenino/dashdot:latest
+    image: mauricenino/dashdot:nvidia
     container_name: dash
     restart: unless-stopped
     privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "dash"
