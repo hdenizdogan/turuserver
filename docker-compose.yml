@@ -400,8 +400,6 @@
       tsdproxy.funnel: "true"
       tsdproxy.ephemeral: "true"
       tsdproxy.container_port: 3001
-    ports:
-      - "3001:3001"
     environment:
       - DASHDOT_ENABLE_CPU_TEMPERATURE=true
       - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
