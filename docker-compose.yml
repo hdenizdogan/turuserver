@@ -329,24 +329,24 @@
     networks:
       - turunetwork
 
-#  homeassistant:
-#    container_name: homeassistant
-#    image: "ghcr.io/home-assistant/home-assistant:stable"
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "homeassistant"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8123
-#    volumes:
-#      - /mnt/docker/homeassistant:/config
-#      - /etc/localtime:/etc/localtime:ro
-#      - /run/dbus:/run/dbus:ro
-#    restart: unless-stopped
-#    cap_add:
-#      - NET_ADMIN
-#      - NET_RAW
-#    privileged: true
-#    network_mode: host
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "homeassistant"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8123
+    volumes:
+      - /mnt/docker/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    privileged: true
+    network_mode: host
 
 
 #  stirling-pdf:
