@@ -263,7 +263,10 @@
       tsdproxy.name: "qbittorrent"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8090
-    network_mode: host
+    ports:
+      - "8090:8090"
+      - "6881:6881"
+      - "6881:6881/udp"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
