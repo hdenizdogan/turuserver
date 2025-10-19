@@ -482,6 +482,9 @@
     restart: unless-stopped
     ports:
       - "80:80"
+    networks:
+      turuserver_default:
+        ipv4_address: 172.18.0.60
 
   npm:
     image: jc21/nginx-proxy-manager:latest
@@ -497,6 +500,9 @@
     volumes:
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
+    networks:
+      turuserver_default:
+        ipv4_address: 172.18.0.50
 
   watchtower:
     image: containrrr/watchtower
@@ -590,3 +596,6 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
+networks:
+  turuserver_default:
+    external: true
