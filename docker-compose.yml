@@ -263,10 +263,7 @@
       tsdproxy.name: "qbittorrent"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8090
-    ports:
-      - "8090:8090"
-      - "6881:6881"
-      - "6881:6881/udp"
+    network_mode: host
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -522,6 +519,7 @@
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
+    network_mode: host
 
   immich:
     container_name: immich
