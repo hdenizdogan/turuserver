@@ -559,7 +559,7 @@
       - database
     restart: always
     networks:
-      - immichnetwork
+      - turunetwork
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -580,7 +580,7 @@
        file: hwaccel.ml.yml
        service: openvino
       networks:
-        - immichnetwork
+        - turunetwork
 
   redis:
       container_name: immich_redis
@@ -593,7 +593,7 @@
       volumes:
         - /mnt/docker/redis:/data
       networks:
-        - immichnetwork
+        - turunetwork
 
   database:
       container_name: immich_postgres
@@ -613,11 +613,11 @@
       shm_size: 128mb
       restart: always
       networks:
-        - immichnetwork
+        - turunetwork
 
 
 networks:
-  immichnetwork:
+  turunetwork:
     driver: bridge
     ipam:
       config:
