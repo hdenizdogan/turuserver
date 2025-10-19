@@ -396,25 +396,25 @@
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  glances:
-    image: nicolargo/glances:latest
-    container_name: glances
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "glances"
-      tsdproxy.funnel: "true"
-      tsdproxy.ephemeral: "true"
-      tsdproxy.container_port: 61208
-    restart: unless-stopped
-    pid: host                 # so it can see host processes
-    network_mode: host        # gives accurate network metrics & web access
-    privileged: true          # needed for sensors & iGPU info
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro  # show Docker containers
-      - /etc/hostname:/etc/hostname:ro
-      - /etc/os-release:/etc/os-release:ro
-    environment:
-      - GLANCES_OPT=-w      # start in web server mode
+#  glances:
+#    image: nicolargo/glances:latest
+#    container_name: glances
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "glances"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.ephemeral: "true"
+#      tsdproxy.container_port: 61208
+#    restart: unless-stopped
+#    pid: host                 # so it can see host processes
+#    network_mode: host        # gives accurate network metrics & web access
+#    privileged: true          # needed for sensors & iGPU info
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:ro  # show Docker containers
+#      - /etc/hostname:/etc/hostname:ro
+#      - /etc/os-release:/etc/os-release:ro
+#    environment:
+#      - GLANCES_OPT=-w      # start in web server mode
 
 
 #  filebrowser:
