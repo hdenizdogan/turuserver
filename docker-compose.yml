@@ -8,6 +8,7 @@
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
+      tsdproxy.target_host: "127.0.0.1"
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -517,7 +518,6 @@
       - /mnt/docker/tsdproxydata:/data
     environment:
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - TSDPROXY_HOSTNAME=172.19.0.1
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
     networks:
