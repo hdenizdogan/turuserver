@@ -276,8 +276,6 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
-    networks:
-      - local_net
 
   unmanic:
     image: josh5/unmanic:latest
