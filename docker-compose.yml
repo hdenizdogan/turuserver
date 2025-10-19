@@ -556,8 +556,6 @@
       #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
       volumes:
         - /mnt/docker/immich_machine_learning/cache:/cache
-      ports:
-        - '3003:3003'
       env_file:
         - .env
       restart: always
