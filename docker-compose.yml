@@ -529,12 +529,8 @@
       - /mnt/docker/tsdproxydata:/data
     environment:
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - TSDPROXY_HOSTNAME=172.18.0.1
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
-    networks:
-      turunetwork:
-        ipv4_address: 172.18.0.198
 
   immich:
     container_name: immich
