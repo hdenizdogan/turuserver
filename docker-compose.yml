@@ -519,7 +519,7 @@
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
-    network_mode: host
+
 
   immich:
     container_name: immich
