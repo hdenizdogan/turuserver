@@ -346,9 +346,9 @@
 #      tsdproxy.name: "pdf"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.ephemeral: "true"
-#      tsdproxy.container_port: 8080
+#      tsdproxy.container_port: 5050
 #    ports:
-#      - "5050:8080"
+#      - "5050:5050"
 #    volumes:
 #      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
 #      - /mnt/docker/StirlingPDF/extraConfigs:/configs
@@ -367,7 +367,7 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "metube"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8081
+#      tsdproxy.container_port: 8999
 #    ports:
 #      - "8999:8081"
 #    volumes:
@@ -428,7 +428,7 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "filebrowser"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 80
+#      tsdproxy.container_port: 3010
 #    ports:
 #      - "3010:80"
 #    volumes:
@@ -484,9 +484,6 @@
     restart: unless-stopped
     ports:
       - "80:80"
-    networks:
-     local_net:
-       ipv4_address: 172.19.0.10
 
   npm:
     image: jc21/nginx-proxy-manager:latest
@@ -502,9 +499,6 @@
     volumes:
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-    networks:
-      local_net:
-        ipv4_address: 172.19.0.15
 
   watchtower:
     image: containrrr/watchtower
@@ -521,6 +515,7 @@
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
     container_name: tsdproxy
+    network_mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/tsdproxydata:/data
@@ -597,11 +592,3 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
-
-
-networks:
-  local_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.19.0.0/24
