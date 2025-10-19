@@ -87,8 +87,6 @@
       - PGID=${PGID}
       - TZ=${TZ}
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
-    networks:
-      - turunetwork
 
 #  homarr:
 #    container_name: homarr
@@ -110,8 +108,6 @@
 #      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
 #    ports:
 #      - '7575:7575'
-#    networks:
-#      - turunetwork
 
   lidatube:
     image: thewicklowwolf/lidatube:latest
@@ -130,8 +126,6 @@
     restart: unless-stopped
     environment:
       - attempt_lidarr_import=true
-    networks:
-      - turunetwork
 
 
   prowlarr:
@@ -153,8 +147,6 @@
       - /mnt/docker/prowlarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      - turunetwork
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -175,8 +167,6 @@
     ports:
       - "8686:8686"
     restart: unless-stopped
-    networks:
-      - turunetwork
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -197,8 +187,6 @@
       - /mnt/docker/sonarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      - turunetwork
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -219,8 +207,6 @@
       - /mnt/docker/radarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      - turunetwork
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -240,8 +226,6 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
-    networks:
-      - turunetwork
 
 #  profilarr:
 #    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
@@ -272,8 +256,6 @@
       - /mnt/docker/flaresolverr:/config
     ports:
       - "8191:8191"
-    networks:
-      - turunetwork
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -297,8 +279,6 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
-    networks:
-      - turunetwork
 
   unmanic:
     image: josh5/unmanic:latest
@@ -321,8 +301,6 @@
       - "8888:8888"
     devices:
       - /dev/dri:/dev/dri
-    networks:
-      - turunetwork
 
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
@@ -341,8 +319,6 @@
     volumes:
       - /mnt/docker/jellyseer/config:/app/config
       - /mnt/media:/mnt/media
-    networks:
-      - turunetwork
 
 #  homeassistant:
 #    container_name: homeassistant
@@ -517,9 +493,6 @@
     restart: unless-stopped
     ports:
       - "80:80"
-    networks:
-      turunetwork:
-        ipv4_address: 172.18.0.200
 
   npm:
     image: jc21/nginx-proxy-manager:latest
@@ -535,10 +508,6 @@
     volumes:
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-      - /mnt/docker/tsdproxydata/default:/custom-ssl:ro
-    networks:
-       turunetwork:
-         ipv4_address: 172.18.0.199
 
   watchtower:
     image: containrrr/watchtower
@@ -551,8 +520,6 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
-    networks:
-      - turunetwork
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
@@ -592,7 +559,7 @@
       - database
     restart: always
     networks:
-      - turunetwork
+      - immichnetwork
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -604,6 +571,8 @@
       #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
       volumes:
         - /mnt/docker/immich_machine_learning/cache:/cache
+      ports:
+        - '2283:2283'
       env_file:
         - .env
       restart: always
@@ -611,7 +580,7 @@
        file: hwaccel.ml.yml
        service: openvino
       networks:
-        - turunetwork
+        - immichnetwork
 
   redis:
       container_name: immich_redis
@@ -624,7 +593,7 @@
       volumes:
         - /mnt/docker/redis:/data
       networks:
-        - turunetwork
+        - immichnetwork
 
   database:
       container_name: immich_postgres
@@ -644,11 +613,11 @@
       shm_size: 128mb
       restart: always
       networks:
-        - turunetwork
+        - immichnetwork
 
 
 networks:
-  turunetwork:
+  immichnetwork:
     driver: bridge
     ipam:
       config:
