@@ -329,25 +329,25 @@
     networks:
       - turunetwork
 
-  seerr:
-    image: fallenbagel/jellyseerr:preview-seerr
-    container_name: seerr
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "seerr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5055
+#  seerr:
+#    image: fallenbagel/jellyseerr:preview-seerr
+#    container_name: seerr
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "seerr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 5055
 #    ports:
 #      - "5055:5055"
-    environment:
-      - LOG_LEVEL=info
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/seer/config:/app/config
-      - /mnt/media:/mnt/media
-    networks:
-      - turunetwork
+#    environment:
+#      - LOG_LEVEL=info
+#      - TZ=${TZ}
+#    volumes:
+#      - /mnt/docker/seer/config:/app/config
+#      - /mnt/media:/mnt/media
+#    networks:
+#      - turunetwork
 
 #  homeassistant:
 #    container_name: homeassistant
