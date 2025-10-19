@@ -626,6 +626,8 @@
       healthcheck:
         test: redis-cli ping || exit 1
       restart: always
+      volumes:
+        - /mnt/docker/redis:/data
       networks:
         - turunetwork
 
