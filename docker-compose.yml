@@ -24,7 +24,18 @@
 #    networks:
 #      - turunetwork
 
-#  jellystat-db:
+  meilisearch:
+    image: getmeili/meilisearch:v1.9
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    volumes:
+      - /mnt/docker/meilisearch:/meili_data
+    environment:
+      - MEILI_ENV=development
+
+
+  #  jellystat-db:
 #    image: 'postgres:15.2'
 #    shm_size: 1gb
 #    container_name: jellystat-db
