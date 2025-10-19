@@ -486,8 +486,6 @@
     restart: unless-stopped
     ports:
       - "80:80"
-    networks:
-     - local_net
 
   npm:
     image: jc21/nginx-proxy-manager:latest
@@ -503,8 +501,6 @@
     volumes:
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-    networks:
-      - local_net
 
   watchtower:
     image: containrrr/watchtower
@@ -597,9 +593,3 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
-networks:
-  local_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.19.0.0/24
