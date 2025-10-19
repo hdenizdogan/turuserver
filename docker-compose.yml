@@ -519,6 +519,8 @@
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
+    networks:
+      - public_net
 
 
   immich:
@@ -589,3 +591,9 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
+networks:
+  public_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.1.0/24
