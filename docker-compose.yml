@@ -21,8 +21,6 @@
     network_mode: host
 #    ports:
 #      - "8096:8096"
-#    networks:
-#      - turunetwork
 
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
@@ -47,8 +45,8 @@
 #      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
 #    volumes:
 #      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
-#    networks:
-#      - turunetwork
+
+
 #
 #  jellystat:
 #    image: 'cyfershepard/jellystat:latest'
@@ -67,8 +65,8 @@
 #      - '3000:3000'
 #    depends_on:
 #      - jellystat-db
-#    networks:
-#      - turunetwork
+
+
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
@@ -242,8 +240,7 @@
 #    environment:
 #      - TZ=${TZ}
 #    restart: unless-stopped
-#    networks:
-#      - turunetwork
+
 
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
@@ -361,8 +358,6 @@
 #    environment:
 #      - DOCKER_ENABLE_SECURITY=false
 #      - LANGS=["tr_TR"]
-#    networks:
-#      - turunetwork
 
 #  metube:
 #    image: ghcr.io/alexta69/metube
@@ -377,8 +372,7 @@
 #      - "8999:8081"
 #    volumes:
 #      - /tmp/metube:/downloads
-#    networks:
-#      - turunetwork
+
 
   dash:
     image: mauricenino/dashdot:latest
@@ -391,6 +385,8 @@
       tsdproxy.funnel: "true"
       tsdproxy.ephemeral: "true"
       tsdproxy.container_port: 3001
+    ports:
+      - "3001:3001"
     environment:
       - DASHDOT_ENABLE_CPU_TEMPERATURE=true
       - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
@@ -399,7 +395,6 @@
     volumes:
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    network_mode: host
 
   glances:
     image: nicolargo/glances:latest
@@ -440,8 +435,7 @@
 #      - /mnt/docker/filebrowser_data:/database
 #      - /mnt/media:/srv
 #    restart: unless-stopped
-#    networks:
-#      - turunetwork
+
 
 
   portainer:
@@ -458,8 +452,6 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
-    networks:
-      - turunetwork
 
 #  adguard:
 #    image: adguard/adguardhome:latest
@@ -481,8 +473,7 @@
 #      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
 #      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
 #      - /mnt/docker/tsdproxydata/default/adguard/certs:/certs:ro
-#    networks:
-#      - turunetwork
+
 
 
   nginx:
@@ -554,8 +545,6 @@
       - redis
       - database
     restart: always
-    networks:
-      - turunetwork
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -575,8 +564,6 @@
       extends:
        file: hwaccel.ml.yml
        service: openvino
-      networks:
-        - turunetwork
 
   redis:
       container_name: immich_redis
@@ -588,8 +575,6 @@
       restart: always
       volumes:
         - /mnt/docker/redis:/data
-      networks:
-        - turunetwork
 
   database:
       container_name: immich_postgres
@@ -608,13 +593,6 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
-      networks:
-        - turunetwork
 
 
-networks:
-  turunetwork:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.18.0.0/24
+
