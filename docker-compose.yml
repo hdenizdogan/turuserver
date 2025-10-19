@@ -483,7 +483,7 @@
     ports:
       - "80:80"
     networks:
-      turuserver_default:
+      local_net:
         ipv4_address: 172.18.0.60
 
   npm:
@@ -501,7 +501,7 @@
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
     networks:
-      turuserver_default:
+      local_net:
         ipv4_address: 172.18.0.50
 
   watchtower:
@@ -597,5 +597,8 @@
       shm_size: 128mb
       restart: always
 networks:
-  turuserver_default:
-    external: true
+  local_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
