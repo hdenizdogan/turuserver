@@ -572,7 +572,7 @@
       volumes:
         - /mnt/docker/immich_machine_learning/cache:/cache
       ports:
-        - '2283:2283'
+        - '3003:3003'
       env_file:
         - .env
       restart: always
