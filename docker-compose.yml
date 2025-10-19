@@ -34,6 +34,7 @@
       - /mnt/docker/meilisearch:/meili_data
     environment:
       - MEILI_ENV=development
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
 
 
   #  jellystat-db:
