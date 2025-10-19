@@ -22,17 +22,17 @@
 #    ports:
 #      - "8096:8096"
 
-#  meilisearch:
-#    image: getmeili/meilisearch:latest
-#    container_name: meilisearch
-#    restart: unless-stopped
-#    ports:
-#      - "7700:7700"
-#    volumes:
-#      - /mnt/docker/meilisearch:/meili_data
-#    environment:
-#      - MEILI_ENV=development
-#      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    volumes:
+      - /mnt/docker/meilisearch:/meili_data
+    environment:
+      - MEILI_ENV=development
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
 
 
   #  jellystat-db:
