@@ -1,6 +1,6 @@
 ﻿services:
   jellyfin:
-    image: jellyfin/jellyfin:10.10.7
+    image: jellyfin/jellyfin
     container_name: jellyfin
     restart: unless-stopped
     labels:
