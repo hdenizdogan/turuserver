@@ -16,7 +16,7 @@
       - /mnt/docker/jellyfin_cache:/cache
       - /mnt/media:/media
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
-      - /mnt/docker/jellyfin_custom_banner/banner-light.png:/jellyfin/jellyfin-web/src/assets/img/banner-light.png:ro
+      - /mnt/docker/jellyfin_custom_banner:/jellyfin/jellyfin-web/src/assets/img
     environment:
       - TZ=${TZ}
     network_mode: host
