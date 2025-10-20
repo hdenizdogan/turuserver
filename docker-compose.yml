@@ -519,6 +519,11 @@
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx_proxy_manager
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "npm"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 81
     ports:
       - "81:81"      # Web UI
       - "443:443"    # HTTPS
@@ -530,7 +535,8 @@
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
     networks:
-      - local_net
+      local_net:
+        ipv4_address: 172.19.0.200
 
   watchtower:
     image: containrrr/watchtower
