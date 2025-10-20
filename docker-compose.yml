@@ -529,7 +529,8 @@
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
     networks:
-      - local_net
+      local_net:
+        ipv4_address: 172.19.0.200
 
   watchtower:
     image: containrrr/watchtower
