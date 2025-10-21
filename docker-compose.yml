@@ -321,7 +321,7 @@
       - local_net
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:latest
+    image: ghcr.io/fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     restart: unless-stopped
     labels:
