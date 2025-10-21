@@ -535,7 +535,7 @@
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:172.17.0.1"
     networks:
       local_net:
         ipv4_address: 172.19.0.200
