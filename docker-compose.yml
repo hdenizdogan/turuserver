@@ -276,11 +276,6 @@
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "qbittorrent"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8090
     ports:
       - "8090:8090"
       - "6881:6881"
