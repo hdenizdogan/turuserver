@@ -529,7 +529,7 @@
     ports:
       - "81:81"      # Web UI
       - "443:443"    # HTTPS
-      - "8080:80"    # HTTP
+      - "80:80"    # HTTP
     environment:
       DB_SQLITE_FILE: "/data/database.sqlite"
       DISABLE_IPV6: 'true'
