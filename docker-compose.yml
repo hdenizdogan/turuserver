@@ -167,6 +167,7 @@
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - attempt_lidarr_import = True
     volumes:
       - /mnt/docker/lidarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
@@ -336,7 +337,7 @@
       - LOG_LEVEL=info
       - TZ=${TZ}
     volumes:
-      - /mnt/docker/jellyseer/config:/app/config
+      - /mnt/docker/jellyseerr/config:/app/config
       - /mnt/media:/mnt/media
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
