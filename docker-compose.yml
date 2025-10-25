@@ -128,7 +128,7 @@
       - "5000:5000"
     restart: unless-stopped
     environment:
-      - attempt_lidarr_import=true
+      - attempt_lidarr_import=True
     networks:
       - local_net
 
@@ -167,7 +167,6 @@
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - attempt_lidarr_import = True
     volumes:
       - /mnt/docker/lidarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
