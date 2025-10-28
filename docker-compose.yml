@@ -47,6 +47,8 @@
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
     volumes:
       - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
+    networks:
+      - local_net
 
 
 
@@ -72,6 +74,8 @@
       - '3000:3000'
     depends_on:
       - jellystat-db
+    networks:
+      - local_net
 
 
   wizarr:
