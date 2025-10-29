@@ -611,7 +611,7 @@
       networks:
         - local_net
 
-  immich-redis:
+  redis:
       container_name: immich_redis
       image: docker.io/valkey/valkey:8-bookworm@sha256:fea8b3e67b15729d4bb70589eb03367bab9ad1ee89c876f54327fc7c6e618571
       healthcheck:
@@ -622,7 +622,7 @@
       networks:
         - local_net
 
-  immich-postgres:
+  database:
       container_name: immich_postgres
       image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
       labels:
