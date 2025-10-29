@@ -586,8 +586,8 @@
     ports:
       - '2283:2283'
     depends_on:
-      - immich-redis
-      - immich-postgres
+      - redis
+      - postgres
     restart: always
     networks:
       - local_net
