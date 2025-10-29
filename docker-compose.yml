@@ -587,7 +587,7 @@
       - '2283:2283'
     depends_on:
       - redis
-      - postgres
+      - database
     restart: always
     networks:
       - local_net
