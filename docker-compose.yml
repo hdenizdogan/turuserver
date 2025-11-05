@@ -109,7 +109,6 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "homarr"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.ephemeral: "true"
 #      tsdproxy.container_port: 7575
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
@@ -378,7 +377,6 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "pdf"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.ephemeral: "true"
 #      tsdproxy.container_port: 5050
 #    ports:
 #      - "5050:5050"
@@ -416,7 +414,6 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "dash"
       tsdproxy.funnel: "true"
-      tsdproxy.ephemeral: "true"
       tsdproxy.container_port: 3001
     ports:
       - "3001:3001"
@@ -438,7 +435,6 @@
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "glances"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.ephemeral: "true"
 #      tsdproxy.container_port: 61208
 #    restart: unless-stopped
 #    pid: host                 # so it can see host processes
