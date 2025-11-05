@@ -568,15 +568,15 @@
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
 
-  tsdproxy2:
-    image: almeidapaulopt/tsdproxy:1
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/tsdproxy2data:/data
-      - /mnt/docker/tsdproxy2config:/config
-    restart: unless-stopped
-    ports:
-      - "9090:8080"
+#  tsdproxy2:
+#    image: almeidapaulopt/tsdproxy:1
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /mnt/docker/tsdproxy2data:/data
+#      - /mnt/docker/tsdproxy2config:/config
+#    restart: unless-stopped
+#    ports:
+#      - "9090:8080"
 
 
   immich:
