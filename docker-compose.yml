@@ -563,6 +563,8 @@
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
+    ports:
+     - "9090:8080"
 
 #  tsdproxy:
 #    container_name: tsdproxy
