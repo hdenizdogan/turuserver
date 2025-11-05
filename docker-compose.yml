@@ -568,7 +568,8 @@
       - DOCKER_HOST=unix:///var/run/docker.sock
     restart: unless-stopped
 
-#  tsdproxy2:
+#  tsdproxy:
+#    container_name: tsdproxy
 #    image: almeidapaulopt/tsdproxy:1
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
