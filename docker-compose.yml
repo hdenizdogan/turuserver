@@ -510,6 +510,8 @@
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
       - /mnt/docker/tsdproxydata/default/adguard/certs:/certs:ro
+    networks:
+      - local_net
 
 
 
