@@ -567,11 +567,11 @@
 
 #  tsdproxy:
 #    container_name: tsdproxy
-#    image: almeidapaulopt/tsdproxy:1
+#    image: almeidapaulopt/tsdproxy:latest
 #    volumes:
 #      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/tsdproxy2data:/data
-#      - /mnt/docker/tsdproxy2config:/config
+#      - /mnt/docker/tsdproxydata:/data
+#      - /mnt/docker/tsdproxyconfig:/config
 #    restart: unless-stopped
 #    ports:
 #      - "9090:8080"
