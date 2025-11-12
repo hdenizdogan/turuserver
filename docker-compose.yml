@@ -8,7 +8,7 @@
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
-      com.centurylinklabs.watchtower.enable: false
+#      com.centurylinklabs.watchtower.enable: false
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -541,17 +541,17 @@
       local_net:
          ipv4_address: 172.19.0.200
 
-  watchtower:
-    image: containrrr/watchtower
-    restart: unless-stopped
-    container_name: watchtower
-    environment:
-      - TZ=${TZ}
-      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
-      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
+#  watchtower:
+#    image: containrrr/watchtower
+#    restart: unless-stopped
+#    container_name: watchtower
+#    environment:
+#      - TZ=${TZ}
+#      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
+#      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
@@ -625,8 +625,8 @@
   redis:
       container_name: immich_redis
       image: docker.io/valkey/valkey:8@sha256:81db6d39e1bba3b3ff32bd3a1b19a6d69690f94a3954ec131277b9a26b95b3aa
-      labels:
-        com.centurylinklabs.watchtower.enable: false
+#      labels:
+#        com.centurylinklabs.watchtower.enable: false
       healthcheck:
         test: redis-cli ping || exit 1
       restart: always
@@ -638,8 +638,8 @@
   database:
       container_name: immich_postgres
       image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
-      labels:
-        com.centurylinklabs.watchtower.enable: false
+#      labels:
+#        com.centurylinklabs.watchtower.enable: false
       environment:
         POSTGRES_PASSWORD: ${DB_PASSWORD}
         POSTGRES_USER: ${DB_USERNAME}
