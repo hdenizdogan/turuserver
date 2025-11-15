@@ -542,7 +542,7 @@
          ipv4_address: 172.19.0.200
 
   watchtower:
-    image: nicholas-fedor/watchtower
+    image: nickfedor/watchtower
     restart: unless-stopped
     container_name: watchtower
     environment:
