@@ -541,17 +541,17 @@
       local_net:
          ipv4_address: 172.19.0.200
 
-#  watchtower:
-#    image: containrrr/watchtower
-#    restart: unless-stopped
-#    container_name: watchtower
-#    environment:
-#      - TZ=${TZ}
-#      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
-#      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
+  watchtower:
+    image: nicholas-fedor/watchtower
+    restart: unless-stopped
+    container_name: watchtower
+    environment:
+      - TZ=${TZ}
+      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
+      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
