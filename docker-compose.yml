@@ -351,27 +351,6 @@
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  seerr:
-    image: seerr/seerr:preview-test-fix-subscriptions
-    container_name: seerr
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "seerr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5055
-#    ports:
-#      - "5055:5055"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - LOG_LEVEL=info
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/seerr/config:/app/config
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
 #  homeassistant:
 #    container_name: homeassistant
 #    image: "ghcr.io/home-assistant/home-assistant:stable"
