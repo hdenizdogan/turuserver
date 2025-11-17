@@ -462,7 +462,8 @@
     ports:
       - "3010:80"
     volumes:
-      - /mnt/docker/filebrowser_data:/database
+      - /mnt/docker/filebrowser/data:/database
+      - /mnt/docker/filebrowser/config:/config
       - /mnt/media:/srv
     restart: unless-stopped
     networks:
