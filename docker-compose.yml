@@ -352,8 +352,8 @@
       - "host.docker.internal:host-gateway"
 
   seerr:
-    image: ghcr.io/fallenbagel/jellyseerr:preview-seerr
-    container_name: jellyseerr
+    image: seerr/seerr:preview-test-fix-subscriptions
+    container_name: seerr
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
