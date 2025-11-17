@@ -659,6 +659,6 @@
         - immich_net
 
 networks:
-  immich_net:
   public_net:
+  immich_net:
 
