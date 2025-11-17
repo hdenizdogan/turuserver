@@ -34,6 +34,8 @@
     environment:
       - MEILI_ENV=development
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - local_net
 
@@ -48,6 +50,8 @@
 #      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
 #    volumes:
 #      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 #    networks:
 #      - local_net
 #
@@ -69,6 +73,8 @@
 #      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
 #      JWT_SECRET: $JELLYSTAT_JWT_SECRET
 #      TZ: $TZ
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 #    volumes:
 #      - /mnt/docker/jellystat-backup-data:/app/backend/backup-data
 #    ports:
@@ -99,6 +105,8 @@
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 #  homarr:
 #    container_name: homarr
@@ -119,6 +127,8 @@
 #      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
 #    ports:
 #      - '7575:7575'
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 
   lidatube:
     image: thewicklowwolf/lidatube:latest
@@ -139,6 +149,8 @@
       - attempt_lidarr_import=True
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 
   prowlarr:
@@ -162,6 +174,8 @@
       - /mnt/media/torrent:/downloads
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -184,6 +198,8 @@
     restart: unless-stopped
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -206,6 +222,8 @@
       - /mnt/media/torrent:/downloads
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -228,6 +246,8 @@
       - /mnt/media/torrent:/downloads
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -249,6 +269,8 @@
       - /mnt/docker/bazarr:/config
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 #  profilarr:
 #    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
@@ -267,6 +289,7 @@
 #    restart: unless-stopped
 
 
+
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
     container_name: flaresolverr
@@ -280,6 +303,8 @@
       - "8191:8191"
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -304,6 +329,8 @@
       - /mnt/docker/qbittorrent/config:/config
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   unmanic:
     image: josh5/unmanic:latest
@@ -328,6 +355,8 @@
       - /dev/dri:/dev/dri
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   jellyseerr:
     image: ghcr.io/fallenbagel/jellyseerr:latest
@@ -347,6 +376,8 @@
       - /mnt/docker/jellyseerr/config:/app/config
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 #  homeassistant:
 #    container_name: homeassistant
@@ -426,6 +457,8 @@
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 #  glances:
 #    image: nicolargo/glances:latest
@@ -468,6 +501,8 @@
     restart: unless-stopped
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 
 
@@ -487,6 +522,8 @@
       - /mnt/docker/portainer_data:/data
     networks:
       - local_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 #  adguard:
 #    image: adguard/adguardhome:latest
@@ -543,6 +580,8 @@
     networks:
       local_net:
          ipv4_address: 172.19.0.200
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   watchtower:
     image: nickfedor/watchtower
