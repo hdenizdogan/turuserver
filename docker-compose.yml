@@ -36,8 +36,6 @@
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    networks:
-      - local_net
 
 
 #  jellystat-db:
@@ -52,8 +50,6 @@
 #      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
 #    extra_hosts:
 #      - "host.docker.internal:host-gateway"
-#    networks:
-#      - local_net
 #
 #
 #
@@ -81,8 +77,6 @@
 #      - '3000:3000'
 #    depends_on:
 #      - jellystat-db
-#    networks:
-#      - local_net
 
 
   wizarr:
@@ -103,8 +97,6 @@
       - PGID=${PGID}
       - TZ=${TZ}
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -147,8 +139,6 @@
     restart: unless-stopped
     environment:
       - attempt_lidarr_import=True
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -172,8 +162,6 @@
       - /mnt/docker/prowlarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -196,8 +184,6 @@
     ports:
       - "8686:8686"
     restart: unless-stopped
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -220,8 +206,6 @@
       - /mnt/docker/sonarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -244,8 +228,6 @@
       - /mnt/docker/radarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -267,8 +249,6 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -301,8 +281,6 @@
       - /mnt/docker/flaresolverr:/config
     ports:
       - "8191:8191"
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -327,8 +305,6 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -353,8 +329,6 @@
       - "8888:8888"
     devices:
       - /dev/dri:/dev/dri
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -374,8 +348,6 @@
       - TZ=${TZ}
     volumes:
       - /mnt/docker/jellyseerr/config:/app/config
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -455,8 +427,6 @@
     volumes:
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -499,8 +469,6 @@
       - /mnt/docker/filebrowser/config:/config
       - /mnt/media:/srv
     restart: unless-stopped
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -520,8 +488,6 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
-    networks:
-      - local_net
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -545,8 +511,7 @@
 #      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
 #      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
 #      - /mnt/docker/tsdproxydata/default/adguard/certs:/certs:ro
-#    networks:
-#      - local_net
+
 
 
 
@@ -558,9 +523,6 @@
 #    restart: unless-stopped
 #    ports:
 #      - "80:80"
-#    networks:
-#      local_net:
-#        ipv4_address: 172.19.0.199
 
   npm:
     image: jc21/nginx-proxy-manager:latest
@@ -577,9 +539,6 @@
     volumes:
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-    networks:
-      local_net:
-         ipv4_address: 172.19.0.200
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -645,7 +604,7 @@
       - database
     restart: always
     networks:
-      - local_net
+      - immich_net
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -664,7 +623,7 @@
        file: hwaccel.ml.yml
        service: openvino
       networks:
-        - local_net
+        - immich_net
 
   redis:
       container_name: immich_redis
@@ -677,7 +636,7 @@
       volumes:
         - /mnt/docker/redis:/data
       networks:
-        - local_net
+        - immich_net
 
   database:
       container_name: immich_postgres
@@ -697,13 +656,9 @@
       shm_size: 128mb
       restart: always
       networks:
-        - local_net
+        - immich_net
 
 networks:
-  local_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.19.0.0/24
+  immich_net:
   public_net:
 
