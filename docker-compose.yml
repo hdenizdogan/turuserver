@@ -607,6 +607,8 @@
     restart: unless-stopped
     ports:
      - "9090:8080"
+    networks:
+      public_net:
 
 #  tsdproxy:
 #    container_name: tsdproxy
@@ -703,3 +705,5 @@ networks:
     ipam:
       config:
         - subnet: 172.19.0.0/24
+  public_net:
+
