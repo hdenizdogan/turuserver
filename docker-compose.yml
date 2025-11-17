@@ -363,6 +363,8 @@
 #    ports:
 #      - "5055:5055"
     environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
       - LOG_LEVEL=info
       - TZ=${TZ}
     volumes:
