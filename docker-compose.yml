@@ -510,7 +510,7 @@
 #    volumes:
 #      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
 #      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-#      - /mnt/docker/tsdproxydata/default/adguard/certs:/certs:ro
+#      - /mnt/docker/tsdproxy/data/default/adguard/certs:/certs:ro
 
 
 
@@ -629,7 +629,7 @@
     container_name: tsdproxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/tsdproxydata:/data
+      - /mnt/docker/tsdproxy/data:/data
     environment:
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - DOCKER_HOST=unix:///var/run/docker.sock
@@ -644,8 +644,8 @@
   #    image: almeidapaulopt/tsdproxy:latest
   #    volumes:
   #      - /var/run/docker.sock:/var/run/docker.sock
-  #      - /mnt/docker/tsdproxydata:/data
-  #      - /mnt/docker/tsdproxyconfig:/config
+  #      - /mnt/docker/tsdproxy/data:/data
+  #      - /mnt/docker/tsdproxy/config:/config
   #    restart: unless-stopped
   #    ports:
   #      - "9090:8080"
