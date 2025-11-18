@@ -554,32 +554,6 @@
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
-  tsdproxy:
-    image: almeidapaulopt/tsdproxy:latest
-    container_name: tsdproxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/tsdproxydata:/data
-    environment:
-      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - DOCKER_HOST=unix:///var/run/docker.sock
-    restart: unless-stopped
-    ports:
-     - "9090:8080"
-    networks:
-      public_net:
-
-#  tsdproxy:
-#    container_name: tsdproxy
-#    image: almeidapaulopt/tsdproxy:latest
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/tsdproxydata:/data
-#      - /mnt/docker/tsdproxyconfig:/config
-#    restart: unless-stopped
-#    ports:
-#      - "9090:8080"
-
 
   immich:
     container_name: immich
@@ -603,8 +577,6 @@
       - redis
       - database
     restart: always
-    networks:
-      - immich_net
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -622,8 +594,6 @@
       extends:
        file: hwaccel.ml.yml
        service: openvino
-      networks:
-        - immich_net
 
   redis:
       container_name: immich_redis
@@ -635,8 +605,6 @@
       restart: always
       volumes:
         - /mnt/docker/redis:/data
-      networks:
-        - immich_net
 
   database:
       container_name: immich_postgres
@@ -655,10 +623,33 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
-      networks:
-        - immich_net
+
+  tsdproxy:
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/tsdproxydata:/data
+    environment:
+      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    restart: unless-stopped
+    ports:
+      - "9090:8080"
+    networks:
+      public_net:
+
+  #  tsdproxy:
+  #    container_name: tsdproxy
+  #    image: almeidapaulopt/tsdproxy:latest
+  #    volumes:
+  #      - /var/run/docker.sock:/var/run/docker.sock
+  #      - /mnt/docker/tsdproxydata:/data
+  #      - /mnt/docker/tsdproxyconfig:/config
+  #    restart: unless-stopped
+  #    ports:
+  #      - "9090:8080"
 
 networks:
   public_net:
-  immich_net:
 
