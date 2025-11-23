@@ -81,7 +81,7 @@
 
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr
+    image: ghcr.io/wizarrrr/wizarr:latest
     restart: unless-stopped
     ports:
       - '5690:5690'
