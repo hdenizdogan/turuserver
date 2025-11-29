@@ -125,11 +125,11 @@
   lidatube:
     image: thewicklowwolf/lidatube:latest
     container_name: lidatube
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "lidatube"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5000
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "lidatube"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 5000
     volumes:
       - /mnt/docker/lidatube:/lidatube/config
       - /mnt/media/torrent/Musics:/lidatube/downloads
@@ -524,9 +524,14 @@
 #    ports:
 #      - "80:80"
 
-  npm:
+  nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
-    container_name: nginx_proxy_manager
+    container_name: nginx-proxy-manager
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "npm"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 81
     restart: unless-stopped
     ports:
       - "81:81"      # Web UI
