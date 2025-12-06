@@ -332,13 +332,13 @@
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  jellyseerr:
+  seerr:
     image: ghcr.io/fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
+    container_name: seerr
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
-      tsdproxy.name: "jellyseerr"
+      tsdproxy.name: "seerr"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 5055
     ports:
@@ -347,7 +347,7 @@
       - LOG_LEVEL=info
       - TZ=${TZ}
     volumes:
-      - /mnt/docker/jellyseerr/config:/app/config
+      - /mnt/docker/seerr/config:/app/config
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
