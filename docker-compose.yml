@@ -36,6 +36,8 @@
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
 
 #  jellystat-db:
@@ -141,6 +143,8 @@
       - attempt_lidarr_import=True
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
 
   prowlarr:
@@ -164,6 +168,8 @@
       - /mnt/media/torrent:/downloads
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -186,6 +192,8 @@
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -208,6 +216,8 @@
       - /mnt/media/torrent:/downloads
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -230,6 +240,8 @@
       - /mnt/media/torrent:/downloads
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -251,6 +263,8 @@
       - /mnt/docker/bazarr:/config
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
 #  profilarr:
 #    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
@@ -283,6 +297,8 @@
       - "8191:8191"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -307,6 +323,8 @@
       - /mnt/docker/qbittorrent/config:/config
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   unmanic:
     image: josh5/unmanic:latest
@@ -331,6 +349,8 @@
       - /dev/dri:/dev/dri
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   seerr:
     image: ghcr.io/fallenbagel/jellyseerr:latest
@@ -350,6 +370,8 @@
       - /mnt/docker/seerr/config:/app/config
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
 #  homeassistant:
 #    container_name: homeassistant
@@ -429,6 +451,8 @@
       - /var/run/docker.sock:/var/run/docker.sock:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
 #  glances:
 #    image: nicolargo/glances:latest
@@ -471,7 +495,8 @@
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
+    networks:
+      local_net:
 
 
   portainer:
@@ -490,6 +515,8 @@
       - /mnt/docker/portainer_data:/data
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
 #  adguard:
 #    image: adguard/adguardhome:latest
@@ -546,6 +573,9 @@
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
+        ipv4_address: 172.20.0.10
 
   watchtower:
     image: nickfedor/watchtower
@@ -582,6 +612,8 @@
       - redis
       - database
     restart: always
+    networks:
+      local_net:
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -599,6 +631,8 @@
       extends:
        file: hwaccel.ml.yml
        service: openvino
+      networks:
+        local_net:
 
   redis:
       container_name: immich_redis
@@ -610,6 +644,8 @@
       restart: always
       volumes:
         - /mnt/docker/redis:/data
+      networks:
+        local_net:
 
   database:
       container_name: immich_postgres
@@ -628,6 +664,8 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
+      networks:
+        local_net:
 
   tsdproxy:
     image: almeidapaulopt/tsdproxy:latest
@@ -641,8 +679,7 @@
     restart: unless-stopped
     ports:
       - "9090:8080"
-    networks:
-      public_net:
+
 
   #  tsdproxy:
   #    container_name: tsdproxy
@@ -656,5 +693,10 @@
   #      - "9090:8080"
 
 networks:
-  public_net:
+  local_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
 
