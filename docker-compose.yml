@@ -474,29 +474,29 @@
 #      - GLANCES_OPT=-w      # start in web server mode
 
 
-  filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: filebrowser
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "filebrowser"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    ports:
-      - "3010:80"
-    volumes:
-      - /mnt/docker/filebrowser/data:/database
-      - /mnt/docker/filebrowser/config:/config
-      - /mnt/media:/srv
-    restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      local_net:
+#  filebrowser:
+#    image: filebrowser/filebrowser:latest
+#    container_name: filebrowser
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "filebrowser"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+#    ports:
+#      - "3010:80"
+#    volumes:
+#      - /mnt/docker/filebrowser/data:/database
+#      - /mnt/docker/filebrowser/config:/config
+#      - /mnt/media:/srv
+#    restart: unless-stopped
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    networks:
+#      local_net:
 
 
   portainer:
