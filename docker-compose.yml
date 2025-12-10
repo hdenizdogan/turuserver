@@ -330,7 +330,7 @@
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
-    labels:
+#    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "unmanic"
 #      tsdproxy.funnel: "true"
