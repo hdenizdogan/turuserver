@@ -571,8 +571,6 @@
     volumes:
       - /mnt/docker/npm/data:/data
       - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1" # static definition here, as the ip address of the container is pre-defined
     networks:
       local_net:
         ipv4_address: 172.19.0.199
