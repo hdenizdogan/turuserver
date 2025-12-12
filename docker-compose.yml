@@ -330,11 +330,11 @@
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "unmanic"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8888
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "unmanic"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8888
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -474,29 +474,29 @@
 #      - GLANCES_OPT=-w      # start in web server mode
 
 
-  filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: filebrowser
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "filebrowser"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    ports:
-      - "3010:80"
-    volumes:
-      - /mnt/docker/filebrowser/data:/database
-      - /mnt/docker/filebrowser/config:/config
-      - /mnt/media:/srv
-    restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      local_net:
+#  filebrowser:
+#    image: filebrowser/filebrowser:latest
+#    container_name: filebrowser
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "filebrowser"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+#    ports:
+#      - "3010:80"
+#    volumes:
+#      - /mnt/docker/filebrowser/data:/database
+#      - /mnt/docker/filebrowser/config:/config
+#      - /mnt/media:/srv
+#    restart: unless-stopped
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    networks:
+#      local_net:
 
 
   portainer:
@@ -507,9 +507,9 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "portainer"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9443
+      tsdproxy.container_port: 9000
     ports:
-      - "9443:9443"
+      - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
@@ -575,7 +575,7 @@
       - "host.docker.internal:172.17.0.1" # static definition here, as the ip address of the container is pre-defined
     networks:
       local_net:
-        ipv4_address: 172.19.0.10
+        ipv4_address: 172.19.0.199
 
   watchtower:
     image: nickfedor/watchtower
