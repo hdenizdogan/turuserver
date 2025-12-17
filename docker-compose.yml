@@ -330,11 +330,11 @@
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "unmanic"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8888
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "unmanic"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8888
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
