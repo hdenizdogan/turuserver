@@ -40,45 +40,49 @@
       local_net:
 
 
-#  jellystat-db:
-#    image: 'postgres:15.2'
-#    shm_size: 1gb
-#    container_name: jellystat-db
-#    restart: unless-stopped
-#    environment:
-#      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-#      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-#    volumes:
-#      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#
-#
-#
-#  jellystat:
-#    image: 'cyfershepard/jellystat:latest'
-#    container_name: jellystat
-#    restart: unless-stopped
+  jellystat-db:
+    image: 'postgres:15.2'
+    shm_size: 1gb
+    container_name: jellystat-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+    volumes:
+      - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
+
+
+
+  jellystat:
+    image: 'cyfershepard/jellystat:latest'
+    container_name: jellystat
+    restart: unless-stopped
 #    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "jellystat"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 3000
-#    environment:
-#      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-#      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-#      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
-#      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
-#      JWT_SECRET: $JELLYSTAT_JWT_SECRET
-#      TZ: $TZ
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#    volumes:
-#      - /mnt/docker/jellystat-backup-data:/app/backend/backup-data
-#    ports:
-#      - '3000:3000'
-#    depends_on:
-#      - jellystat-db
+    environment:
+      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
+      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
+      JWT_SECRET: $JELLYSTAT_JWT_SECRET
+      TZ: $TZ
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
+    volumes:
+      - /mnt/docker/jellystat-backup-data:/app/backend/backup-data
+    ports:
+      - '3000:3000'
+    depends_on:
+      - jellystat-db
 
 
 #  wizarr:
