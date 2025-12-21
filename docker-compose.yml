@@ -84,6 +84,30 @@
     depends_on:
       - jellystat-db
 
+  jellysweep:
+    image: ghcr.io/jon4hz/jellysweep:latest
+    container_name: jellysweep
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "jellysweep"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 3002
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
+    volumes:
+      - /mnt/docker/jellysweep:/app/data
+      # Mount Jellyfin library paths at the same locations for disk usage monitoring
+      # Example: if Jellyfin has /data/movies, mount it the same way here
+      - /mnt/media/Shows:/data/tv:ro
+      - /mnt/media/Movies:/data/movies:ro
+    environment:
+      - JELLYSWEEP_DRY_RUN=true
+
 
 #  wizarr:
 #    container_name: wizarr
