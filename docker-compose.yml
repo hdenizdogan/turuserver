@@ -61,11 +61,11 @@
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellystat"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 3000
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellystat"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 3000
     environment:
       POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
