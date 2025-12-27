@@ -375,8 +375,6 @@
       - "8888:8888"
     devices:
       - /dev/dri:/dev/dri
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       local_net:
 
