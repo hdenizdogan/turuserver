@@ -35,6 +35,14 @@ while IFS='=' read -r DOMAIN NPM_ID; do
   SRC_CERT="$(ls -t "$SRC_DIR"/*.crt 2>/dev/null | head -n1)"
   SRC_KEY="$(ls -t "$SRC_DIR"/*.key 2>/dev/null | grep -v 'acme-account' | head -n1)"
 
+  echo "DEBUG:"
+  echo "SRC_CERT=$SRC_CERT"
+  echo "SRC_KEY=$SRC_KEY"
+  echo "DST_CERT=$DST_CERT"
+  echo "DST_KEY=$DST_KEY"
+  echo
+
+
   DST_DIR="$NPM_BASE/$NPM_ID"
 
   if [ ! -f "$SRC_CERT" ] || [ ! -f "$SRC_KEY" ]; then
