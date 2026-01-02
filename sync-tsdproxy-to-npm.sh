@@ -33,7 +33,7 @@ while IFS='=' read -r DOMAIN NPM_ID; do
   SRC_DIR="$TSD_BASE/$SERVICE/certs"
 
   SRC_CERT="$(ls -t "$SRC_DIR"/*.crt 2>/dev/null | head -n1)"
-  SRC_KEY="$(ls -t "$SRC_DIR"/*.key 2>/dev/null | head -n1)"
+  SRC_KEY="$(ls -t "$SRC_DIR"/*.key 2>/dev/null | grep -v 'acme-account' | head -n1)"
 
   DST_DIR="$NPM_BASE/$NPM_ID"
 
