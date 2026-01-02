@@ -2,7 +2,7 @@
 set -e
 
 # === Hardcoded container name ===
-NPM_CONTAINER="npm"
+NPM_CONTAINER="nginx-proxy-manager"
 
 # === Resolve script directory ===
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -38,4 +38,29 @@ while IFS='=' read -r DOMAIN NPM_ID; do
   DST_DIR="$NPM_BASE/$NPM_ID"
 
   if [ ! -f "$SRC_CERT" ] || [ ! -f "$SRC_KEY" ]; then
-    echo "⚠️  Missi
+    echo "⚠️  Missing cert for $DOMAIN — skipping"
+    continue
+  fi
+
+  mkdir -p "$DST_DIR"
+
+  if ! cmp -s "$SRC_CERT" "$DST_DIR/fullchain.pem" 2>/dev/null || \
+     ! cmp -s "$SRC_KEY" "$DST_DIR/privkey.pem" 2>/dev/null; then
+
+    cp "$SRC_CERT" "$DST_DIR/fullchain.pem"
+    cp "$SRC_KEY" "$DST_DIR/privkey.pem"
+
+    chmod 644 "$DST_DIR/fullchain.pem"
+    chmod 600 "$DST_DIR/privkey.pem"
+
+    echo "✅ Updated cert for $DOMAIN"
+    UPDATED=1
+  fi
+done < "$MAP_FILE"
+
+if [ "$UPDATED" -eq 1 ]; then
+  echo "🔄 Restarting NPM container"
+  docker restart "$NPM_CONTAINER"
+else
+  echo "ℹ️  No certificate changes detected"
+fi
