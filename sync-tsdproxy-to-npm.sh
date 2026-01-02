@@ -61,7 +61,7 @@ done < "$MAP_FILE"
 
 if [ "$UPDATED" -eq 1 ]; then
   echo "🔄 Restarting NPM container"
-  docker restart "$NPM_CONTAINER"
+  docker exec "$NPM_CONTAINER" nginx -s reload
 else
   echo "ℹ️  No certificate changes detected"
 fi
