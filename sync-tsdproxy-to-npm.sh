@@ -20,7 +20,7 @@ MAP_FILE="./npm-tsdproxy-map.conf"
 : "${TSD_BASE:?Missing TSD_BASE}"
 : "${NPM_BASE:?Missing NPM_BASE}"
 
-NPM_CONTAINER="nginx-proxy-manager"
+NPM_CONTAINER="npm"
 changed=0
 
 while IFS='=' read -r SERVICE NPM_ID; do
