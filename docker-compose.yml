@@ -577,9 +577,9 @@
 #    ports:
 #      - "80:80"
 
-  nginx-proxy-manager:
+  npm:
     image: jc21/nginx-proxy-manager:latest
-    container_name: nginx-proxy-manager
+    container_name: npm
 #    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "npm"
