@@ -703,6 +703,8 @@
     restart: unless-stopped
     ports:
       - "9090:8080"
+    networks:
+      local_net:
 
 
   #  tsdproxy:
