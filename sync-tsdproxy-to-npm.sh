@@ -1,74 +1,65 @@
 #!/bin/sh
-set -e
+set -eu
 
-# === Hardcoded container name ===
-NPM_CONTAINER="nginx-proxy-manager"
+# ===============================
+# Load environment
+# ===============================
+ENV_FILE="./.env"
+MAP_FILE="./npm-tsdproxy-map.conf"
 
-# === Resolve script directory ===
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -f "$ENV_FILE" ] || exit 1
+[ -f "$MAP_FILE" ] || exit 1
 
-# === Load environment ===
-ENV_FILE="$SCRIPT_DIR/.env"
-
-if [ ! -f "$ENV_FILE" ]; then
-  echo "❌ Missing .env file at $ENV_FILE"
-  exit 1
-fi
-
-# shellcheck disable=SC1090
 . "$ENV_FILE"
 
-# === Validate required vars ===
-: "${TSD_BASE:?TSD_BASE not set in .env}"
-: "${NPM_BASE:?NPM_BASE not set in .env}"
+# Required vars from .env
+: "${TSD_BASE:?Missing TSD_BASE}"
+: "${NPM_BASE:?Missing NPM_BASE}"
 
-MAP_FILE="$SCRIPT_DIR/npm-tsdproxy-map.conf"
+# Hardcoded NPM container name (as requested)
+NPM_CONTAINER="npm"
 
-UPDATED=0
+changed=0
 
-while IFS='=' read -r DOMAIN NPM_ID; do
-  [ -z "$DOMAIN" ] && continue
+# ===============================
+# Iterate mappings
+# ===============================
+while IFS='=' read -r SERVICE NPM_ID; do
+  # skip empty lines / comments
+  [ -z "$SERVICE" ] && continue
+  echo "$SERVICE" | grep -q '^#' && continue
 
-  SERVICE="${DOMAIN%%.*}"
   SRC_DIR="$TSD_BASE/$SERVICE/certs"
 
-  SRC_CERT="$(ls -t "$SRC_DIR"/*.crt 2>/dev/null | head -n1)"
-  SRC_KEY="$(ls -t "$SRC_DIR"/*.key 2>/dev/null | grep -v 'acme-account' | head -n1)"
+  # tsdproxy cert naming
+  SRC_CERT="$(ls "$SRC_DIR"/*.crt 2>/dev/null | head -n1 || true)"
+  SRC_KEY="$(ls "$SRC_DIR"/*.key 2>/dev/null | head -n1 || true)"
 
-  echo "DEBUG:"
-  echo "SRC_CERT=$SRC_CERT"
-  echo "SRC_KEY=$SRC_KEY"
-  echo "DST_CERT=$DST_CERT"
-  echo "DST_KEY=$DST_KEY"
-  echo
+  [ -f "$SRC_CERT" ] || continue
+  [ -f "$SRC_KEY" ] || continue
 
-
-  DST_DIR="$NPM_BASE/$NPM_ID"
-
-  if [ ! -f "$SRC_CERT" ] || [ ! -f "$SRC_KEY" ]; then
-    echo "⚠️  Missing cert for $DOMAIN — skipping"
-    continue
-  fi
+  DST_DIR="$NPM_BASE/custom_ssl/$NPM_ID"
+  DST_CERT="$DST_DIR/fullchain.pem"
+  DST_KEY="$DST_DIR/privkey.pem"
 
   mkdir -p "$DST_DIR"
 
-  if ! cmp -s "$SRC_CERT" "$DST_DIR/fullchain.pem" 2>/dev/null || \
-     ! cmp -s "$SRC_KEY" "$DST_DIR/privkey.pem" 2>/dev/null; then
-
-    cp "$SRC_CERT" "$DST_DIR/fullchain.pem"
-    cp "$SRC_KEY" "$DST_DIR/privkey.pem"
-
-    chmod 644 "$DST_DIR/fullchain.pem"
-    chmod 600 "$DST_DIR/privkey.pem"
-
-    echo "✅ Updated cert for $DOMAIN"
-    UPDATED=1
+  # Compare certs
+  if [ ! -f "$DST_CERT" ] || ! cmp -s "$SRC_CERT" "$DST_CERT" || ! cmp -s "$SRC_KEY" "$DST_KEY"; then
+    cp "$SRC_CERT" "$DST_CERT"
+    cp "$SRC_KEY" "$DST_KEY"
+    chmod 644 "$DST_CERT"
+    chmod 600 "$DST_KEY"
+    changed=1
   fi
+
 done < "$MAP_FILE"
 
-if [ "$UPDATED" -eq 1 ]; then
-  echo "🔄 Restarting NPM container"
-  docker restart "$NPM_CONTAINER"
-else
-  echo "ℹ️  No certificate changes detected"
+# ===============================
+# Reload NPM if needed
+# ===============================
+if [ "$changed" -eq 1 ]; then
+  docker exec "$NPM_CONTAINER" nginx -s reload >/dev/null 2>&1 || true
 fi
+
+exit 0
