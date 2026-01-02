@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+# ===============================
+# Logging helpers
+# ===============================
 log() {
   [ "${VERBOSE:-0}" = "1" ] && echo "$@"
 }
@@ -9,25 +12,42 @@ info() {
   echo "$@"
 }
 
+# ===============================
+# Files
+# ===============================
 ENV_FILE="./.env"
 MAP_FILE="./npm-tsdproxy-map.conf"
 
-[ -f "$ENV_FILE" ] || { echo "Missing .env"; exit 1; }
-[ -f "$MAP_FILE" ] || { echo "Missing npm-tsdproxy-map.conf"; exit 1; }
+[ -f "$ENV_FILE" ] || { echo "❌ Missing .env"; exit 1; }
+[ -f "$MAP_FILE" ] || { echo "❌ Missing npm-tsdproxy-map.conf"; exit 1; }
 
 . "$ENV_FILE"
 
+# ===============================
+# Required env vars
+# ===============================
 : "${TSD_BASE:?Missing TSD_BASE}"
 : "${NPM_BASE:?Missing NPM_BASE}"
 
+# Hardcoded NPM container (as requested)
 NPM_CONTAINER="npm"
+
 changed=0
 
+# ===============================
+# Main loop
+# ===============================
 while IFS='=' read -r SERVICE NPM_ID; do
+  # skip empty lines
   [ -z "$SERVICE" ] && continue
-  echo "$SERVICE" | grep -q '^#' && continue
+
+  # skip comments safely (no grep + set -e issues)
+  case "$SERVICE" in
+    \#*) continue ;;
+  esac
 
   SRC_DIR="$TSD_BASE/$SERVICE/certs"
+
   SRC_CERT="$(ls "$SRC_DIR"/*.crt 2>/dev/null | head -n1 || true)"
   SRC_KEY="$(ls "$SRC_DIR"/*.key 2>/dev/null | head -n1 || true)"
 
@@ -42,7 +62,10 @@ while IFS='=' read -r SERVICE NPM_ID; do
 
   mkdir -p "$DST_DIR"
 
-  if [ ! -f "$DST_CERT" ] || ! cmp -s "$SRC_CERT" "$DST_CERT" || ! cmp -s "$SRC_KEY" "$DST_KEY"; then
+  if [ ! -f "$DST_CERT" ] \
+     || ! cmp -s "$SRC_CERT" "$DST_CERT" \
+     || ! cmp -s "$SRC_KEY" "$DST_KEY"; then
+
     log "🔄 Updating certificate for $SERVICE"
     cp "$SRC_CERT" "$DST_CERT"
     cp "$SRC_KEY" "$DST_KEY"
@@ -55,9 +78,14 @@ while IFS='=' read -r SERVICE NPM_ID; do
 
 done < "$MAP_FILE"
 
+# ===============================
+# Reload NPM if needed
+# ===============================
 if [ "$changed" -eq 1 ]; then
   info "♻️  Reloading NPM"
   docker exec "$NPM_CONTAINER" nginx -s reload >/dev/null 2>&1 || true
 else
   info "ℹ️  No certificate changes detected"
 fi
+
+exit 0
