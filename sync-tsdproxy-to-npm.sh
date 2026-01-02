@@ -38,7 +38,7 @@ while IFS='=' read -r SERVICE NPM_ID || [ -n "$SERVICE" ]; do
     continue
   fi
 
-  DST_DIR="$NPM_BASE/$NPM_ID"
+  DST_DIR="$NPM_BASE/custom_ssl/$NPM_ID"
   DST_CERT="$DST_DIR/fullchain.pem"
   DST_KEY="$DST_DIR/privkey.pem"
 
