@@ -1,0 +1,17 @@
+{
+    auto_https off
+}
+
+lidatube.admin.{env.TS_DOMAIN} {
+    basicauth {
+        {env.CADDY_USER} {env.CADDY_PASSWORD_HASH}
+    }
+    reverse_proxy lidatube:5000
+}
+
+unmanic.admin.{env.TS_DOMAIN} {
+    basicauth {
+        {env.CADDY_USER} {env.CADDY_PASSWORD_HASH}
+    }
+    reverse_proxy unmanic:8888
+}

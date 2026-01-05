@@ -704,6 +704,25 @@
     ports:
       - "9090:8080"
 
+  caddy-funnel:
+    image: caddy:2
+    container_name: caddy-funnel
+    restart: unless-stopped
+    environment:
+      - CADDY_USER=$CADDY_USER
+      - CADDY_PASSWORD_HASH=$CADDY_PASSWORD_HASH
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "admin"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /mnt/docker/caddy/caddy_data:/data
+      - /mnt/docker/caddy/caddy_config:/config
+    networks:
+      - local_net
+
 
   #  tsdproxy:
   #    container_name: tsdproxy
