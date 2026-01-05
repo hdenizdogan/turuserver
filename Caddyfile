@@ -2,9 +2,68 @@
     auto_https off
 }
 
+https://bazarr.{$TS_DOMAIN} {
+    tls /certs/bazarr/certs/bazarr.{$TS_DOMAIN}.crt /certs/bazarr/certs/bazarr.{$TS_DOMAIN}.key
+    reverse_proxy bazarr:6767
+}
+
+https://dash.{$TS_DOMAIN} {
+    tls /certs/dash/certs/dash.{$TS_DOMAIN}.crt /certs/dash/certs/dash.{$TS_DOMAIN}.key
+    reverse_proxy dash:3001
+}
+
+https://immich.{$TS_DOMAIN} {
+    tls /certs/immich/certs/immich.{$TS_DOMAIN}.crt /certs/immich/certs/immich.{$TS_DOMAIN}.key
+    reverse_proxy immich:2283
+}
+
+https://jellyfin.{$TS_DOMAIN} {
+    tls /certs/jellyfin/certs/jellyfin.{$TS_DOMAIN}.crt /certs/jellyfin/certs/jellyfin.{$TS_DOMAIN}.key
+    reverse_proxy 172.17.0.1:8096
+}
+
+https://jellystat.{$TS_DOMAIN} {
+    tls /certs/jellystat/certs/jellystat.{$TS_DOMAIN}.crt /certs/jellystat/certs/jellystat.{$TS_DOMAIN}.key
+    reverse_proxy jellystat:3000
+}
+
+https://lidarr.{$TS_DOMAIN} {
+    tls /certs/lidarr/certs/lidarr.{$TS_DOMAIN}.crt /certs/lidarr/certs/lidarr.{$TS_DOMAIN}.key
+    reverse_proxy lidarr:8686
+}
+
 https://lidatube.{$TS_DOMAIN} {
     tls /certs/lidatube/certs/lidatube.{$TS_DOMAIN}.crt /certs/lidatube/certs/lidatube.{$TS_DOMAIN}.key
     reverse_proxy lidatube:5000
+}
+
+https://portainer.{$TS_DOMAIN} {
+    tls /certs/portainer/certs/portainer.{$TS_DOMAIN}.crt /certs/portainer/certs/portainer.{$TS_DOMAIN}.key
+    reverse_proxy portainer:9000
+}
+
+https://prowlarr.{$TS_DOMAIN} {
+    tls /certs/prowlarr/certs/prowlarr.{$TS_DOMAIN}.crt /certs/prowlarr/certs/prowlarr.{$TS_DOMAIN}.key
+    reverse_proxy prowlarr:9696
+}
+
+https://qbittorrent.{$TS_DOMAIN} {
+    tls /certs/qbittorrent/certs/qbittorrent.{$TS_DOMAIN}.crt /certs/qbittorrent/certs/qbittorrent.{$TS_DOMAIN}.key
+    reverse_proxy qbittorrent:8090
+}
+
+https://radarr.{$TS_DOMAIN} {
+    tls /certs/radarr/certs/radarr.{$TS_DOMAIN}.crt /certs/radarr/certs/radarr.{$TS_DOMAIN}.key
+    reverse_proxy radarr:7878
+}
+
+https://seerr.{$TS_DOMAIN} {
+    tls /certs/seerr/certs/seerr.{$TS_DOMAIN}.crt /certs/seerr/certs/seerr.{$TS_DOMAIN}.key
+    reverse_proxy seerr:5055
+}
+https://sonarr.{$TS_DOMAIN} {
+    tls /certs/sonarr/certs/sonarr.{$TS_DOMAIN}.crt /certs/sonarr/certs/sonarr.{$TS_DOMAIN}.key
+    reverse_proxy sonarr:8989
 }
 
 https://unmanic.{$TS_DOMAIN} {
