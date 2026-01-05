@@ -3,11 +3,11 @@
 }
 
 https://lidatube.{$TS_DOMAIN} {
-    tls /certs/lidatube/lidatube.{$TS_DOMAIN}.crt /certs/lidatube/lidatube.{$TS_DOMAIN}.key
+    tls /certs/lidatube/certs/lidatube.{$TS_DOMAIN}.crt /certs/lidatube/lidatube.{$TS_DOMAIN}.key
     reverse_proxy lidatube:5000
 }
 
 https://unmanic.{$TS_DOMAIN} {
-    tls /certs/unmanic/unmanic.{$TS_DOMAIN}.crt /certs/unmanic/unmanic.{$TS_DOMAIN}.key
+    tls /certs/unmanic/certs/unmanic.{$TS_DOMAIN}.crt /certs/unmanic/unmanic.{$TS_DOMAIN}.key
     reverse_proxy unmanic:8888
 }
