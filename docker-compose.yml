@@ -711,6 +711,7 @@
     environment:
       - CADDY_USER=$CADDY_USER
       - CADDY_PASSWORD_HASH=$CADDY_PASSWORD_HASH
+      - TS_DOMAIN=$TS_DOMAIN
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "admin"
