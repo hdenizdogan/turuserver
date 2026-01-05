@@ -707,7 +707,7 @@
       - "9090:8080"
 
   caddy:
-    image: caddy:2
+    image: caddy:latest
     container_name: caddy
     restart: unless-stopped
     env_file:
