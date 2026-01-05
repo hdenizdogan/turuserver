@@ -577,29 +577,29 @@
 #    ports:
 #      - "80:80"
 
-#  npm:
-#    image: jc21/nginx-proxy-manager:latest
-#    container_name: npm
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "npm"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 81
-#    restart: unless-stopped
-#    ports:
-#      - "81:81"      # Web UI
-#      - "443:443"    # HTTPS
-#      - "80:80"    # HTTP
-#    environment:
-#      DB_SQLITE_FILE: "/data/database.sqlite"
-#      DISABLE_IPV6: 'true'
-#      TZ: ${TZ}
-#    volumes:
-#      - /mnt/docker/npm/data:/data
-#      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-#    networks:
-#      local_net:
-#        ipv4_address: 172.19.0.199
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "npm"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 81
+    restart: unless-stopped
+    ports:
+      - "81:81"      # Web UI
+      - "443:443"    # HTTPS
+      - "80:80"    # HTTP
+    environment:
+      DB_SQLITE_FILE: "/data/database.sqlite"
+      DISABLE_IPV6: 'true'
+      TZ: ${TZ}
+    volumes:
+      - /mnt/docker/npm/data:/data
+      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
+    networks:
+      local_net:
+        ipv4_address: 172.19.0.199
 
   watchtower:
     image: nickfedor/watchtower
@@ -704,19 +704,19 @@
     ports:
       - "9090:8080"
 
-  caddy:
-    image: caddy:2
-    container_name: caddy
-    restart: unless-stopped
-    env_file:
-      - .env
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - /mnt/docker/tsdproxy/data/default:/certs:ro
-    ports:
-      - "443:443"
-    networks:
-      local_net:
+#  caddy:
+#    image: caddy:2
+#    container_name: caddy
+#    restart: unless-stopped
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+#      - /mnt/docker/tsdproxy/data/default:/certs:ro
+#    ports:
+#      - "443:443"
+#    networks:
+#      local_net:
 
 
   #  tsdproxy:
