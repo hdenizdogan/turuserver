@@ -155,11 +155,11 @@
   lidatube:
     image: thewicklowwolf/lidatube:latest
     container_name: lidatube
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "lidatube"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5000
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "lidatube"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 5000
     volumes:
       - /mnt/docker/lidatube:/lidatube/config
       - /mnt/media/torrent/Musics:/lidatube/downloads
