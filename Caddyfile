@@ -9,13 +9,13 @@ http://{$DOMAIN}, http://*.{$DOMAIN} {
 
 # ---- Common TLS snippet ----
 (tls_manual) {
-    tls /certs/{args.0}/certs/{args.1}.{$DOMAIN}.crt \
-        /certs/{args.0}/certs/{args.1}.{$DOMAIN}.key
+    tls /certs/{args[0]}/certs/{args[1]}.{$DOMAIN}.crt \
+        /certs/{args[0]}/certs/{args[1]}.{$DOMAIN}.key
 }
 
 # ---- Common proxy snippet ----
 (proxy) {
-    reverse_proxy {args.0}
+    reverse_proxy {args[0]}
 }
 
 # ---- Services ----
