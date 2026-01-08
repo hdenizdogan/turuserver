@@ -37,7 +37,7 @@ https://immich.{$DOMAIN} {
 
 https://jellyfin.{$DOMAIN} {
     import tls_manual jellyfin jellyfin
-    import proxy jellyfin:8096
+    import proxy 172.17.0.1:8096
 }
 
 https://jellystat.{$DOMAIN} {
