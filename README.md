@@ -29,6 +29,19 @@ The stack is optimized for:
 
 ## 🧱 Architecture Overview
 
+This stack has **two completely separate access paths**:
+
+- **Local access (LAN / Tailscale LAN)** → via **Caddy**
+- **Public access (Internet)** → via **Tailscale Funnel (tsdproxy)**
+
+Caddy is **not** in the public access path.  
+Tailscale Funnel is **not** in the local access path.
+
+---
+
+### 🌐 Public Access (Internet → Services)
+
+
 ```
 Internet
    │
@@ -36,18 +49,93 @@ Internet
 Tailscale Funnel
    │
    ▼
-tsdproxy ──► Certificates
+tsdproxy
    │
    ▼
-Caddy (manual TLS)
-   │
-   ▼
-Docker Services (local_net 172.19.0.0/24)
+Docker Services
 ```
 
-- `tsdproxy` exposes containers via Funnel
-- `Caddy` uses Funnel-provided certificates
-- No traditional port-forwarding required
+- `tsdproxy` exposes selected containers directly via **Tailscale Funnel**
+- Each service is published using Docker labels
+- TLS and authentication are handled **entirely by Tailscale**
+- **Caddy is NOT used**
+- No reverse proxy, no ACME, no port-forwarding
+
+✅ Secure public access  
+✅ Zero open ports  
+✅ Identity-aware access via Tailscale
+
+---
+
+### 🏠 Local Access (LAN / Internal Network)
+
+Client (LAN / VPN)
+│
+▼
+Caddy
+│
+▼
+Docker Services
+
+
+- Caddy acts as a **local reverse proxy**
+- Uses **manual TLS certificates** mounted from `tsdproxy`
+- Certificates are reused only for **local HTTPS**
+- Services are accessed via:
+
+```
+https://service.<domain>
+```
+
+
+- Traffic never leaves the local network
+
+✅ Clean local HTTPS  
+✅ Central routing  
+✅ No dependency on Tailscale for local access
+
+---
+
+### 🔐 Certificate Flow (Important)
+
+
+```
+Tailscale Funnel
+│
+▼
+tsdproxy
+│
+├── Issues & renews certificates
+│
+▼
+/mnt/docker/tsdproxy/data/default/<service>/certs
+│
+▼
+Caddy (read-only)
+```
+
+- Certificates are **issued once by Tailscale**
+- Caddy only **consumes** them
+- Caddy never requests or renews certificates itself
+
+---
+
+### 🚫 What Does NOT Happen
+
+- ❌ Public traffic does NOT go through Caddy
+- ❌ Local traffic does NOT go through tsdproxy
+- ❌ No ports are forwarded from the router
+- ❌ No ACME challenges from Caddy
+
+---
+
+### 🧠 Why This Design?
+
+- Avoids double TLS termination
+- Prevents ACME conflicts
+- Keeps public exposure minimal
+- Allows full local control with HTTPS
+- Makes Funnel purely “edge-facing”
 
 ---
 
