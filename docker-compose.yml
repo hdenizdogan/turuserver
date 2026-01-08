@@ -717,6 +717,7 @@
       - /mnt/docker/tsdproxy/data/default:/certs:ro
     ports:
       - "443:443"
+      - "443:443/udp"
     networks:
       local_net:
         ipv4_address: 172.19.0.199

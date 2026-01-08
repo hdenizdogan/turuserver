@@ -2,71 +2,90 @@
     auto_https off
 }
 
+# ---- HTTP → HTTPS redirect ----
+http://{$DOMAIN}, http://*.{$DOMAIN} {
+    redir https://{host}{uri} permanent
+}
+
+# ---- Common TLS snippet ----
+(tls_manual) {
+    tls /certs/{args.0}/certs/{args.1}.{$DOMAIN}.crt \
+        /certs/{args.0}/certs/{args.1}.{$DOMAIN}.key
+}
+
+# ---- Common proxy snippet ----
+(proxy) {
+    reverse_proxy {args.0}
+}
+
+# ---- Services ----
+
 https://bazarr.{$DOMAIN} {
-    tls /certs/bazarr/certs/bazarr.{$DOMAIN}.crt /certs/bazarr/certs/bazarr.{$DOMAIN}.key
-    reverse_proxy bazarr:6767
+    import tls_manual bazarr bazarr
+    import proxy bazarr:6767
 }
 
 https://dash.{$DOMAIN} {
-    tls /certs/dash/certs/dash.{$DOMAIN}.crt /certs/dash/certs/dash.{$DOMAIN}.key
-    reverse_proxy dash:3001
+    import tls_manual dash dash
+    import proxy dash:3001
 }
 
 https://immich.{$DOMAIN} {
-    tls /certs/immich/certs/immich.{$DOMAIN}.crt /certs/immich/certs/immich.{$DOMAIN}.key
-    reverse_proxy immich:2283
+    import tls_manual immich immich
+    import proxy immich:2283
 }
 
 https://jellyfin.{$DOMAIN} {
-    tls /certs/jellyfin/certs/jellyfin.{$DOMAIN}.crt /certs/jellyfin/certs/jellyfin.{$DOMAIN}.key
-    reverse_proxy 172.17.0.1:8096
+    import tls_manual jellyfin jellyfin
+    import proxy jellyfin:8096
 }
 
 https://jellystat.{$DOMAIN} {
-    tls /certs/jellystat/certs/jellystat.{$DOMAIN}.crt /certs/jellystat/certs/jellystat.{$DOMAIN}.key
-    reverse_proxy jellystat:3000
+    import tls_manual jellystat jellystat
+    import proxy jellystat:3000
 }
 
 https://lidarr.{$DOMAIN} {
-    tls /certs/lidarr/certs/lidarr.{$DOMAIN}.crt /certs/lidarr/certs/lidarr.{$DOMAIN}.key
-    reverse_proxy lidarr:8686
+    import tls_manual lidarr lidarr
+    import proxy lidarr:8686
 }
 
 https://lidatube.{$DOMAIN} {
-    tls /certs/lidatube/certs/lidatube.{$DOMAIN}.crt /certs/lidatube/certs/lidatube.{$DOMAIN}.key
-    reverse_proxy lidatube:5000
+    import tls_manual lidatube lidatube
+    import proxy lidatube:5000
 }
 
 https://portainer.{$DOMAIN} {
-    tls /certs/portainer/certs/portainer.{$DOMAIN}.crt /certs/portainer/certs/portainer.{$DOMAIN}.key
-    reverse_proxy portainer:9000
+    import tls_manual portainer portainer
+    import proxy portainer:9000
 }
 
 https://prowlarr.{$DOMAIN} {
-    tls /certs/prowlarr/certs/prowlarr.{$DOMAIN}.crt /certs/prowlarr/certs/prowlarr.{$DOMAIN}.key
-    reverse_proxy prowlarr:9696
+    import tls_manual prowlarr prowlarr
+    import proxy prowlarr:9696
 }
 
 https://qbittorrent.{$DOMAIN} {
-    tls /certs/qbittorrent/certs/qbittorrent.{$DOMAIN}.crt /certs/qbittorrent/certs/qbittorrent.{$DOMAIN}.key
-    reverse_proxy qbittorrent:8090
+    import tls_manual qbittorrent qbittorrent
+    import proxy qbittorrent:8090
 }
 
 https://radarr.{$DOMAIN} {
-    tls /certs/radarr/certs/radarr.{$DOMAIN}.crt /certs/radarr/certs/radarr.{$DOMAIN}.key
-    reverse_proxy radarr:7878
+    import tls_manual radarr radarr
+    import proxy radarr:7878
 }
 
 https://seerr.{$DOMAIN} {
-    tls /certs/seerr/certs/seerr.{$DOMAIN}.crt /certs/seerr/certs/seerr.{$DOMAIN}.key
-    reverse_proxy seerr:5055
+    import tls_manual seerr seerr
+    import proxy seerr:5055
 }
+
 https://sonarr.{$DOMAIN} {
-    tls /certs/sonarr/certs/sonarr.{$DOMAIN}.crt /certs/sonarr/certs/sonarr.{$DOMAIN}.key
-    reverse_proxy sonarr:8989
+    import tls_manual sonarr sonarr
+    import proxy sonarr:8989
 }
 
 https://unmanic.{$DOMAIN} {
-    tls /certs/unmanic/certs/unmanic.{$DOMAIN}.crt /certs/unmanic/certs/unmanic.{$DOMAIN}.key
-    reverse_proxy unmanic:8888
+    import tls_manual unmanic unmanic
+    import proxy unmanic:8888
 }
