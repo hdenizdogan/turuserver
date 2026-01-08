@@ -9,8 +9,8 @@ http://{$DOMAIN}, http://*.{$DOMAIN} {
 
 # ---- Common TLS snippet ----
 (tls_manual) {
-    tls /certs/{args[0]}/certs/{args[1]}.{$DOMAIN}.crt \
-        /certs/{args[0]}/certs/{args[1]}.{$DOMAIN}.key
+    tls /certs/{args[0]}/certs/{args[0]}.{$DOMAIN}.crt \
+        /certs/{args[0]}/certs/{args[0]}.{$DOMAIN}.key
 }
 
 # ---- Common proxy snippet ----
@@ -21,71 +21,71 @@ http://{$DOMAIN}, http://*.{$DOMAIN} {
 # ---- Services ----
 
 https://bazarr.{$DOMAIN} {
-    import tls_manual bazarr bazarr
+    import tls_manual bazarr
     import proxy bazarr:6767
 }
 
 https://dash.{$DOMAIN} {
-    import tls_manual dash dash
+    import tls_manual dash
     import proxy dash:3001
 }
 
 https://immich.{$DOMAIN} {
-    import tls_manual immich immich
+    import tls_manual immich
     import proxy immich:2283
 }
 
 https://jellyfin.{$DOMAIN} {
-    import tls_manual jellyfin jellyfin
+    import tls_manual jellyfin
     import proxy 172.17.0.1:8096
 }
 
 https://jellystat.{$DOMAIN} {
-    import tls_manual jellystat jellystat
+    import tls_manual jellystat
     import proxy jellystat:3000
 }
 
 https://lidarr.{$DOMAIN} {
-    import tls_manual lidarr lidarr
+    import tls_manual lidarr
     import proxy lidarr:8686
 }
 
 https://lidatube.{$DOMAIN} {
-    import tls_manual lidatube lidatube
+    import tls_manual lidatube
     import proxy lidatube:5000
 }
 
 https://portainer.{$DOMAIN} {
-    import tls_manual portainer portainer
+    import tls_manual portainer
     import proxy portainer:9000
 }
 
 https://prowlarr.{$DOMAIN} {
-    import tls_manual prowlarr prowlarr
+    import tls_manual prowlarr
     import proxy prowlarr:9696
 }
 
 https://qbittorrent.{$DOMAIN} {
-    import tls_manual qbittorrent qbittorrent
+    import tls_manual qbittorrent
     import proxy qbittorrent:8090
 }
 
 https://radarr.{$DOMAIN} {
-    import tls_manual radarr radarr
+    import tls_manual radarr
     import proxy radarr:7878
 }
 
 https://seerr.{$DOMAIN} {
-    import tls_manual seerr seerr
+    import tls_manual seerr
     import proxy seerr:5055
 }
 
 https://sonarr.{$DOMAIN} {
-    import tls_manual sonarr sonarr
+    import tls_manual sonarr
     import proxy sonarr:8989
 }
 
 https://unmanic.{$DOMAIN} {
-    import tls_manual unmanic unmanic
+    import tls_manual unmanic
     import proxy unmanic:8888
 }
