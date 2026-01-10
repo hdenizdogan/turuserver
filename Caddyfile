@@ -22,7 +22,7 @@ http://{$DOMAIN}, http://*.{$DOMAIN} {
 
 https://adguard.{$DOMAIN} {
     import tls_manual adguard
-    import proxy adguard:443
+    import proxy adguard:80
 }
 
 https://bazarr.{$DOMAIN} {
