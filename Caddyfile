@@ -20,6 +20,11 @@ http://{$DOMAIN}, http://*.{$DOMAIN} {
 
 # ---- Services ----
 
+https://adguard.{$DOMAIN} {
+    import tls_manual adguard
+    import proxy adguard:443
+}
+
 https://bazarr.{$DOMAIN} {
     import tls_manual bazarr
     import proxy bazarr:6767
