@@ -109,26 +109,26 @@
 #      - JELLYSWEEP_DRY_RUN=true
 
 
-#  wizarr:
-#    container_name: wizarr
-#    image: ghcr.io/wizarrrr/wizarr:latest
-#    restart: unless-stopped
-#    ports:
-#      - '5690:5690'
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "wizarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5690
-#    volumes:
-#      - /mnt/docker/wizarr:/data
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - TZ=${TZ}
-#      - DISABLE_BUILTIN_AUTH=false
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
+  wizarr:
+    container_name: wizarr
+    image: ghcr.io/wizarrrr/wizarr:latest
+    restart: unless-stopped
+    ports:
+      - '5690:5690'
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "wizarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 5690
+    volumes:
+      - /mnt/docker/wizarr:/data
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - DISABLE_BUILTIN_AUTH=false
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 #  homarr:
 #    container_name: homarr
