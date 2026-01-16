@@ -94,3 +94,7 @@ https://unmanic.{$DOMAIN} {
     import tls_manual unmanic
     import proxy unmanic:8888
 }
+https://wizarr.{$DOMAIN} {
+    import tls_manual wizarr
+    import proxy wizarr:5690
+}
