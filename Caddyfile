@@ -60,6 +60,11 @@ https://lidatube.{$DOMAIN} {
     import proxy lidatube:5000
 }
 
+https://metube.{$DOMAIN} {
+    import tls_manual meetube
+    import proxy metube:8999
+}
+
 https://portainer.{$DOMAIN} {
     import tls_manual portainer
     import proxy portainer:9000
