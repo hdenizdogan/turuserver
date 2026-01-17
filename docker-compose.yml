@@ -455,6 +455,8 @@
       - "8999:8999"
     volumes:
       - /tmp/metube:/downloads
+    networks:
+      local_net:
 
 
   dash:
