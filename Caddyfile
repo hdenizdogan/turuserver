@@ -62,7 +62,7 @@ https://lidatube.{$DOMAIN} {
 
 https://metube.{$DOMAIN} {
     import tls_manual meetube
-    import proxy metube:8999
+    import proxy metube:8081
 }
 
 https://portainer.{$DOMAIN} {
