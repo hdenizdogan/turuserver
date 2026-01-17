@@ -90,11 +90,6 @@ https://seerr.{$DOMAIN} {
     import proxy seerr:5055
 }
 
-https://seerr2.{$DOMAIN} {
-    import tls_manual seerr2
-    import proxy seerr2:5055
-}
-
 https://sonarr.{$DOMAIN} {
     import tls_manual sonarr
     import proxy sonarr:8989
