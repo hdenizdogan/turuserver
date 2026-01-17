@@ -75,11 +75,6 @@ https://prowlarr.{$DOMAIN} {
     import proxy prowlarr:9696
 }
 
-https://stirling.{$DOMAIN} {
-    import tls_manual stirling
-    import proxy stirling:5050
-}
-
 https://qbittorrent.{$DOMAIN} {
     import tls_manual qbittorrent
     import proxy qbittorrent:8090
@@ -98,6 +93,11 @@ https://seerr.{$DOMAIN} {
 https://sonarr.{$DOMAIN} {
     import tls_manual sonarr
     import proxy sonarr:8989
+}
+
+https://stirling.{$DOMAIN} {
+    import tls_manual stirling
+    import proxy stirling:5050
 }
 
 https://unmanic.{$DOMAIN} {
