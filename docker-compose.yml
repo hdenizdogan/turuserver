@@ -411,6 +411,8 @@
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 5055
     environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
       - LOG_LEVEL=info
       - TZ=${TZ}
       - PORT=5055 #optional
