@@ -425,8 +425,6 @@
       interval: 15s
       retries: 3
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       local_net:
 
