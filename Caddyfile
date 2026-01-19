@@ -3,7 +3,7 @@
 }
 
 # ---- HTTP → HTTPS redirect ----
-http://{$DOMAIN}, http://*.{$DOMAIN} {
+http://*.{$DOMAIN} {
     redir https://{host}{uri} permanent
 }
 
@@ -94,10 +94,11 @@ https://sonarr.{$DOMAIN} {
     import tls_manual sonarr
     import proxy sonarr:8989
 }
-https://stirling.{$DOMAIN} {
-    import tls_manual stirling
-    import proxy stirling:8080
-}
+
+# https://stirling.{$DOMAIN} {
+#    import tls_manual stirling
+#    import proxy stirling:8080
+# }
 
 https://unmanic.{$DOMAIN} {
     import tls_manual unmanic
