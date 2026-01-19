@@ -95,10 +95,10 @@ https://sonarr.{$DOMAIN} {
     import proxy sonarr:8989
 }
 
-# https://stirling.{$DOMAIN} {
-#    import tls_manual stirling
-#    import proxy stirling:8080
-# }
+ https://stirling.{$DOMAIN} {
+    import tls_manual stirling
+    import proxy stirling:8080
+ }
 
 https://unmanic.{$DOMAIN} {
     import tls_manual unmanic
