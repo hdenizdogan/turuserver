@@ -421,28 +421,28 @@
 #    network_mode: host
 
 
-#  stirling:
-#    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-#    container_name: stirling
-#    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "stirling"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5050
-#    ports:
-#      - "5050:5050"
-#    volumes:
-#      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
-#      - /mnt/docker/StirlingPDF/extraConfigs:/configs
-#      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
-#      - /mnt/docker/StirlingPDF/logs:/logs/
-#      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
-#    environment:
-#      - DOCKER_ENABLE_SECURITY=false
-#      - LANGS=["tr_TR"]
-#    networks:
-#      local_net:
+  stirling:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling
+    restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "stirling"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 5050
+    ports:
+      - "5050:5050"
+    volumes:
+      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
+      - /mnt/docker/StirlingPDF/extraConfigs:/configs
+      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
+      - /mnt/docker/StirlingPDF/logs:/logs/
+      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=["tr_TR"]
+    networks:
+      local_net:
 
 #  metube:
 #    image: ghcr.io/alexta69/metube
