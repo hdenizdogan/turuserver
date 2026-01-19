@@ -430,7 +430,7 @@
 #      - /mnt/docker/tdarr/configs:/app/configs
 #      - /mnt/docker/tdarr/logs:/app/logs
 #      - /mnt/media:/media
-#      - /mnt/temp/tdarr:/temp
+#      - /temp/tdarr:/temp
 #    networks:
 #      local_net:
 
