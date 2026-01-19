@@ -100,10 +100,10 @@ https://stirling.{$DOMAIN} {
     import proxy stirling:8080
 }
 
-https://tdarr.{$DOMAIN} {
-    import tls_manual tdarr
-    import proxy tdarr:8265
-}
+# https://tdarr.{$DOMAIN} {
+#    import tls_manual tdarr
+#    import proxy tdarr:8265
+#}
 
 https://unmanic.{$DOMAIN} {
     import tls_manual unmanic
