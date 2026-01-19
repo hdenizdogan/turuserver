@@ -429,9 +429,9 @@
       tsdproxy.enable: "true"
       tsdproxy.name: "stirling"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5050
+      tsdproxy.container_port: 8080
     ports:
-      - "5050:5050"
+      - "5050:8080"
     volumes:
       - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
       - /mnt/docker/StirlingPDF/extraConfigs:/configs
