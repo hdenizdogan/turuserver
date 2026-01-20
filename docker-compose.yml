@@ -380,59 +380,59 @@
     networks:
       local_net:
 
-#  tdarr:
-#    image: ghcr.io/haveagitgat/tdarr:latest
-#    container_name: tdarr
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "tdarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8265
-#    restart: unless-stopped
-#    environment:
-#      - TZ=Europe/Istanbul
-#      - PUID=1000
-#      - PGID=1000
-#      - UMASK_SET=002
-#      - serverIP=0.0.0.0
-#      - serverPort=8266
-#      - webUIPort=8265
-#      - internalNode=false
-#    volumes:
-#      - /mnt/docker/tdarr/server:/app/server
-#      - /mnt/docker/tdarr/configs:/app/configs
-#      - /mnt/docker/tdarr/logs:/app/logs
-#      - /mnt/media/:/media
-#      - /temp/tdarr:/temp
-#    ports:
-#      - "8265:8265"   # Web UI
-#      - "8266:8266"   # Server API
-#    networks:
-#      local_net:
-#
-#  tdarr-node:
-#    image: ghcr.io/haveagitgat/tdarr_node:latest
-#    container_name: tdarr-node
-#    restart: unless-stopped
-#    depends_on:
-#      - tdarr
-#    devices:
-#      - /dev/dri:/dev/dri   # Intel QSV
-#    environment:
-#      - TZ=Europe/Istanbul
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - UMASK_SET=002
-#      - nodeID=N150-QSV
-#      - serverIP=tdarr
-#      - serverPort=8266
-#    volumes:
-#      - /mnt/docker/tdarr/configs:/app/configs
-#      - /mnt/docker/tdarr/logs:/app/logs
-#      - /mnt/media:/media
-#      - /temp/tdarr:/temp
-#    networks:
-#      local_net:
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    container_name: tdarr
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "tdarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8265
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Istanbul
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=002
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=false
+    volumes:
+      - /mnt/docker/tdarr/server:/app/server
+      - /mnt/docker/tdarr/configs:/app/configs
+      - /mnt/docker/tdarr/logs:/app/logs
+      - /mnt/media/:/media
+      - /temp/tdarr:/temp
+    ports:
+      - "8265:8265"   # Web UI
+      - "8266:8266"   # Server API
+    networks:
+      local_net:
+
+  tdarr-node:
+    image: ghcr.io/haveagitgat/tdarr_node:latest
+    container_name: tdarr-node
+    restart: unless-stopped
+    depends_on:
+      - tdarr
+    devices:
+      - /dev/dri:/dev/dri   # Intel QSV
+    environment:
+      - TZ=Europe/Istanbul
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK_SET=002
+      - nodeID=N150-QSV
+      - serverIP=tdarr
+      - serverPort=8266
+    volumes:
+      - /mnt/docker/tdarr/configs:/app/configs
+      - /mnt/docker/tdarr/logs:/app/logs
+      - /mnt/media:/media
+      - /temp/tdarr:/temp
+    networks:
+      local_net:
 
   seerr:
     image: ghcr.io/fallenbagel/jellyseerr:latest
@@ -475,28 +475,28 @@
 #    network_mode: host
 
 
-  stirling:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-    container_name: stirling
-    restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "stirling"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8080
-    ports:
-      - "5050:8080"
-    volumes:
-      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
-      - /mnt/docker/StirlingPDF/extraConfigs:/configs
-      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
-      - /mnt/docker/StirlingPDF/logs:/logs/
-      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
-    environment:
-      - DOCKER_ENABLE_SECURITY=false
-      - LANGS=["tr_TR"]
-    networks:
-      local_net:
+#  stirling:
+#    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+#    container_name: stirling
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "stirling"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8080
+#    ports:
+#      - "5050:8080"
+#    volumes:
+#      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
+#      - /mnt/docker/StirlingPDF/extraConfigs:/configs
+#      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
+#      - /mnt/docker/StirlingPDF/logs:/logs/
+#      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
+#    environment:
+#      - DOCKER_ENABLE_SECURITY=false
+#      - LANGS=["tr_TR"]
+#    networks:
+#      local_net:
 
 #  metube:
 #    image: ghcr.io/alexta69/metube
