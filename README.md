@@ -281,6 +281,8 @@ You can also check the `mock.env` for further additional variables.
 ## 🚀 Deployment
 
 ```bash
+git clone https://github.com/hdenizdogan/turuserver
+cd turuserver/
 docker compose pull
 docker compose up -d
 ```
