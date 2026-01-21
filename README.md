@@ -69,6 +69,7 @@ Docker Services
 
 ### 🏠 Local Access (LAN / Internal Network)
 
+```
 Client (LAN / VPN)
 │
 ▼
@@ -76,6 +77,7 @@ Caddy
 │
 ▼
 Docker Services
+```
 
 
 - Caddy acts as a **local reverse proxy**
