@@ -69,6 +69,7 @@ Docker Services
 
 ### 🏠 Local Access (LAN / Internal Network)
 
+```
 Client (LAN / VPN)
 │
 ▼
@@ -76,6 +77,7 @@ Caddy
 │
 ▼
 Docker Services
+```
 
 
 - Caddy acts as a **local reverse proxy**
@@ -279,6 +281,8 @@ You can also check the `mock.env` for further additional variables.
 ## 🚀 Deployment
 
 ```bash
+git clone https://github.com/hdenizdogan/turuserver
+cd turuserver/
 docker compose pull
 docker compose up -d
 ```
