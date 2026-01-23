@@ -18,10 +18,10 @@
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
-    network_mode: host
-#    ports:
-#      - "8096:8096"
-#      - "7359:7359/udp"
+    ports:
+      - "8096:8096"
+    networks:
+      local_net:
 
   meilisearch:
     image: getmeili/meilisearch:latest
@@ -741,6 +741,8 @@
     restart: unless-stopped
     ports:
       - "9090:8080"
+    networks:
+      local_net:
 
   caddy:
     image: caddy:latest
