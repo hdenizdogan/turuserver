@@ -23,21 +23,21 @@
     networks:
       local_net:
 
-  meilisearch:
-    image: getmeili/meilisearch:latest
-    container_name: meilisearch
-    restart: unless-stopped
-    ports:
-      - "7700:7700"
+#  meilisearch:
+#    image: getmeili/meilisearch:latest
+#    container_name: meilisearch
+#    restart: unless-stopped
+#    ports:
+#      - "7700:7700"
 #    volumes:
 #      - /mnt/docker/meilisearch:/meili_data
-    environment:
-      - MEILI_ENV=development
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      local_net:
+#    environment:
+#      - MEILI_ENV=development
+#      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    networks:
+#      local_net:
 
 
   jellystat-db:
