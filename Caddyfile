@@ -1,13 +1,5 @@
 {
-    auto_https disable_redirects
-    servers {
-        protocol {
-            experimental_http3 off
-        }
-    }
-
-    acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    email admin@{$DOMAIN}
+    auto_https off
 }
 
 # --------------------------------------------------
