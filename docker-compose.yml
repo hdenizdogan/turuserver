@@ -763,7 +763,7 @@
     ports:
       - "80:80"
       - "443:443"
-      - "443:443/udp"
+      - "443:443"
     networks:
       local_net:
         ipv4_address: 172.19.0.199
