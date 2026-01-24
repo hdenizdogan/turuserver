@@ -729,20 +729,18 @@
       networks:
         local_net:
 
-  tsdproxy:
-    image: almeidapaulopt/tsdproxy:latest
-    container_name: tsdproxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/tsdproxy/data:/data
-    environment:
-      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - DOCKER_HOST=unix:///var/run/docker.sock
-    restart: unless-stopped
-    ports:
-      - "9090:8080"
-    networks:
-      local_net:
+#  tsdproxy:
+#    image: almeidapaulopt/tsdproxy:latest
+#    container_name: tsdproxy
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /mnt/docker/tsdproxy/data:/data
+#    environment:
+#      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+#      - DOCKER_HOST=unix:///var/run/docker.sock
+#    restart: unless-stopped
+#    networks:
+#      local_net:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -772,16 +770,18 @@
         ipv4_address: 172.19.0.199
 
 
-  #  tsdproxy:
-  #    container_name: tsdproxy
-  #    image: almeidapaulopt/tsdproxy:latest
-  #    volumes:
-  #      - /var/run/docker.sock:/var/run/docker.sock
-  #      - /mnt/docker/tsdproxy/data:/data
-  #      - /mnt/docker/tsdproxy/config:/config
-  #    restart: unless-stopped
-  #    ports:
-  #      - "9090:8080"
+  tsdproxy2:
+    container_name: tsdproxy2
+    image: almeidapaulopt/tsdproxy:2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/tsdproxy2/data:/data
+      - /mnt/docker/tsdproxy2/config:/config
+    restart: unless-stopped
+    ports:
+      - "9090:8080"
+    networks:
+      local_net:
 
 networks:
   local_net:
