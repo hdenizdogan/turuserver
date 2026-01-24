@@ -744,6 +744,16 @@
     networks:
       local_net:
 
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    networks:
+      local_net:
+
   caddy:
     image: caddy:latest
     container_name: caddy
