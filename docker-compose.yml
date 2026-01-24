@@ -760,7 +760,6 @@
       - .env
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - /mnt/docker/tsdproxy/data/default:/certs:ro
     ports:
       - "80:80"
       - "443:443"
