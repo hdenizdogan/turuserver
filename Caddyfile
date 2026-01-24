@@ -1,8 +1,11 @@
 {
-    # Do NOT auto-create HTTP listeners globally
     auto_https disable_redirects
+    servers {
+        protocol {
+            experimental_http3 off
+        }
+    }
 
-    # DNS-01 for NEW domain (Cloudflare)
     acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     email admin@{$DOMAIN}
 }
