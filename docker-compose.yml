@@ -619,11 +619,11 @@
   npm:
     image: jc21/nginx-proxy-manager:latest
     container_name: npm
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "npm"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 81
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "npm"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 81
     restart: unless-stopped
     ports:
       - "81:81"      # Web UI
