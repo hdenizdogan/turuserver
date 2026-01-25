@@ -1,76 +1,83 @@
 {
-    # ACME account email
+    # Email used for ACME registration
     email {$CADDY_EMAIL}
 
-    # Cloudflare DNS-01 challenge
+    # Use Cloudflare DNS challenge for all certs
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 
-    # Optional but safe
-    servers {
-        protocols h1 h2 h3
+    # Optional but recommended
+    auto_https prefer_wildcard
+}
+
+# -------------------------------------------------
+# Wildcard certificate (THIS is the key part)
+# -------------------------------------------------
+*.{$DOMAIN}, {$DOMAIN} {
+    tls {
+        dns cloudflare {$CLOUDFLARE_API_TOKEN}
     }
 }
 
-# --------------------------------------------------
-# Snippets
-# --------------------------------------------------
-
-(proxy) {
-    reverse_proxy {args[0]}
-}
-
-# --------------------------------------------------
-# Services (DOMAIN FROM ENV)
-# --------------------------------------------------
+# -------------------------------------------------
+# Services
+# -------------------------------------------------
 
 jellyfin.{$DOMAIN} {
-    import proxy jellyfin:8096
-}
-
-qbittorrent.{$DOMAIN} {
-    import proxy qbittorrent:8080
+    reverse_proxy 172.17.0.1:8096
 }
 
 sonarr.{$DOMAIN} {
-    import proxy sonarr:8989
+    reverse_proxy sonarr:8989
 }
 
 radarr.{$DOMAIN} {
-    import proxy radarr:7878
-}
-
-prowlarr.{$DOMAIN} {
-    import proxy prowlarr:9696
+    reverse_proxy radarr:7878
 }
 
 bazarr.{$DOMAIN} {
-    import proxy bazarr:6767
+    reverse_proxy bazarr:6767
 }
 
 lidarr.{$DOMAIN} {
-    import proxy lidarr:8686
+    reverse_proxy lidarr:8686
+}
+
+prowlarr.{$DOMAIN} {
+    reverse_proxy prowlarr:9696
+}
+
+qbittorrent.{$DOMAIN} {
+    reverse_proxy qbittorrent:8080
 }
 
 seerr.{$DOMAIN} {
-    import proxy seerr:5055
+    reverse_proxy seerr:5055
 }
 
 unmanic.{$DOMAIN} {
-    import proxy unmanic:8888
+    reverse_proxy unmanic:8888
 }
 
 tdarr.{$DOMAIN} {
-    import proxy tdarr:8265
-}
-
-stirling.{$DOMAIN} {
-    import proxy stirling:8080
+    reverse_proxy tdarr:8265
 }
 
 portainer.{$DOMAIN} {
-    import proxy portainer:9000
+    reverse_proxy portainer:9000
 }
 
-wizarr.{$DOMAIN} {
-    import proxy wizarr:5690
+dash.{$DOMAIN} {
+    reverse_proxy homarr:7575
+}
+
+adguard.{$DOMAIN} {
+    reverse_proxy adguard:80
+}
+
+stirling.{$DOMAIN} {
+    reverse_proxy stirling-pdf:8080
+}
+
+immich.{$DOMAIN} {
+    reverse_proxy immich-server:3001
 }
