@@ -770,6 +770,7 @@
 
   caddy-cloudflare:
     image: ghcr.io/caddybuilds/caddy-cloudflare:latest
+    container_name: caddy-cloudflare
     restart: unless-stopped
     ports:
       - "80:80"
