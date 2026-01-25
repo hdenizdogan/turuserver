@@ -18,8 +18,9 @@
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
-    ports:
-      - "8096:8096"
+    network_mode: host
+#    ports:
+#      - "8096:8096"
     networks:
       local_net:
 
@@ -61,11 +62,11 @@
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "jellystat"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 3000
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "jellystat"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 3000
     environment:
       POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
@@ -115,11 +116,11 @@
     restart: unless-stopped
     ports:
       - '5690:5690'
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "wizarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5690
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "wizarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 5690
     volumes:
       - /mnt/docker/wizarr:/data
     environment:
@@ -181,11 +182,11 @@
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "prowlarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9696
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "prowlarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 9696
     ports:
       - "9696:9696"
     environment:
@@ -204,11 +205,11 @@
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "lidarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8686
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "lidarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8686
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -229,11 +230,11 @@
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "sonarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8989
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "sonarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8989
     ports:
       - "8989:8989"
     environment:
@@ -253,11 +254,11 @@
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "radarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 7878
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "radarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 7878
     ports:
       - "7878:7878"
     environment:
@@ -277,11 +278,11 @@
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "bazarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 6767
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "bazarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 6767
     ports:
       - "6767:6767"
     environment:
@@ -334,11 +335,11 @@
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "qbittorrent"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8090
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "qbittorrent"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8090
     ports:
       - "8090:8090"
       - "6881:6881"
@@ -360,11 +361,11 @@
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "unmanic"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8888
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "unmanic"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8888
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -414,11 +415,11 @@
     image: ghcr.io/fallenbagel/jellyseerr:latest
     container_name: seerr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "seerr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5055
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "seerr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 5055
     ports:
       - "5055:5055"
     environment:
@@ -455,11 +456,11 @@
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
     container_name: stirling
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "stirling"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8080
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "stirling"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8080
     ports:
       - "5050:8080"
     volumes:
@@ -496,11 +497,11 @@
     container_name: dash
     restart: unless-stopped
     privileged: true
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "dash"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 3001
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "dash"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 3001
     ports:
       - "3001:3001"
     environment:
@@ -565,11 +566,11 @@
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "portainer"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9000
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "portainer"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 9000
     ports:
       - "9000:9000"
     volumes:
@@ -657,11 +658,11 @@
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     devices:
       - /dev/dri:/dev/dri
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "immich"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 2283
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "immich"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 2283
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - ${UPLOAD_LOCATION}:/data
