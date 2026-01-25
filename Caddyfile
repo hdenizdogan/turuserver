@@ -1,9 +1,5 @@
 {
     email {$CADDY_EMAIL}
-
-    acme_dns cloudflare {
-        env CLOUDFLARE_API_TOKEN
-    }
 }
 
 # --------------------------------------------------
@@ -28,7 +24,7 @@ http://*.{$DOMAIN} {
 }
 
 # ==================================================
-# DOMAIN — CLOUDFLARE DNS TLS
+# OLD DOMAIN — CLOUDFLARE DNS TLS
 # ==================================================
 
 https://adguard.{$DOMAIN} {
