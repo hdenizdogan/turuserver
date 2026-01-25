@@ -51,8 +51,8 @@ lidarr.{$DOMAIN} {
     import proxy lidarr:8686
 }
 
-jellyseerr.{$DOMAIN} {
-    import proxy jellyseerr:5055
+seerr.{$DOMAIN} {
+    import proxy seerr:5055
 }
 
 unmanic.{$DOMAIN} {
