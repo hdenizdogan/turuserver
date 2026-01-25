@@ -1,5 +1,9 @@
 {
+    # Email used for ACME registration
     email {$CADDY_EMAIL}
+
+    # Use Cloudflare DNS challenge for ALL certificates
+    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 }
 
 # --------------------------------------------------
@@ -13,111 +17,86 @@ http://*.{$DOMAIN} {
 # Snippets
 # --------------------------------------------------
 
-(tls_cf) {
-    tls {
-        dns cloudflare
-    }
-}
-
 (proxy) {
     reverse_proxy {args[0]}
 }
 
 # ==================================================
-# OLD DOMAIN — CLOUDFLARE DNS TLS
+# OLD DOMAIN — Cloudflare DNS TLS (Automatic)
 # ==================================================
 
 https://adguard.{$DOMAIN} {
-    import tls_cf
     import proxy adguard:80
 }
 
 https://bazarr.{$DOMAIN} {
-    import tls_cf
     import proxy bazarr:6767
 }
 
 https://dash.{$DOMAIN} {
-    import tls_cf
     import proxy dash:3001
 }
 
 https://immich.{$DOMAIN} {
-    import tls_cf
     import proxy immich:2283
 }
 
 https://jellyfin.{$DOMAIN} {
-    import tls_cf
     import proxy 172.17.0.1:8096
 }
 
 https://jellystat.{$DOMAIN} {
-    import tls_cf
     import proxy jellystat:3000
 }
 
 https://lidarr.{$DOMAIN} {
-    import tls_cf
     import proxy lidarr:8686
 }
 
 https://lidatube.{$DOMAIN} {
-    import tls_cf
     import proxy lidatube:5000
 }
 
 https://metube.{$DOMAIN} {
-    import tls_cf
     import proxy metube:8081
 }
 
 https://portainer.{$DOMAIN} {
-    import tls_cf
     import proxy portainer:9000
 }
 
 https://prowlarr.{$DOMAIN} {
-    import tls_cf
     import proxy prowlarr:9696
 }
 
 https://qbittorrent.{$DOMAIN} {
-    import tls_cf
     import proxy qbittorrent:8090
 }
 
 https://radarr.{$DOMAIN} {
-    import tls_cf
     import proxy radarr:7878
 }
 
 https://seerr.{$DOMAIN} {
-    import tls_cf
     import proxy seerr:5055
 }
 
 https://sonarr.{$DOMAIN} {
-    import tls_cf
     import proxy sonarr:8989
 }
 
 https://stirling.{$DOMAIN} {
-    import tls_cf
     import proxy stirling:8080
 }
 
 https://tdarr.{$DOMAIN} {
-    import tls_cf
     import proxy tdarr:8265
 }
 
 https://unmanic.{$DOMAIN} {
-    import tls_cf
     import proxy unmanic:8888
 }
 
 https://wizarr.{$DOMAIN} {
-    import tls_cf
     import proxy wizarr:5690
 }
