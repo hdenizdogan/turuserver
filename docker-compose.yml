@@ -614,29 +614,29 @@
 #    ports:
 #      - "80:80"
 
-  npm:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: npm
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "npm"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 81
-    restart: unless-stopped
-    ports:
-      - "81:81"      # Web UI
-      - "443:443"    # HTTPS
-      - "80:80"    # HTTP
-    environment:
-      DB_SQLITE_FILE: "/data/database.sqlite"
-      DISABLE_IPV6: 'true'
-      TZ: ${TZ}
-    volumes:
-      - /mnt/docker/npm/data:/data
-      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-    networks:
-      local_net:
-        ipv4_address: 172.19.0.199
+#  npm:
+#    image: jc21/nginx-proxy-manager:latest
+#    container_name: npm
+##    labels:
+##      tsdproxy.enable: "true"
+##      tsdproxy.name: "npm"
+##      tsdproxy.funnel: "true"
+##      tsdproxy.container_port: 81
+#    restart: unless-stopped
+#    ports:
+#      - "81:81"      # Web UI
+#      - "443:443"    # HTTPS
+#      - "80:80"    # HTTP
+#    environment:
+#      DB_SQLITE_FILE: "/data/database.sqlite"
+#      DISABLE_IPV6: 'true'
+#      TZ: ${TZ}
+#    volumes:
+#      - /mnt/docker/npm/data:/data
+#      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
+#    networks:
+#      local_net:
+#        ipv4_address: 172.19.0.199
 
   watchtower:
     image: nickfedor/watchtower
@@ -767,6 +767,24 @@
 #    networks:
 #      local_net:
 #        ipv4_address: 172.19.0.199
+
+  caddy-cloudflare:
+    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /mnt/docker/caddy/caddy_data:/data
+      - /mnt/docker/caddy/caddy_config:/config
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - CADDY_EMAIL=${CADDY_EMAIL}
+    networks:
+     local_net:
+      ipv4_address: 172.19.0.199
 
 
 #  tsdproxy2:

@@ -1,11 +1,15 @@
 {
-    auto_https off
+    email {$CADDY_EMAIL}
+
+    acme_dns cloudflare {
+        env CLOUDFLARE_API_TOKEN
+    }
 }
 
 # --------------------------------------------------
-# Redirect HTTP → HTTPS (OLD DOMAIN ONLY)
+# Redirect HTTP → HTTPS
 # --------------------------------------------------
-http://*.{$OLDDOMAIN} {
+http://*.{$DOMAIN} {
     redir https://{host}{uri} permanent
 }
 
@@ -13,10 +17,10 @@ http://*.{$OLDDOMAIN} {
 # Snippets
 # --------------------------------------------------
 
-# Manual TLS for OLD domain
-(tls_old_manual) {
-    tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
-        /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
+(tls_cf) {
+    tls {
+        dns cloudflare
+    }
 }
 
 (proxy) {
@@ -24,100 +28,100 @@ http://*.{$OLDDOMAIN} {
 }
 
 # ==================================================
-# OLD DOMAIN — MANUAL CERTS
+# DOMAIN — CLOUDFLARE DNS TLS
 # ==================================================
 
-https://adguard.{$OLDDOMAIN} {
-    import tls_old_manual adguard
+https://adguard.{$DOMAIN} {
+    import tls_cf
     import proxy adguard:80
 }
 
-https://bazarr.{$OLDDOMAIN} {
-    import tls_old_manual bazarr
+https://bazarr.{$DOMAIN} {
+    import tls_cf
     import proxy bazarr:6767
 }
 
-https://dash.{$OLDDOMAIN} {
-    import tls_old_manual dash
+https://dash.{$DOMAIN} {
+    import tls_cf
     import proxy dash:3001
 }
 
-https://immich.{$OLDDOMAIN} {
-    import tls_old_manual immich
+https://immich.{$DOMAIN} {
+    import tls_cf
     import proxy immich:2283
 }
 
-https://jellyfin.{$OLDDOMAIN} {
-    import tls_old_manual jellyfin
+https://jellyfin.{$DOMAIN} {
+    import tls_cf
     import proxy 172.17.0.1:8096
 }
 
-https://jellystat.{$OLDDOMAIN} {
-    import tls_old_manual jellystat
+https://jellystat.{$DOMAIN} {
+    import tls_cf
     import proxy jellystat:3000
 }
 
-https://lidarr.{$OLDDOMAIN} {
-    import tls_old_manual lidarr
+https://lidarr.{$DOMAIN} {
+    import tls_cf
     import proxy lidarr:8686
 }
 
-https://lidatube.{$OLDDOMAIN} {
-    import tls_old_manual lidatube
+https://lidatube.{$DOMAIN} {
+    import tls_cf
     import proxy lidatube:5000
 }
 
-https://metube.{$OLDDOMAIN} {
-    import tls_old_manual metube
+https://metube.{$DOMAIN} {
+    import tls_cf
     import proxy metube:8081
 }
 
-https://portainer.{$OLDDOMAIN} {
-    import tls_old_manual portainer
+https://portainer.{$DOMAIN} {
+    import tls_cf
     import proxy portainer:9000
 }
 
-https://prowlarr.{$OLDDOMAIN} {
-    import tls_old_manual prowlarr
+https://prowlarr.{$DOMAIN} {
+    import tls_cf
     import proxy prowlarr:9696
 }
 
-https://qbittorrent.{$OLDDOMAIN} {
-    import tls_old_manual qbittorrent
+https://qbittorrent.{$DOMAIN} {
+    import tls_cf
     import proxy qbittorrent:8090
 }
 
-https://radarr.{$OLDDOMAIN} {
-    import tls_old_manual radarr
+https://radarr.{$DOMAIN} {
+    import tls_cf
     import proxy radarr:7878
 }
 
-https://seerr.{$OLDDOMAIN} {
-    import tls_old_manual seerr
+https://seerr.{$DOMAIN} {
+    import tls_cf
     import proxy seerr:5055
 }
 
-https://sonarr.{$OLDDOMAIN} {
-    import tls_old_manual sonarr
+https://sonarr.{$DOMAIN} {
+    import tls_cf
     import proxy sonarr:8989
 }
 
-https://stirling.{$OLDDOMAIN} {
-    import tls_old_manual stirling
+https://stirling.{$DOMAIN} {
+    import tls_cf
     import proxy stirling:8080
 }
 
-https://tdarr.{$OLDDOMAIN} {
-    import tls_old_manual tdarr
+https://tdarr.{$DOMAIN} {
+    import tls_cf
     import proxy tdarr:8265
 }
 
-https://unmanic.{$OLDDOMAIN} {
-    import tls_old_manual unmanic
+https://unmanic.{$DOMAIN} {
+    import tls_cf
     import proxy unmanic:8888
 }
 
-https://wizarr.{$OLDDOMAIN} {
-    import tls_old_manual wizarr
+https://wizarr.{$DOMAIN} {
+    import tls_cf
     import proxy wizarr:5690
 }
