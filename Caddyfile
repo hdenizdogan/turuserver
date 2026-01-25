@@ -1,16 +1,14 @@
 {
-    # Email used for ACME registration
-    email {env.CADDY_EMAIL}
+    # ACME account email
+    email {$CADDY_EMAIL}
 
-    # Use Cloudflare DNS challenge for ALL certificates
-    acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-}
+    # Cloudflare DNS-01 challenge
+    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 
-# --------------------------------------------------
-# Redirect HTTP → HTTPS
-# --------------------------------------------------
-http://*.{$DOMAIN} {
-    redir https://{host}{uri} permanent
+    # Optional but safe
+    servers {
+        protocols h1 h2 h3
+    }
 }
 
 # --------------------------------------------------
@@ -21,82 +19,58 @@ http://*.{$DOMAIN} {
     reverse_proxy {args[0]}
 }
 
-# ==================================================
-# OLD DOMAIN — Cloudflare DNS TLS (Automatic)
-# ==================================================
+# --------------------------------------------------
+# Services (DOMAIN FROM ENV)
+# --------------------------------------------------
 
-https://adguard.{$DOMAIN} {
-    import proxy adguard:80
+jellyfin.{$DOMAIN} {
+    import proxy jellyfin:8096
 }
 
-https://bazarr.{$DOMAIN} {
-    import proxy bazarr:6767
+qbittorrent.{$DOMAIN} {
+    import proxy qbittorrent:8080
 }
 
-https://dash.{$DOMAIN} {
-    import proxy dash:3001
-}
-
-https://immich.{$DOMAIN} {
-    import proxy immich:2283
-}
-
-https://jellyfin.{$DOMAIN} {
-    import proxy 172.17.0.1:8096
-}
-
-https://jellystat.{$DOMAIN} {
-    import proxy jellystat:3000
-}
-
-https://lidarr.{$DOMAIN} {
-    import proxy lidarr:8686
-}
-
-https://lidatube.{$DOMAIN} {
-    import proxy lidatube:5000
-}
-
-https://metube.{$DOMAIN} {
-    import proxy metube:8081
-}
-
-https://portainer.{$DOMAIN} {
-    import proxy portainer:9000
-}
-
-https://prowlarr.{$DOMAIN} {
-    import proxy prowlarr:9696
-}
-
-https://qbittorrent.{$DOMAIN} {
-    import proxy qbittorrent:8090
-}
-
-https://radarr.{$DOMAIN} {
-    import proxy radarr:7878
-}
-
-https://seerr.{$DOMAIN} {
-    import proxy seerr:5055
-}
-
-https://sonarr.{$DOMAIN} {
+sonarr.{$DOMAIN} {
     import proxy sonarr:8989
 }
 
-https://stirling.{$DOMAIN} {
-    import proxy stirling:8080
+radarr.{$DOMAIN} {
+    import proxy radarr:7878
 }
 
-https://tdarr.{$DOMAIN} {
-    import proxy tdarr:8265
+prowlarr.{$DOMAIN} {
+    import proxy prowlarr:9696
 }
 
-https://unmanic.{$DOMAIN} {
+bazarr.{$DOMAIN} {
+    import proxy bazarr:6767
+}
+
+lidarr.{$DOMAIN} {
+    import proxy lidarr:8686
+}
+
+jellyseerr.{$DOMAIN} {
+    import proxy jellyseerr:5055
+}
+
+unmanic.{$DOMAIN} {
     import proxy unmanic:8888
 }
 
-https://wizarr.{$DOMAIN} {
+tdarr.{$DOMAIN} {
+    import proxy tdarr:8265
+}
+
+stirling.{$DOMAIN} {
+    import proxy stirling:8080
+}
+
+portainer.{$DOMAIN} {
+    import proxy portainer:9000
+}
+
+wizarr.{$DOMAIN} {
     import proxy wizarr:5690
 }
