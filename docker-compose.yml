@@ -21,8 +21,8 @@
     network_mode: host
 #    ports:
 #      - "8096:8096"
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
