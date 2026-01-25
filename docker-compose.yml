@@ -784,8 +784,8 @@
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - CADDY_EMAIL=${CADDY_EMAIL}
     networks:
-     local_net:
-      ipv4_address: 172.19.0.199
+      local_net:
+        ipv4_address: 172.19.0.199
 
 
 #  tsdproxy2:
