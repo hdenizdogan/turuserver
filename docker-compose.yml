@@ -739,7 +739,7 @@
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
-    command: tunnel run --protocol quic
+    command: tunnel run
     deploy:
       replicas: 5
     environment:
