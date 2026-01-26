@@ -741,7 +741,7 @@
     restart: unless-stopped
     command: tunnel run
     deploy:
-      replicas: 5
+      replicas: 3
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     networks:
