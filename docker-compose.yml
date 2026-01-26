@@ -739,9 +739,9 @@
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
-    command: tunnel run --protocol http2
+    command: tunnel run --protocol quic
     deploy:
-      replicas: 3
+      replicas: 5
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     networks:
