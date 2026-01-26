@@ -741,6 +741,8 @@
     container_name: cloudflared
     restart: unless-stopped
     command: tunnel run
+    deploy:
+      replicas: 3
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     networks:
