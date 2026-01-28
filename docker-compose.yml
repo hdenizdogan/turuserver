@@ -150,8 +150,8 @@
       - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
     ports:
       - '7575:7575'
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    networks:
+      local_net:
 
   lidatube:
     image: thewicklowwolf/lidatube:latest
