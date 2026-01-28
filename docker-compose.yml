@@ -131,24 +131,24 @@
 #    networks:
 #      local_net:
 
-  homarr:
-    container_name: homarr
-    image: ghcr.io/homarr-labs/homarr:latest
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "homarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 7575
-    volumes:
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-      - /mnt/docker/homarr/appdata:/appdata
-    environment:
-      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
-    ports:
-      - '7575:7575'
-    networks:
-      local_net:
+#  homarr:
+#    container_name: homarr
+#    image: ghcr.io/homarr-labs/homarr:latest
+#    restart: unless-stopped
+##    labels:
+##      tsdproxy.enable: "true"
+##      tsdproxy.name: "homarr"
+##      tsdproxy.funnel: "true"
+##      tsdproxy.container_port: 7575
+#    volumes:
+#      - /var/lib/docker/volumes:/var/lib/docker/volumes
+#      - /mnt/docker/homarr/appdata:/appdata
+#    environment:
+#      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
+#    ports:
+#      - '7575:7575'
+#    networks:
+#      local_net:
 
   lidatube:
     image: thewicklowwolf/lidatube:latest
