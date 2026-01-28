@@ -146,7 +146,7 @@
       - /mnt/docker/homarr/appdata:/appdata
     environment:
       - PUID=$PUID
-      - PGID=111
+      - PGID=$PGID
       - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
     ports:
       - '7575:7575'
