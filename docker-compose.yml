@@ -736,7 +736,7 @@
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
-    command: tunnel run
+    command: tunnel run --no-autoupdate
     deploy:
       replicas: 3
     environment:
