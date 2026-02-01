@@ -579,11 +579,11 @@
   adguard:
     image: adguard/adguardhome:latest
     container_name: adguard
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "adguard"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "adguard"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
     restart: unless-stopped
     ports:
       - "8053:53/tcp"     # DNS TCP
@@ -747,6 +747,11 @@
   librespeed:
     image: lscr.io/linuxserver/librespeed:latest
     container_name: librespeed
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "speedtest"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 80
     environment:
       - PUID=1000
       - PGID=1000
