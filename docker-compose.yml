@@ -744,6 +744,19 @@
     networks:
       local_net:
 
+  librespeed:
+    image: lscr.io/linuxserver/librespeed:latest
+    container_name: librespeed
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Istanbul
+    ports:
+      - "8999:80"
+    restart: unless-stopped
+    networks:
+      local_net:
+
 #  caddy:
 #    image: caddy:latest
 #    container_name: caddy
