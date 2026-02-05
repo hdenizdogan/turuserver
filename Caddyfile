@@ -75,7 +75,7 @@ stirling.{$DOMAIN} {
 }
 
 immich.{$DOMAIN} {
-    reverse_proxy immich:3001
+    reverse_proxy immich:2283
 }
 
 tururouter.{$DOMAIN} {
