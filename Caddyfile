@@ -81,3 +81,7 @@ stirling.{$DOMAIN} {
 immich.{$DOMAIN} {
     reverse_proxy immich-server:3001
 }
+
+tururouter.{$DOMAIN} {
+    reverse_proxy tururouter.lan:80
+}
