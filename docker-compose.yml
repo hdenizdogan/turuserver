@@ -779,7 +779,7 @@
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443/tcp"
+      - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - /mnt/docker/caddy/caddy_data:/data
