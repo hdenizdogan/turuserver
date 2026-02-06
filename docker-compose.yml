@@ -64,10 +64,6 @@
       POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
       JWT_SECRET: $JELLYSTAT_JWT_SECRET
       TZ: $TZ
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      local_net:
     volumes:
       - /mnt/docker/jellystat-backup-data:/app/backend/backup-data
     ports:
