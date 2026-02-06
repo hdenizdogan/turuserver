@@ -3,11 +3,11 @@
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "jellyfin"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8096
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "jellyfin"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8096
 #      com.centurylinklabs.watchtower.enable: false
     devices:
       - /dev/dri:/dev/dri
@@ -715,18 +715,18 @@
       networks:
         local_net:
 
-  tsdproxy:
-    image: almeidapaulopt/tsdproxy:latest
-    container_name: tsdproxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/tsdproxy/data:/data
-    environment:
-      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - DOCKER_HOST=unix:///var/run/docker.sock
-    restart: unless-stopped
-    networks:
-      local_net:
+#  tsdproxy:
+#    image: almeidapaulopt/tsdproxy:latest
+#    container_name: tsdproxy
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /mnt/docker/tsdproxy/data:/data
+#    environment:
+#      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+#      - DOCKER_HOST=unix:///var/run/docker.sock
+#    restart: unless-stopped
+#    networks:
+#      local_net:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
