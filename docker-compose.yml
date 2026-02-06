@@ -3,11 +3,11 @@
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellyfin"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8096
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyfin"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8096
 #      com.centurylinklabs.watchtower.enable: false
     devices:
       - /dev/dri:/dev/dri
