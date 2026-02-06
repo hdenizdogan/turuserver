@@ -571,28 +571,28 @@
     networks:
       local_net:
 
-#  adguard:
-#    image: adguard/adguardhome:latest
-#    container_name: adguard
-##    labels:
-##      tsdproxy.enable: "true"
-##      tsdproxy.name: "adguard"
-##      tsdproxy.funnel: "true"
-##      tsdproxy.container_port: 80
-#    restart: unless-stopped
-#    ports:
-#      - "8053:53/tcp"     # DNS TCP
-#      - "8053:53/udp"     # DNS UDP
-#      - "3002:3000"       # initialization
-#      - "3005:80"         # HTTP UI
-#      - "8443:443"        # HTTPS UI + DoH
-#      - "8853:853"        # DNS-over-TLS
-#    volumes:
-#      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
-#      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-#      - /mnt/docker/tsdproxy/data/default/adguard/certs:/certs:ro
-#    networks:
-#      local_net:
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "adguard"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+    restart: unless-stopped
+    ports:
+      - "8053:53/tcp"     # DNS TCP
+      - "8053:53/udp"     # DNS UDP
+      - "3002:3000"       # initialization
+      - "3005:80"         # HTTP UI
+      - "8443:443"        # HTTPS UI + DoH
+      - "8853:853"        # DNS-over-TLS
+    volumes:
+      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
+      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
+      - /mnt/docker/tsdproxy/data/default/adguard/certs:/certs:ro
+    networks:
+      local_net:
 
 
 
