@@ -74,10 +74,6 @@ dash.{$DOMAIN} {
     reverse_proxy dash:3001
 }
 
-adguard.{$DOMAIN} {
-    reverse_proxy adguard:80
-}
-
 stirling.{$DOMAIN} {
     reverse_proxy stirling:8080
 }
