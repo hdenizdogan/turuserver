@@ -7,6 +7,11 @@
 
     # Optional but recommended
     auto_https prefer_wildcard
+
+    # Disable HTTP/3 (QUIC)
+    servers {
+     protocols h1 h2
+     }
 }
 
 # -------------------------------------------------
