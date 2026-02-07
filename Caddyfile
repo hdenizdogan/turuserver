@@ -15,7 +15,7 @@
 }
 
 # -------------------------------------------------
-# Wildcard certificate (THIS is the key part)
+# Wildcard certificate
 # -------------------------------------------------
 *.{$DOMAIN}, {$DOMAIN} {
     tls {
