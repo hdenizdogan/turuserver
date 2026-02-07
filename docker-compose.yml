@@ -547,6 +547,8 @@
 #      tsdproxy.container_port: 9000
     ports:
       - "9000:9000"
+    environment:
+      - TZ=${TZ}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
