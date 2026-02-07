@@ -765,7 +765,7 @@
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - /mnt/docker/caddy/caddy_data:/data
-      - /mnt/docker/caddy/caddy_config:/config
+#      - /mnt/docker/caddy/caddy_config:/config
     environment:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - CADDY_EMAIL=${CADDY_EMAIL}
