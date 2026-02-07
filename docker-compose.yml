@@ -572,7 +572,8 @@
     volumes:
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-      - /mnt/docker/tsdproxy/data/default/adguard/certs:/certs:ro
+      - /mnt/docker/caddy/caddy_data/caddy/certificates:/certs:ro
+#      - /mnt/docker/tsdproxy/data/default/adguard/certs:/certs:ro
     networks:
       local_net:
 
