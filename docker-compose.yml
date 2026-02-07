@@ -573,7 +573,6 @@
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
       - /mnt/docker/caddy/caddy_data/caddy/certificates:/certs:ro
-#      - /mnt/docker/tsdproxy/data/default/adguard/certs:/certs:ro
     networks:
       local_net:
 
@@ -722,23 +721,23 @@
     networks:
       local_net:
 
-  librespeed:
-    image: lscr.io/linuxserver/librespeed:latest
-    container_name: librespeed
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "speedtest"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Istanbul
-    ports:
-      - "8999:80"
-    restart: unless-stopped
-    networks:
-      local_net:
+#  librespeed:
+#    image: lscr.io/linuxserver/librespeed:latest
+#    container_name: librespeed
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "speedtest"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=Europe/Istanbul
+#    ports:
+#      - "8999:80"
+#    restart: unless-stopped
+#    networks:
+#      local_net:
 
 #  caddy:
 #    image: caddy:latest
