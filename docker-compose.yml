@@ -750,7 +750,7 @@
 #      - /mnt/docker/tsdproxy/data/default:/certs:ro
 #    ports:
 #      - "80:80"
-#      - "443:443"
+#      - "443:443/tcp"
 #    networks:
 #      local_net:
 #        ipv4_address: 172.19.0.199
@@ -761,7 +761,7 @@
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
+      - "443:443/tcp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - /mnt/docker/caddy/caddy_data:/data
