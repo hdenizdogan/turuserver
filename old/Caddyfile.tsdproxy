@@ -1,3 +1,5 @@
+# certs created by tsdproxy/tailscale
+
 {
     auto_https off
 }
