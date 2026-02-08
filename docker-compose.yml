@@ -63,8 +63,8 @@
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
     volumes:
       - /mnt/docker/jellystat-db/postgres-data:/var/lib/postgresql/data
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 
 
@@ -84,8 +84,8 @@
       POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
       JWT_SECRET: $JELLYSTAT_JWT_SECRET
       TZ: $TZ
-    networks:
-      local_net:
+#    networks:
+#      local_net:
     volumes:
       - /mnt/docker/jellystat-backup-data:/app/backend/backup-data
     ports:
@@ -168,8 +168,8 @@
     restart: unless-stopped
     environment:
       - attempt_lidarr_import=True
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 
   prowlarr:
@@ -191,8 +191,8 @@
       - /mnt/docker/prowlarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -213,8 +213,8 @@
     ports:
       - "8686:8686"
     restart: unless-stopped
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -235,8 +235,8 @@
       - /mnt/docker/sonarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -257,8 +257,8 @@
       - /mnt/docker/radarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -278,8 +278,8 @@
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  profilarr:
 #    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
@@ -310,8 +310,8 @@
       - /mnt/docker/flaresolverr:/config
     ports:
       - "8191:8191"
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -334,8 +334,8 @@
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   unmanic:
     image: josh5/unmanic:latest
@@ -358,8 +358,8 @@
       - "8888:8888"
     devices:
       - /dev/dri:/dev/dri
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  tdarr:
 #    image: ghcr.io/haveagitgat/tdarr:latest
@@ -407,8 +407,8 @@
       - TZ=${TZ}
     volumes:
       - /mnt/docker/seerr/config:/app/config
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  homeassistant:
 #    container_name: homeassistant
@@ -450,8 +450,8 @@
     environment:
       - DOCKER_ENABLE_SECURITY=false
       - LANGS=["tr_TR"]
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  metube:
 #    image: ghcr.io/alexta69/metube
@@ -490,8 +490,8 @@
     volumes:
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  glances:
 #    image: nicolargo/glances:latest
@@ -552,8 +552,8 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  adguard:
 #    image: adguard/adguardhome:latest
@@ -640,8 +640,8 @@
       - redis
       - database
     restart: always
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -659,8 +659,8 @@
       extends:
        file: hwaccel.ml.yml
        service: openvino
-      networks:
-        local_net:
+#      networks:
+#        local_net:
 
   redis:
       container_name: immich_redis
@@ -672,8 +672,8 @@
       restart: always
       volumes:
         - /mnt/docker/redis:/data
-      networks:
-        local_net:
+#      networks:
+#        local_net:
 
   database:
       container_name: immich_postgres
@@ -692,8 +692,8 @@
         - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
       shm_size: 128mb
       restart: always
-      networks:
-        local_net:
+#      networks:
+#        local_net:
 
 #  tsdproxy:
 #    image: almeidapaulopt/tsdproxy:latest
@@ -716,8 +716,8 @@
       replicas: 3
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-    networks:
-      local_net:
+#    networks:
+#      local_net:
 
 #  librespeed:
 #    image: lscr.io/linuxserver/librespeed:latest
@@ -768,9 +768,9 @@
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - CADDY_EMAIL=${CADDY_EMAIL}
       - DOMAIN=${DOMAIN}
-    networks:
-      local_net:
-        ipv4_address: 172.19.0.199
+#    networks:
+#      local_net:
+#        ipv4_address: 172.19.0.199
 
 
 #  tsdproxy2:
@@ -786,11 +786,11 @@
 #    networks:
 #      local_net:
 
-networks:
-  local_net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.19.0.0/24
+#networks:
+#  local_net:
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 172.19.0.0/24
 
