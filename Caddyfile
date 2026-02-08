@@ -1,102 +1,79 @@
 {
-# Email used for ACME registration
-email {$CADDY_EMAIL}
+    # Email used for ACME registration
+    email {$CADDY_EMAIL}
 
-# Use Cloudflare DNS challenge for all certs  
-acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}  
-
-# Optional but recommended  
-auto_https prefer_wildcard  
-
-# Disable HTTP/3 (QUIC)  
-servers {  
- protocols h1 h2  
- }
-
+    # Use Cloudflare DNS challenge for all certs
+    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 }
 
--------------------------------------------------
-
-Wildcard certificate
-
--------------------------------------------------
-
-*.{$DOMAIN}, {$DOMAIN} {
-tls {
-dns cloudflare {$CLOUDFLARE_API_TOKEN}
-}
-}
-
--------------------------------------------------
-
-Services
-
--------------------------------------------------
+# -------------------------------------------------
+# Services (each gets its own cert)
+# -------------------------------------------------
 
 adguard.{$DOMAIN} {
-reverse_proxy adguard:80
+    reverse_proxy adguard:80
 }
 
 jellyfin.{$DOMAIN} {
-reverse_proxy 172.17.0.1:8096
+    reverse_proxy 172.17.0.1:8096
 }
 
 jellystat.{$DOMAIN} {
-reverse_proxy jellystat:3000
+    reverse_proxy jellystat:3000
 }
 
 navidrome.{$DOMAIN} {
-reverse_proxy navidrome:4533
+    reverse_proxy navidrome:4533
 }
 
 sonarr.{$DOMAIN} {
-reverse_proxy sonarr:8989
+    reverse_proxy sonarr:8989
 }
 
 radarr.{$DOMAIN} {
-reverse_proxy radarr:7878
+    reverse_proxy radarr:7878
 }
 
 bazarr.{$DOMAIN} {
-reverse_proxy bazarr:6767
+    reverse_proxy bazarr:6767
 }
 
 lidarr.{$DOMAIN} {
-reverse_proxy lidarr:8686
+    reverse_proxy lidarr:8686
 }
 
 prowlarr.{$DOMAIN} {
-reverse_proxy prowlarr:9696
+    reverse_proxy prowlarr:9696
 }
 
 qbittorrent.{$DOMAIN} {
-reverse_proxy qbittorrent:8090
+    reverse_proxy qbittorrent:8090
 }
 
 seerr.{$DOMAIN} {
-reverse_proxy seerr:5055
+    reverse_proxy seerr:5055
 }
 
 unmanic.{$DOMAIN} {
-reverse_proxy unmanic:8888
+    reverse_proxy unmanic:8888
 }
 
 portainer.{$DOMAIN} {
-reverse_proxy portainer:9000
+    reverse_proxy portainer:9000
 }
 
 dash.{$DOMAIN} {
-reverse_proxy dash:3001
+    reverse_proxy dash:3001
 }
 
 stirling.{$DOMAIN} {
-reverse_proxy stirling:8080
+    reverse_proxy stirling:8080
 }
 
 immich.{$DOMAIN} {
-reverse_proxy immich:2283
+    reverse_proxy immich:2283
 }
 
 tururouter.{$DOMAIN} {
-reverse_proxy tururouter.lan:80
+    reverse_proxy tururouter.lan:80
 }
