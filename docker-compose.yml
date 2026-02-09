@@ -3,11 +3,11 @@
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellyfin"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8096
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyfin"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8096
 #      com.centurylinklabs.watchtower.enable: false
     devices:
       - /dev/dri:/dev/dri
@@ -72,11 +72,11 @@
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellystat"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 3000
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellystat"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 3000
     environment:
       POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
@@ -176,11 +176,11 @@
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "prowlarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 9696
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "prowlarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 9696
     ports:
       - "9696:9696"
     environment:
@@ -197,11 +197,11 @@
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "lidarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8686
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "lidarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8686
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -220,11 +220,11 @@
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "sonarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8989
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "sonarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8989
     ports:
       - "8989:8989"
     environment:
@@ -242,11 +242,11 @@
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "radarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 7878
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "radarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 7878
     ports:
       - "7878:7878"
     environment:
@@ -264,11 +264,11 @@
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "bazarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 6767
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "bazarr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 6767
     ports:
       - "6767:6767"
     environment:
@@ -317,11 +317,11 @@
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "qbittorrent"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8090
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "qbittorrent"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 8090
     ports:
       - "8090:8090"
       - "6881:6881"
@@ -395,11 +395,11 @@
     image: ghcr.io/fallenbagel/jellyseerr:latest
     container_name: seerr
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "seerr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5055
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "seerr"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 5055
     ports:
       - "5055:5055"
     environment:
@@ -695,16 +695,16 @@
 #      networks:
 #        local_net:
 
-#  tsdproxy:
-#    image: almeidapaulopt/tsdproxy:latest
-#    container_name: tsdproxy
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/tsdproxy/data:/data
-#    environment:
-#      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-#      - DOCKER_HOST=unix:///var/run/docker.sock
-#    restart: unless-stopped
+  tsdproxy:
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/tsdproxy/data:/data
+    environment:
+      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    restart: unless-stopped
 #    networks:
 #      local_net:
 
