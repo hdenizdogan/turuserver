@@ -761,13 +761,15 @@
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./old/Caddyfile:/etc/caddy/Caddyfile:ro
       - /mnt/docker/caddy/caddy_data:/data
+      - /mnt/docker/tsdproxy/data/default:/certs:ro
 #      - /mnt/docker/caddy/caddy_config:/config
     environment:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - CADDY_EMAIL=${CADDY_EMAIL}
       - DOMAIN=${DOMAIN}
+      - OLDDOMAIN=${OLDDOMAIN}
 #    networks:
 #      local_net:
 #        ipv4_address: 172.19.0.199
