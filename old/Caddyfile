@@ -1,199 +1,141 @@
-#################################################
-# GLOBAL OPTIONS
-#################################################
 {
-    # ACME / Cloudflare (Domain X)
-    email {$CADDY_EMAIL}
-    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
-    acme_ca https://acme-v02.api.letsencrypt.org/directory
+	email {$CADDY_EMAIL}
 
-    # Required so manual-cert sites don't get auto-managed
-    auto_https off
+	# Cloudflare DNS-01 for PUBLIC domain
+	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+
+	# Strongly recommended
+	auto_https prefer_wildcard
+
+	# Optional: disable QUIC
+	servers {
+		protocols h1 h2
+	}
 }
 
-#################################################
-# DOMAIN Y (Tailscale / tsdproxy) – MANUAL CERTS
-#################################################
-
-# ---- HTTP → HTTPS redirect ----
-http://*.{$OLDDOMAIN} {
-    redir https://{host}{uri} permanent
-}
-
-# ---- TLS snippet ----
-(tls_manual) {
-    tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
-        /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
-}
-
-# ---- Reverse proxy snippet ----
-(proxy) {
-    reverse_proxy {args[0]}
-}
-
-https://adguard.{$OLDDOMAIN} {
-    import tls_manual adguard
-    import proxy adguard:80
-}
-
-https://bazarr.{$OLDDOMAIN} {
-    import tls_manual bazarr
-    import proxy bazarr:6767
-}
-
-https://dash.{$OLDDOMAIN} {
-    import tls_manual dash
-    import proxy dash:3001
-}
-
-https://immich.{$OLDDOMAIN} {
-    import tls_manual immich
-    import proxy immich:2283
-}
-
-https://jellyfin.{$OLDDOMAIN} {
-    import tls_manual jellyfin
-    import proxy 172.17.0.1:8096
-}
-
-https://jellystat.{$OLDDOMAIN} {
-    import tls_manual jellystat
-    import proxy jellystat:3000
-}
-
-https://lidarr.{$OLDDOMAIN} {
-    import tls_manual lidarr
-    import proxy lidarr:8686
-}
-
-https://lidatube.{$OLDDOMAIN} {
-    import tls_manual lidatube
-    import proxy lidatube:5000
-}
-
-https://metube.{$OLDDOMAIN} {
-    import tls_manual metube
-    import proxy metube:8081
-}
-
-https://portainer.{$OLDDOMAIN} {
-    import tls_manual portainer
-    import proxy portainer:9000
-}
-
-https://prowlarr.{$OLDDOMAIN} {
-    import tls_manual prowlarr
-    import proxy prowlarr:9696
-}
-
-https://qbittorrent.{$OLDDOMAIN} {
-    import tls_manual qbittorrent
-    import proxy qbittorrent:8090
-}
-
-https://radarr.{$OLDDOMAIN} {
-    import tls_manual radarr
-    import proxy radarr:7878
-}
-
-https://seerr.{$OLDDOMAIN} {
-    import tls_manual seerr
-    import proxy seerr:5055
-}
-
-https://sonarr.{$OLDDOMAIN} {
-    import tls_manual sonarr
-    import proxy sonarr:8989
-}
-
-https://stirling.{$OLDDOMAIN} {
-    import tls_manual stirling
-    import proxy stirling:8080
-}
-
-https://tdarr.{$OLDDOMAIN} {
-    import tls_manual tdarr
-    import proxy tdarr:8265
-}
-
-https://unmanic.{$OLDDOMAIN} {
-    import tls_manual unmanic
-    import proxy unmanic:8888
-}
-
-https://wizarr.{$OLDDOMAIN} {
-    import tls_manual wizarr
-    import proxy wizarr:5690
-}
-
-#################################################
-# DOMAIN X (Cloudflare DNS-01) – AUTO CERTS
-#################################################
+# =================================================
+# PUBLIC DOMAIN (Cloudflare + Let's Encrypt)
+# =================================================
 
 adguard.{$DOMAIN} {
-    reverse_proxy adguard:80
+	reverse_proxy adguard:80
 }
 
 jellyfin.{$DOMAIN} {
-    reverse_proxy 172.17.0.1:8096
+	reverse_proxy 172.17.0.1:8096
 }
 
 jellystat.{$DOMAIN} {
-    reverse_proxy jellystat:3000
+	reverse_proxy jellystat:3000
 }
 
 navidrome.{$DOMAIN} {
-    reverse_proxy navidrome:4533
+	reverse_proxy navidrome:4533
 }
 
 sonarr.{$DOMAIN} {
-    reverse_proxy sonarr:8989
+	reverse_proxy sonarr:8989
 }
 
 radarr.{$DOMAIN} {
-    reverse_proxy radarr:7878
+	reverse_proxy radarr:7878
 }
 
 bazarr.{$DOMAIN} {
-    reverse_proxy bazarr:6767
+	reverse_proxy bazarr:6767
 }
 
 lidarr.{$DOMAIN} {
-    reverse_proxy lidarr:8686
+	reverse_proxy lidarr:8686
 }
 
 prowlarr.{$DOMAIN} {
-    reverse_proxy prowlarr:9696
+	reverse_proxy prowlarr:9696
 }
 
 qbittorrent.{$DOMAIN} {
-    reverse_proxy qbittorrent:8090
+	reverse_proxy qbittorrent:8090
 }
 
 seerr.{$DOMAIN} {
-    reverse_proxy seerr:5055
+	reverse_proxy seerr:5055
 }
 
 unmanic.{$DOMAIN} {
-    reverse_proxy unmanic:8888
+	reverse_proxy unmanic:8888
 }
 
 portainer.{$DOMAIN} {
-    reverse_proxy portainer:9000
+	reverse_proxy portainer:9000
 }
 
 dash.{$DOMAIN} {
-    reverse_proxy dash:3001
+	reverse_proxy dash:3001
 }
 
 stirling.{$DOMAIN} {
-    reverse_proxy stirling:8080
+	reverse_proxy stirling:8080
 }
 
 immich.{$DOMAIN} {
-    reverse_proxy immich:2283
+	reverse_proxy immich:2283
 }
 
 tururouter.{$DOMAIN} {
-    reverse_proxy tururouter.lan:80
+	reverse_proxy tururouter.lan:80
+}
+
+# =================================================
+# TAILSCALE DOMAIN (Manual TLS)
+# =================================================
+
+# HTTP → HTTPS redirect for old domain
+http://*.{$OLDDOMAIN} {
+	redir https://{host}{uri} permanent
+}
+
+# Common TLS snippet for Tailscale certs
+(tailscale_tls) {
+	tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
+	    /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
+}
+
+# Common proxy snippet
+(proxy) {
+	reverse_proxy {args[0]}
+}
+
+https://jellyfin.{$OLDDOMAIN} {
+	import tailscale_tls jellyfin
+	import proxy 172.17.0.1:8096
+}
+
+https://jellystat.{$OLDDOMAIN} {
+	import tailscale_tls jellystat
+	import proxy jellystat:3000
+}
+
+https://prowlarr.{$OLDDOMAIN} {
+	import tailscale_tls prowlarr
+	import proxy prowlarr:9696
+}
+
+https://qbittorrent.{$OLDDOMAIN} {
+	import tailscale_tls qbittorrent
+	import proxy qbittorrent:8090
+}
+
+https://radarr.{$OLDDOMAIN} {
+	import tailscale_tls radarr
+	import proxy radarr:7878
+}
+
+https://seerr.{$OLDDOMAIN} {
+	import tailscale_tls seerr
+	import proxy seerr:5055
+}
+
+https://sonarr.{$OLDDOMAIN} {
+	import tailscale_tls sonarr
+	import proxy sonarr:8989
 }
