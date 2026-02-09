@@ -762,7 +762,7 @@
       - "443:443"
     volumes:
       - ./old/Caddyfile:/etc/caddy/Caddyfile:ro
-      - /mnt/docker/caddy/caddy_data:/data
+      - /mnt/docker/caddy-cloudflare/caddy_data:/data
       - /mnt/docker/tsdproxy/data/default:/certs:ro
 #      - /mnt/docker/caddy/caddy_config:/config
     environment:
