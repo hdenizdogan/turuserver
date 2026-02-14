@@ -392,7 +392,8 @@
 #      local_net:
 
   seerr:
-    image: ghcr.io/fallenbagel/jellyseerr:latest
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
     container_name: seerr
     restart: unless-stopped
     labels:
