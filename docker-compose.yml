@@ -406,6 +406,8 @@
     environment:
       - LOG_LEVEL=info
       - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - /mnt/docker/seerr/config:/app/config
 #    networks:
