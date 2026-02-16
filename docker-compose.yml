@@ -698,16 +698,16 @@
 #      networks:
 #        local_net:
 
-#  tsdproxy:
-#    image: almeidapaulopt/tsdproxy:latest
-#    container_name: tsdproxy
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/tsdproxy/data:/data
-#    environment:
-#      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-#      - DOCKER_HOST=unix:///var/run/docker.sock
-#    restart: unless-stopped
+  tsdproxy:
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/tsdproxy/data:/data
+    environment:
+      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    restart: unless-stopped
 #    networks:
 #      local_net:
 
@@ -722,21 +722,21 @@
 #    networks:
 #      local_net:
 
-#  librespeed:
-#    image: lscr.io/linuxserver/librespeed:latest
-#    container_name: librespeed
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "speedtest"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 80
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - TZ=Europe/Istanbul
-#    ports:
-#      - "8999:80"
-#    restart: unless-stopped
+  librespeed:
+    image: lscr.io/linuxserver/librespeed:latest
+    container_name: librespeed
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "speedtest"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 80
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Istanbul
+    ports:
+      - "8999:80"
+    restart: unless-stopped
 #    networks:
 #      local_net:
 
