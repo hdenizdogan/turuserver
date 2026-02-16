@@ -7,7 +7,6 @@
 
     # Optional but recommended
     auto_https prefer_wildcard
-    acme_resolvers 1.1.1.1 8.8.8.8
 
     # Disable HTTP/3 (QUIC)
     servers {
