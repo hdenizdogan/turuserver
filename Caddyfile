@@ -4,6 +4,8 @@
 
     # Use Cloudflare DNS challenge for all certs
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+
+    acme_ca https://acme-v02.api.letsencrypt.org/directory
 }
 
 # -------------------------------------------------
