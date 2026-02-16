@@ -1,7 +1,7 @@
 {
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 
-    acme_resolvers 1.1.1.1 8.8.8.8
+    resolvers 1.1.1.1 8.8.8.8
 
     servers {
         protocols h1 h2
