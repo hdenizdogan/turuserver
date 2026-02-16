@@ -75,6 +75,10 @@ seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
 }
 
+speedtest.{$DOMAIN} {
+    reverse_proxy speedtest:80
+}
+
 unmanic.{$DOMAIN} {
     reverse_proxy unmanic:8888
 }

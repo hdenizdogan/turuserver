@@ -722,9 +722,9 @@
     networks:
       local_net:
 
-  librespeed:
+  speedtest:
     image: lscr.io/linuxserver/librespeed:latest
-    container_name: librespeed
+    container_name: speedtest
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "speedtest"

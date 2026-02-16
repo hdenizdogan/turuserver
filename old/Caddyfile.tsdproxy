@@ -97,6 +97,11 @@ https://sonarr.{$OLDDOMAIN} {
     import proxy sonarr:8989
 }
 
+https://speedtest.{$OLDDOMAIN} {
+    import tls_manual speedtest
+    import proxy speedtest:80
+}
+
 https://stirling.{$OLDDOMAIN} {
     import tls_manual stirling
     import proxy stirling:8080

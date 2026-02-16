@@ -34,6 +34,10 @@ sonarr.{$DOMAIN} {
 	reverse_proxy sonarr:8989
 }
 
+speedtest.{$DOMAIN} {
+    reverse_proxy speedtest:80
+}
+
 radarr.{$DOMAIN} {
 	reverse_proxy radarr:7878
 }
@@ -76,6 +80,10 @@ dash.{$DOMAIN} {
 
 stirling.{$DOMAIN} {
 	reverse_proxy stirling:8080
+}
+
+speedtest.{$DOMAIN} {
+    reverse_proxy speedtest:80
 }
 
 immich.{$DOMAIN} {
