@@ -39,10 +39,6 @@ jellystat.{$DOMAIN} {
     reverse_proxy jellystat:3000
 }
 
-navidrome.{$DOMAIN} {
-    reverse_proxy navidrome:4533
-}
-
 sonarr.{$DOMAIN} {
     reverse_proxy sonarr:8989
 }
