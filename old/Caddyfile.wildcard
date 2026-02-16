@@ -17,7 +17,7 @@
 # -------------------------------------------------
 # Wildcard certificate (THIS is the key part)
 # -------------------------------------------------
-*.{$DOMAIN}, {$DOMAIN} {
+*.{$DOMAIN} {
     tls {
         dns cloudflare {$CLOUDFLARE_API_TOKEN}
     }
