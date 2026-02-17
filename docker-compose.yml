@@ -478,11 +478,11 @@
     container_name: dash
     restart: unless-stopped
     privileged: true
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "dash"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 3001
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "dash"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 3001
     ports:
       - "3001:3001"
     environment:
@@ -543,11 +543,11 @@
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "portainer"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 9000
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "portainer"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 9000
     ports:
       - "9000:9000"
     environment:
