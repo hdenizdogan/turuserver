@@ -1,4 +1,5 @@
 {
+    email {$CADDY_EMAIL}
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 
     servers {
