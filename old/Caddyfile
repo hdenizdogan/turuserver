@@ -1,6 +1,4 @@
 {
-	email {$CADDY_EMAIL}
-
 	# Cloudflare DNS-01 for PUBLIC domain
 	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 

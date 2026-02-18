@@ -1,7 +1,4 @@
 {
-    # Email used for ACME registration
-    email {$CADDY_EMAIL}
-
     # Use Cloudflare DNS challenge for all certs
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 
