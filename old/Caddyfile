@@ -1,11 +1,24 @@
 {
+	email {$CADDY_EMAIL}
+
 	# Cloudflare DNS-01 for PUBLIC domain
 	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+}
 
-	# Optional: disable QUIC
-	servers {
-		protocols h1 h2
+# =================================================
+# GLOBAL SNIPPETS
+# =================================================
+
+# Disable HTTP/3 / QUIC permanently
+(no_quic) {
+	header {
+		-Alt-Svc
 	}
+}
+
+# Common reverse proxy snippet
+(proxy) {
+	reverse_proxy {args[0]}
 }
 
 # =================================================
@@ -13,74 +26,92 @@
 # =================================================
 
 adguard.{$DOMAIN} {
+	import no_quic
 	reverse_proxy adguard:80
 }
 
 jellyfin.{$DOMAIN} {
+	import no_quic
 	reverse_proxy 172.17.0.1:8096
 }
 
 jellystat.{$DOMAIN} {
+	import no_quic
 	reverse_proxy jellystat:3000
 }
 
 sonarr.{$DOMAIN} {
+	import no_quic
 	reverse_proxy sonarr:8989
 }
 
 radarr.{$DOMAIN} {
+	import no_quic
 	reverse_proxy radarr:7878
 }
 
 bazarr.{$DOMAIN} {
+	import no_quic
 	reverse_proxy bazarr:6767
 }
 
 lidarr.{$DOMAIN} {
+	import no_quic
 	reverse_proxy lidarr:8686
 }
 
 lidatube.{$DOMAIN} {
+	import no_quic
 	reverse_proxy lidatube:5000
 }
 
 prowlarr.{$DOMAIN} {
+	import no_quic
 	reverse_proxy prowlarr:9696
 }
 
 qbittorrent.{$DOMAIN} {
+	import no_quic
 	reverse_proxy qbittorrent:8090
 }
 
 seerr.{$DOMAIN} {
+	import no_quic
 	reverse_proxy seerr:5055
 }
 
 unmanic.{$DOMAIN} {
+	import no_quic
 	reverse_proxy unmanic:8888
 }
 
 portainer.{$DOMAIN} {
+	import no_quic
 	reverse_proxy portainer:9000
 }
 
 dash.{$DOMAIN} {
+	import no_quic
 	reverse_proxy dash:3001
 }
 
 stirling.{$DOMAIN} {
+	import no_quic
 	reverse_proxy stirling:8080
 }
 
 speedtest.{$DOMAIN} {
-    reverse_proxy speedtest:80
+	import no_quic
+	reverse_proxy speedtest:80
 }
 
 immich.{$DOMAIN} {
+	import no_quic
 	reverse_proxy immich:2283
 }
 
 tururouter.{$DOMAIN} {
+	import no_quic
 	reverse_proxy tururouter.lan:80
 }
 
@@ -88,53 +119,55 @@ tururouter.{$DOMAIN} {
 # TAILSCALE DOMAIN (Manual TLS)
 # =================================================
 
-# HTTP → HTTPS redirect for old domain
+# HTTP → HTTPS redirect for Tailscale domain
 http://*.{$OLDDOMAIN} {
 	redir https://{host}{uri} permanent
 }
 
-# Common TLS snippet for Tailscale certs
+# Tailscale TLS snippet
 (tailscale_tls) {
 	tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
 	    /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
 }
 
-# Common proxy snippet
-(proxy) {
-	reverse_proxy {args[0]}
-}
-
 https://jellyfin.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls jellyfin
 	import proxy 172.17.0.1:8096
 }
 
 https://jellystat.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls jellystat
 	import proxy jellystat:3000
 }
 
 https://prowlarr.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls prowlarr
 	import proxy prowlarr:9696
 }
 
 https://qbittorrent.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls qbittorrent
 	import proxy qbittorrent:8090
 }
 
 https://radarr.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls radarr
 	import proxy radarr:7878
 }
 
 https://seerr.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls seerr
 	import proxy seerr:5055
 }
 
 https://sonarr.{$OLDDOMAIN} {
+	import no_quic
 	import tailscale_tls sonarr
 	import proxy sonarr:8989
 }
