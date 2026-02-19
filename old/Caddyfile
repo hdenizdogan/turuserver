@@ -2,6 +2,11 @@
 
 	# Cloudflare DNS-01 for PUBLIC domain
 	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+
+	# Disable QUIC
+	servers {
+    		protocols h1 h2
+    }
 }
 
 # =================================================
