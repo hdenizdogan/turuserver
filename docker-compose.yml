@@ -761,8 +761,8 @@
     container_name: caddy-cloudflare
     restart: unless-stopped
     ports:
-      - "80:80/tcp"
-      - "443:443/tcp"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./old/Caddyfile:/etc/caddy/Caddyfile:ro
       - /mnt/docker/caddy-cloudflare/caddy_data:/data
