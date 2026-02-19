@@ -116,26 +116,26 @@
 #      - JELLYSWEEP_DRY_RUN=true
 
 
-#  wizarr:
-#    container_name: wizarr
-#    image: ghcr.io/wizarrrr/wizarr:latest
-#    restart: unless-stopped
-#    ports:
-#      - '5690:5690'
+  wizarr:
+    container_name: wizarr
+    image: ghcr.io/wizarrrr/wizarr:latest
+    restart: unless-stopped
+    ports:
+      - '5690:5690'
 #    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "wizarr"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 5690
-#    volumes:
-#      - /mnt/docker/wizarr:/data
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - TZ=${TZ}
-#      - DISABLE_BUILTIN_AUTH=false
-#    networks:
-#      local_net:
+    volumes:
+      - /mnt/docker/wizarr:/data
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - DISABLE_BUILTIN_AUTH=false
+    networks:
+      local_net:
 
 #  homarr:
 #    container_name: homarr
@@ -433,28 +433,28 @@
 #    network_mode: host
 
 
-#  stirling:
-#    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-#    container_name: stirling
-#    restart: unless-stopped
+  stirling:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling
+    restart: unless-stopped
 #    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "stirling"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 8080
-#    ports:
-#      - "5050:8080"
-#    volumes:
-#      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
-#      - /mnt/docker/StirlingPDF/extraConfigs:/configs
-#      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
-#      - /mnt/docker/StirlingPDF/logs:/logs/
-#      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
-#    environment:
-#      - DOCKER_ENABLE_SECURITY=false
-#      - LANGS=["tr_TR"]
-#    networks:
-#      local_net:
+    ports:
+      - "5050:8080"
+    volumes:
+      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
+      - /mnt/docker/StirlingPDF/extraConfigs:/configs
+      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
+      - /mnt/docker/StirlingPDF/logs:/logs/
+      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=["tr_TR"]
+    networks:
+      local_net:
 
 #  metube:
 #    image: ghcr.io/alexta69/metube
