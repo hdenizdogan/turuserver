@@ -741,7 +741,7 @@
       local_net:
 
   caddy:
-    image: ghcr.io/caddybuilds/caddy-cloudflare
+    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
     container_name: caddy
     restart: unless-stopped
     env_file:
