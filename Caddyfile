@@ -1,9 +1,5 @@
 {
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
-
-    servers {
-        protocols h1 h2
-    }
 }
 
 # -------------------------------------------------
