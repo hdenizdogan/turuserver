@@ -740,46 +740,46 @@
     networks:
       local_net:
 
-  caddy:
-    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
-    container_name: caddy
-    restart: unless-stopped
-    env_file:
-      - .env
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - /mnt/docker/caddy/caddy_data:/data
-      - /mnt/docker/tsdproxy/data/default:/certs:ro
-    environment:
-      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
-      - DOMAIN=${DOMAIN}
-      - OLDDOMAIN=${OLDDOMAIN}
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      local_net:
-        ipv4_address: 172.19.0.199
-
-#  caddy-cloudflare:
-#    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
-#    container_name: caddy-cloudflare
+#  caddy:
+#    image: caddy:latest
+#    container_name: caddy
 #    restart: unless-stopped
-#    ports:
-#      - "80:80"
-#      - "443:443"
+#    env_file:
+#      - .env
 #    volumes:
 #      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-#      - /mnt/docker/caddy-cloudflare/caddy_data:/data
+#      - /mnt/docker/caddy/caddy_data:/data
 #      - /mnt/docker/tsdproxy/data/default:/certs:ro
-##      - /mnt/docker/caddy/caddy_config:/config
 #    environment:
 #      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
 #      - DOMAIN=${DOMAIN}
 #      - OLDDOMAIN=${OLDDOMAIN}
+#    ports:
+#      - "80:80"
+#      - "443:443"
 #    networks:
 #      local_net:
 #        ipv4_address: 172.19.0.199
+
+  caddy-cloudflare:
+    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
+    container_name: caddy-cloudflare
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /mnt/docker/caddy-cloudflare/caddy_data:/data
+      - /mnt/docker/tsdproxy/data/default:/certs:ro
+#      - /mnt/docker/caddy/caddy_config:/config
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - DOMAIN=${DOMAIN}
+      - OLDDOMAIN=${OLDDOMAIN}
+    networks:
+      local_net:
+        ipv4_address: 172.19.0.199
 
 
 #  tsdproxy2:
