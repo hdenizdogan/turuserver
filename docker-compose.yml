@@ -748,6 +748,7 @@
       - .env
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /mnt/docker/caddy/caddy_data:/data
       - /mnt/docker/tsdproxy/data/default:/certs:ro
     environment:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
