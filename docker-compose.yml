@@ -573,7 +573,7 @@
     volumes:
       - /mnt/docker/adguardhome/work:/opt/adguardhome/work
       - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-      - /mnt/docker/caddy/caddy_data/caddy/certificates:/certs:ro
+      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
     networks:
       local_net:
 
