@@ -1,27 +1,9 @@
 {
-    # Use Cloudflare DNS challenge for all certs
     acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
-
-    # Optional but recommended
-    auto_https prefer_wildcard
-
-    # Disable HTTP/3 (QUIC)
-    servers {
-     protocols h1 h2
-     }
 }
 
 # -------------------------------------------------
-# Wildcard certificate (THIS is the key part)
-# -------------------------------------------------
-*.{$DOMAIN} {
-    tls {
-        dns cloudflare {$CLOUDFLARE_API_TOKEN}
-    }
-}
-
-# -------------------------------------------------
-# Services
+# Services (each gets its own cert)
 # -------------------------------------------------
 
 adguard.{$DOMAIN} {
