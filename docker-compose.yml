@@ -116,26 +116,26 @@
 #      - JELLYSWEEP_DRY_RUN=true
 
 
-  wizarr:
-    container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr:latest
-    restart: unless-stopped
-    ports:
-      - '5690:5690'
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "wizarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5690
-    volumes:
-      - /mnt/docker/wizarr:/data
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - DISABLE_BUILTIN_AUTH=false
-    networks:
-      local_net:
+#  wizarr:
+#    container_name: wizarr
+#    image: ghcr.io/wizarrrr/wizarr:latest
+#    restart: unless-stopped
+#    ports:
+#      - '5690:5690'
+##    labels:
+##      tsdproxy.enable: "true"
+##      tsdproxy.name: "wizarr"
+##      tsdproxy.funnel: "true"
+##      tsdproxy.container_port: 5690
+#    volumes:
+#      - /mnt/docker/wizarr:/data
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#      - DISABLE_BUILTIN_AUTH=false
+#    networks:
+#      local_net:
 
 #  homarr:
 #    container_name: homarr
@@ -722,23 +722,23 @@
     networks:
       local_net:
 
-  speedtest:
-    image: lscr.io/linuxserver/librespeed:latest
-    container_name: speedtest
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "speedtest"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Istanbul
-    ports:
-      - "8999:80"
-    restart: unless-stopped
-    networks:
-      local_net:
+#  speedtest:
+#    image: lscr.io/linuxserver/librespeed:latest
+#    container_name: speedtest
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "speedtest"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=Europe/Istanbul
+#    ports:
+#      - "8999:80"
+#    restart: unless-stopped
+#    networks:
+#      local_net:
 
 #  caddy:
 #    image: caddy:latest
