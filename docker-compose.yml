@@ -306,8 +306,6 @@
     environment:
       - LOG_LEVEL=info
       - CAPTCHA_SOLVER=none
-    volumes:
-      - /mnt/docker/flaresolverr:/config
     ports:
       - "8191:8191"
     networks:
