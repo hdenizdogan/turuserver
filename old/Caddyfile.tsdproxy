@@ -37,6 +37,11 @@ https://dash.{$OLDDOMAIN} {
     import proxy dash:3001
 }
 
+filebrowser.{$OLDDOMAIN} {
+    import tls_manual filebrowser
+    import proxy filebrowser:80
+}
+
 https://immich.{$OLDDOMAIN} {
     import tls_manual immich
     import proxy immich:2283
