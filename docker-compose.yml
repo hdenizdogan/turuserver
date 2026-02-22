@@ -520,8 +520,6 @@
     image: filebrowser/filebrowser:latest
     container_name: filebrowser
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
       - TZ=${TZ}
     labels:
       tsdproxy.enable: "true"
