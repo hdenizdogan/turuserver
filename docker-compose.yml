@@ -197,11 +197,11 @@
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "lidarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8686
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "lidarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8686
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -519,11 +519,11 @@
     container_name: filebrowser
     environment:
       - TZ=${TZ}
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "filebrowser"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 80
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "filebrowser"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
     ports:
       - "3010:80"
     volumes:
@@ -557,11 +557,11 @@
 #  adguard:
 #    image: adguard/adguardhome:latest
 #    container_name: adguard
-##    labels:
-##      tsdproxy.enable: "true"
-##      tsdproxy.name: "adguard"
-##      tsdproxy.funnel: "true"
-##      tsdproxy.container_port: 80
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "adguard"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
 #    restart: unless-stopped
 #    ports:
 #      - "3002:3000"       # initialization
