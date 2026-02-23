@@ -554,24 +554,24 @@
     networks:
       local_net:
 
-  adguard:
-    image: adguard/adguardhome:latest
-    container_name: adguard
+#  adguard:
+#    image: adguard/adguardhome:latest
+#    container_name: adguard
 #    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "adguard"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 80
-    restart: unless-stopped
-    ports:
-      - "3002:3000"       # initialization
-      - "3005:80"         # HTTP UI
-    volumes:
-      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
-      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
-    networks:
-      local_net:
+#    restart: unless-stopped
+#    ports:
+#      - "3002:3000"       # initialization
+#      - "3005:80"         # HTTP UI
+#    volumes:
+#      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
+#      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
+#      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
+#    networks:
+#      local_net:
 
 
 
