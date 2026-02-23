@@ -5,7 +5,7 @@
     restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
-      tsdproxy.name: "turustream"
+      tsdproxy.name: "turuserver"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8096
 #      com.centurylinklabs.watchtower.enable: false
