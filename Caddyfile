@@ -94,7 +94,3 @@ immich.{$DOMAIN} {
 tururouter.{$DOMAIN} {
     reverse_proxy tururouter.lan:80
 }
-
-proxmox.{$DOMAIN} {
-    reverse_proxy pve.lan:8006
-}
