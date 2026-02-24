@@ -694,18 +694,18 @@
       networks:
         local_net:
 
-#  tsdproxy:
-#    image: almeidapaulopt/tsdproxy:latest
-#    container_name: tsdproxy
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/tsdproxy/data:/data
-#    environment:
-#      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-#      - DOCKER_HOST=unix:///var/run/docker.sock
-#    restart: unless-stopped
-#    networks:
-#      local_net:
+  tsdproxy:
+    image: almeidapaulopt/tsdproxy:latest
+    container_name: tsdproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/tsdproxy/data:/data
+    environment:
+      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      local_net:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -765,7 +765,7 @@
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./old/Caddyfile:/etc/caddy/Caddyfile:ro
       - /mnt/docker/caddy-cloudflare/caddy_data:/data
       - /mnt/docker/tsdproxy/data/default:/certs:ro
 #      - /mnt/docker/caddy/caddy_config:/config
