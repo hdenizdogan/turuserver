@@ -10,9 +10,10 @@
 # Wildcard certificate
 # -------------------------------------------------
 *.{$DOMAIN} {
-    tls {
-        dns cloudflare {$CLOUDFLARE_API_TOKEN}
-    }
+	tls {
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+	respond 404
 }
 
 # -------------------------------------------------
