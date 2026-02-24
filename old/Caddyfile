@@ -1,6 +1,9 @@
 {
+	# =================================================
+	# GLOBAL OPTIONS
+	# =================================================
 
-	# Cloudflare DNS-01 for PUBLIC domain
+	# Cloudflare DNS-01 for PUBLIC domain (required for wildcard)
 	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 }
 
@@ -17,80 +20,90 @@
 # PUBLIC DOMAIN (Cloudflare + Let's Encrypt)
 # =================================================
 
+# ---- WILDCARD CERT ANCHOR (forces *.DOMAIN issuance) ----
+*.{$DOMAIN} {
+	tls {
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+	respond 404
+}
+
+# ---- PUBLIC SERVICES ----
+
 adguard.{$DOMAIN} {
-	reverse_proxy adguard:80
+	import proxy adguard:80
 }
 
 jellyfin.{$DOMAIN} {
-	reverse_proxy 172.17.0.1:8096
+	import proxy 172.17.0.1:8096
 }
 
 jellystat.{$DOMAIN} {
-	reverse_proxy jellystat:3000
+	import proxy jellystat:3000
 }
 
 sonarr.{$DOMAIN} {
-	reverse_proxy sonarr:8989
+	import proxy sonarr:8989
 }
 
 radarr.{$DOMAIN} {
-	reverse_proxy radarr:7878
+	import proxy radarr:7878
 }
 
 bazarr.{$DOMAIN} {
-	reverse_proxy bazarr:6767
+	import proxy bazarr:6767
 }
 
 lidarr.{$DOMAIN} {
-	reverse_proxy lidarr:8686
+	import proxy lidarr:8686
 }
 
 lidatube.{$DOMAIN} {
-	reverse_proxy lidatube:5000
+	import proxy lidatube:5000
 }
 
 prowlarr.{$DOMAIN} {
-	reverse_proxy prowlarr:9696
+	import proxy prowlarr:9696
 }
 
 qbittorrent.{$DOMAIN} {
-	reverse_proxy qbittorrent:8090
+	import proxy qbittorrent:8090
 }
 
 seerr.{$DOMAIN} {
-	reverse_proxy seerr:5055
+	import proxy seerr:5055
 }
 
 unmanic.{$DOMAIN} {
-	reverse_proxy unmanic:8888
+	import proxy unmanic:8888
 }
 
 portainer.{$DOMAIN} {
-	reverse_proxy portainer:9000
+	import proxy portainer:9000
 }
 
 dash.{$DOMAIN} {
-	reverse_proxy dash:3001
+	import proxy dash:3001
 }
 
 stirling.{$DOMAIN} {
-	reverse_proxy stirling:8080
+	import proxy stirling:8080
 }
 
 speedtest.{$DOMAIN} {
-	reverse_proxy speedtest:80
+	import proxy speedtest:80
 }
 
 immich.{$DOMAIN} {
-	reverse_proxy immich:2283
+	import proxy immich:2283
 }
 
 tururouter.{$DOMAIN} {
-	reverse_proxy tururouter.lan:80
+	import proxy tururouter.lan:80
 }
 
 # =================================================
-# TAILSCALE DOMAIN (Manual TLS)
+# TAILSCALE DOMAIN (Manual TLS) — UNCHANGED
 # =================================================
 
 # HTTP → HTTPS redirect for Tailscale domain
