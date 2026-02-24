@@ -24,10 +24,6 @@ adguard.{$DOMAIN} {
 	reverse_proxy adguard:80
 }
 
-filebrowser.{$DOMAIN} {
-    reverse_proxy filebrowser:80
-}
-
 jellyfin.{$DOMAIN} {
 	reverse_proxy 172.17.0.1:8096
 }
