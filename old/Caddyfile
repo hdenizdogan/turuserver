@@ -1,10 +1,9 @@
 {
-
 	# Cloudflare DNS-01 for PUBLIC domain
 	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 
 	# Optional but recommended
-        auto_https prefer_wildcard
+    auto_https prefer_wildcard
 }
 
 # =================================================
