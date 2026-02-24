@@ -156,3 +156,8 @@ https://dash.{$OLDDOMAIN} {
 	import tailscale_tls dash
 	import proxy dash:3001
 }
+
+https://immich.{$OLDDOMAIN} {
+	import tailscale_tls immich
+	import proxy immich:2283
+}
