@@ -472,7 +472,7 @@
 
 
   dash:
-    image: mauricenino/dashdot:nvidia
+    image: mauricenino/dashdot:latest
     container_name: dash
     restart: unless-stopped
     privileged: true
@@ -484,7 +484,7 @@
     ports:
       - "3001:3001"
     environment:
-      - DASHDOT_WIDGET_LIST=os,cpu,storage,ram,network,gpu
+      - DASHDOT_WIDGET_LIST=os,cpu,storage,ram,network
       - DASHDOT_SHOW_DASH_VERSION=bottom_right
       - DASHDOT_ENABLE_CPU_TEMPS=true
       - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
