@@ -472,7 +472,7 @@
 
 
   dash:
-    image: mauricenino/dashdot:nvidia
+    image: mauricenino/dashdot:latest
     container_name: dash
     restart: unless-stopped
     privileged: true
