@@ -88,16 +88,3 @@ immich.{$DOMAIN} {
 tururouter.{$DOMAIN} {
     reverse_proxy tururouter.lan:80
 }
-
-proxmox.{$DOMAIN} {
-    reverse_proxy https://pve.lan:8006 {
-        transport http {
-            tls_insecure_skip_verify
-        }
-
-        header_up Host {host}
-        header_up X-Real-IP {remote}
-        header_up X-Forwarded-For {remote}
-        header_up X-Forwarded-Proto {scheme}
-    }
-}
