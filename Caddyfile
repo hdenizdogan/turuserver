@@ -90,7 +90,7 @@ tururouter.{$DOMAIN} {
 }
 
 proxmox.{$DOMAIN} {
-    reverse_proxy https://proxmox.lan:8006 {
+    reverse_proxy https://pve.lan:8006 {
         transport http {
             tls_insecure_skip_verify
         }
