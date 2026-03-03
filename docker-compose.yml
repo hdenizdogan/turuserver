@@ -1,4 +1,4 @@
-6﻿services:
+services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
