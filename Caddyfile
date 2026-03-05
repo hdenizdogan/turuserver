@@ -88,3 +88,7 @@ immich.{$DOMAIN} {
 tururouter.{$DOMAIN} {
     reverse_proxy tururouter.lan:80
 }
+
+wizarr.{$DOMAIN} {
+    reverse_proxy wizarr:5690
+}
