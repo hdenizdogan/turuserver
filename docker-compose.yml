@@ -476,11 +476,11 @@ services:
     container_name: dash
     restart: unless-stopped
     privileged: true
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "dash"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 3001
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "dash"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 3001
     ports:
       - "3001:3001"
     environment:
