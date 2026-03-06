@@ -718,23 +718,23 @@ services:
     networks:
       local_net:
 
-#  speedtest:
-#    image: lscr.io/linuxserver/librespeed:latest
-#    container_name: speedtest
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "speedtest"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 80
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - TZ=Europe/Istanbul
-#    ports:
-#      - "8999:80"
-#    restart: unless-stopped
-#    networks:
-#      local_net:
+  speedtest:
+    image: lscr.io/linuxserver/librespeed:latest
+    container_name: speedtest
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "speedtest"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 80
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Istanbul
+    ports:
+      - "8999:80"
+    restart: unless-stopped
+    networks:
+      local_net:
 
 #  caddy:
 #    image: caddy:latest
