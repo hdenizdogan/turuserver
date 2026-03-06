@@ -102,6 +102,10 @@ tururouter.{$DOMAIN} {
 	import proxy tururouter.lan:80
 }
 
+wizarr.{$DOMAIN} {
+    reverse_proxy wizarr:5690
+}
+
 # =================================================
 # TAILSCALE DOMAIN (Manual TLS) — UNCHANGED
 # =================================================
