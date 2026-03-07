@@ -308,8 +308,8 @@ services:
       - CAPTCHA_SOLVER=none
     ports:
       - "8191:8191"
-#    networks:
-#      local_net:
+    networks:
+      local_net:
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
