@@ -72,11 +72,11 @@ services:
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "jellystat"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 3000
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "jellystat"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 3000
     environment:
       POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
@@ -122,11 +122,11 @@ services:
 #    restart: unless-stopped
 #    ports:
 #      - '5690:5690'
-###    labels:
-###      tsdproxy.enable: "true"
-###      tsdproxy.name: "wizarr"
-###      tsdproxy.funnel: "true"
-###      tsdproxy.container_port: 5690
+##    labels:
+##      tsdproxy.enable: "true"
+##      tsdproxy.name: "wizarr"
+##      tsdproxy.funnel: "true"
+##      tsdproxy.container_port: 5690
 #    volumes:
 #      - /mnt/docker/wizarr:/data
 #    environment:
@@ -176,11 +176,11 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "prowlarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9696
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "prowlarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 9696
     ports:
       - "9696:9696"
     environment:
@@ -220,11 +220,11 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "sonarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8989
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "sonarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8989
     ports:
       - "8989:8989"
     environment:
@@ -242,11 +242,11 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "radarr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 7878
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "radarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 7878
     ports:
       - "7878:7878"
     environment:
@@ -315,11 +315,11 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "qbittorrent"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 8090
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "qbittorrent"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8090
     ports:
       - "8090:8090"
       - "6881:6881"
@@ -394,11 +394,11 @@ services:
     init: true
     container_name: seerr
     restart: unless-stopped
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "seerr"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 5055
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "seerr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 5055
     ports:
       - "5055:5055"
     environment:
