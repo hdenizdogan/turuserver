@@ -793,20 +793,6 @@ services:
       local_net:
         ipv4_address: 172.19.0.199
 
-
-#  tsdproxy2:
-#    container_name: tsdproxy2
-#    image: almeidapaulopt/tsdproxy:2
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - /mnt/docker/tsdproxy2/data:/data
-#      - /mnt/docker/tsdproxy2/config:/config
-#    restart: unless-stopped
-#    ports:
-#      - "9090:8080"
-#    networks:
-#      local_net:
-
 networks:
   local_net:
     driver: bridge
