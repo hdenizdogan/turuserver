@@ -606,30 +606,18 @@ services:
 #      local_net:
 #        ipv4_address: 172.19.0.199
 
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
-    ports:
-      - "3010:3000"
-    volumes:
-      - /mnt/docker/homepage:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      HOMEPAGE_ALLOWED_HOSTS: ${HOMEPAGE_ALLOWED_HOSTS}
-      HOMEPAGE_VAR_JELLYFIN_KEY: ${JELLYFIN_KEY}
-      HOMEPAGE_VAR_JELLYSTAT_KEY: ${JELLYSTAT_KEY}
-      HOMEPAGE_VAR_SEERR_KEY: ${SEERR_KEY}
-      HOMEPAGE_VAR_QB_USERNAME: ${QB_USERNAME}
-      HOMEPAGE_VAR_QB_PASSWORD: ${QB_PASSWORD}
-      HOMEPAGE_VAR_SONARR_KEY: ${SONARR_KEY}
-      HOMEPAGE_VAR_RADARR_KEY: ${RADARR_KEY}
-      HOMEPAGE_VAR_LIDARR_KEY: ${LIDARR_KEY}
-      HOMEPAGE_VAR_PROWLARR_KEY: ${PROWLARR_KEY}
-      HOMEPAGE_VAR_BAZARR_KEY: ${BAZARR_KEY}
-      HOMEPAGE_VAR_IMMICH_KEY: ${IMMICH_KEY}
-      HOMEPAGE_VAR_PORTAINER_KEY: ${PORTAINER_KEY}
-    networks:
-      local_net:
+#  homepage:
+#    image: ghcr.io/gethomepage/homepage:latest
+#    container_name: homepage
+#    ports:
+#      - "3010:3000"
+#    volumes:
+#      - /mnt/docker/homepage:/app/config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    env_file:
+#      - .env
+#    networks:
+#      local_net:
 
 
   watchtower:
