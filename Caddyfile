@@ -49,6 +49,10 @@ lidatube.{$DOMAIN} {
     reverse_proxy lidatube:5000
 }
 
+homepage.{$DOMAIN} {
+    reverse_proxy homepage:3000
+}
+
 prowlarr.{$DOMAIN} {
     reverse_proxy prowlarr:9696
 }

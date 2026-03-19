@@ -606,6 +606,18 @@ services:
 #      local_net:
 #        ipv4_address: 172.19.0.199
 
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    ports:
+      - "3000:3000"
+    volumes:
+      - /mnt/docker/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: gethomepage.dev
+
+
   watchtower:
     image: nickfedor/watchtower
     restart: unless-stopped
