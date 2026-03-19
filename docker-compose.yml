@@ -615,7 +615,9 @@ services:
       - /mnt/docker/homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: gethomepage.dev
+      HOMEPAGE_ALLOWED_HOSTS: ${HOMEPAGE_ALLOWED_HOSTS}
+    networks:
+      local_net:
 
 
   watchtower:
