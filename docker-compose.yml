@@ -606,18 +606,18 @@ services:
 #      local_net:
 #        ipv4_address: 172.19.0.199
 
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
-    ports:
-      - "3010:3000"
-    volumes:
-      - /mnt/docker/homepage:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    env_file:
-      - .env
-    networks:
-      local_net:
+#  homepage:
+#    image: ghcr.io/gethomepage/homepage:latest
+#    container_name: homepage
+#    ports:
+#      - "3010:3010"
+#    volumes:
+#      - /mnt/docker/homepage:/app/config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    env_file:
+#      - .env
+#    networks:
+#      local_net:
 
 
   watchtower:
