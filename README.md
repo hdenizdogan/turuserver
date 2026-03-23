@@ -1,354 +1,287 @@
-# 🐳 Media & Home Server Docker Stack
+# 🏠 Home Media Server Stack
 
-This repository contains a **production-ready Docker Compose stack** for a self-hosted media server and supporting services.  
-It is designed for **remote access via Tailscale Funnel**, **manual TLS via Caddy**, and **hardware-accelerated media workloads**.
-
-The stack is optimized for:
-- Jellyfin-based media streaming
-- Automated media management (Sonarr / Radarr / Lidarr / Bazarr)
-- Torrenting (qBittorrent)
-- Media optimization (Unmanic)
-- Request management (Jellyseerr)
-- Statistics & monitoring (Jellystat, Dashdot)
-- Photo management (Immich)
-- Secure remote access without port-forwarding
+A self-hosted media server stack running on Docker, with Caddy as a reverse proxy using Cloudflare DNS challenge for wildcard TLS certificates, and Cloudflare Tunnel for secure public access.
 
 ---
 
-## ✨ Key Features
+## 📦 Stack Overview
 
-- **Tailscale Funnel exposure** via `tsdproxy`
-- **Manual TLS termination** using Caddy + Funnel-issued certificates
-- **Hardware acceleration** (Intel iGPU / VAAPI / OpenVINO)
-- **Single bridge network** with fixed subnet
-- **Host networking for Jellyfin** (DLNA & discovery)
-- **Watchtower auto-updates**
-- **Modular & extensible** (many services commented and ready)
-
----
-
-## 🧱 Architecture Overview
-
-This stack has **two completely separate access paths**:
-
-- **Local access (LAN / Tailscale LAN)** → via **Caddy**
-- **Public access (Internet)** → via **Tailscale Funnel (tsdproxy)**
-
-Caddy is **not** in the public access path.  
-Tailscale Funnel is **not** in the local access path.
-
----
-
-### 🌐 Public Access (Internet → Services)
-
-
-```
-Internet
-   │
-   ▼
-Tailscale Funnel
-   │
-   ▼
-tsdproxy
-   │
-   ▼
-Docker Services
-```
-
-- `tsdproxy` exposes selected containers directly via **Tailscale Funnel**
-- Each service is published using Docker labels
-- TLS and authentication are handled **entirely by Tailscale**
-- **Caddy is NOT used**
-- No reverse proxy, no ACME, no port-forwarding
-
-✅ Secure public access  
-✅ Zero open ports  
-✅ Identity-aware access via Tailscale
+| Service | Description | Port |
+|---|---|---|
+| [Jellyfin](#jellyfin) | Media server (movies, shows, music) | `8096` |
+| [Jellystat](#jellystat) | Jellyfin statistics dashboard | `3000` |
+| [Sonarr](#sonarr) | TV show management | `8989` |
+| [Radarr](#radarr) | Movie management | `7878` |
+| [Lidarr](#lidarr) | Music management | `8686` |
+| [Bazarr](#bazarr) | Subtitle management | `6767` |
+| [Prowlarr](#prowlarr) | Indexer manager | `9696` |
+| [qBittorrent](#qbittorrent) | Torrent client | `8090` |
+| [Seerr](#seerr) | Media request manager | `5055` |
+| [Lidatube](#lidatube) | YouTube → Lidarr downloader | `5000` |
+| [Unmanic](#unmanic) | Media transcoding pipeline | `8888` |
+| [Stirling PDF](#stirling-pdf) | PDF tools | `5050` |
+| [Immich](#immich) | Photo/video backup | `2283` |
+| [Portainer](#portainer) | Docker management UI | `9000` |
+| [Dashdot](#dashdot) | Server stats dashboard | `3001` |
+| [Watchtower](#watchtower) | Automatic container updates | — |
+| [Cloudflared](#cloudflared) | Cloudflare Tunnel | — |
+| [Caddy](#caddy) | Reverse proxy with TLS | `80`, `443` |
 
 ---
 
-### 🏠 Local Access (LAN / Internal Network)
+## 🗂️ Directory Structure
 
 ```
-Client (LAN / VPN)
-│
-▼
-Caddy
-│
-▼
-Docker Services
+.
+├── docker-compose.yml
+├── Caddyfile
+├── hwaccel.ml.yml          # Immich hardware acceleration config
+└── .env                    # Environment variables (see below)
 ```
 
-
-- Caddy acts as a **local reverse proxy**
-- Uses **manual TLS certificates** mounted from `tsdproxy`
-- Certificates are reused only for **local HTTPS**
-- Services are accessed via:
+Media and config are stored on the host:
 
 ```
-https://service.<domain>
-```
-
-
-- Traffic never leaves the local network
-
-✅ Clean local HTTPS  
-✅ Central routing  
-✅ No dependency on Tailscale for local access
-
----
-
-### 🔐 Certificate Flow (Important)
-
-
-```
-Tailscale Funnel
-│
-▼
-tsdproxy
-│
-├── Issues & renews certificates
-│
-▼
-/mnt/docker/tsdproxy/data/default/<service>/certs
-│
-▼
-Caddy (read-only)
-```
-
-- Certificates are **issued once by Tailscale**
-- Caddy only **consumes** them
-- Caddy never requests or renews certificates itself
-
----
-
-### 🚫 What Does NOT Happen
-
-- ❌ Public traffic does NOT go through Caddy
-- ❌ Local traffic does NOT go through tsdproxy
-- ❌ No ports are forwarded from the router
-- ❌ No ACME challenges from Caddy
-
----
-
-### 🧠 Why This Design?
-
-- Avoids double TLS termination
-- Prevents ACME conflicts
-- Keeps public exposure minimal
-- Allows full local control with HTTPS
-- Makes Funnel purely “edge-facing”
-
----
-
-## 📦 Included Services
-
-### 🎬 Media & Automation
-- **Jellyfin** – Media server (host networking)
-- **Sonarr / Radarr / Lidarr** – Media automation
-- **Bazarr** – Subtitle management
-- **Prowlarr** – Indexer manager
-- **qBittorrent** – Torrent client
-- **Unmanic** – Media optimization & remuxing
-- **Jellyseerr** – Media requests
-
-### 📊 Monitoring & Stats
-- **Jellystat** + PostgreSQL – Jellyfin analytics
-- **Dashdot** – System metrics dashboard
-
-### 📷 Photos
-- **Immich** – Self-hosted photo backup
-- **Immich Machine Learning** – OpenVINO accelerated ML
-- **Redis & PostgreSQL** – Immich backend services
-
-### 🔧 Infrastructure
-- **Caddy** – Reverse proxy & TLS
-- **tsdproxy** – Tailscale Funnel automation
-- **Watchtower** – Automatic container updates
-- **Portainer** – Docker management UI
-- **Meilisearch** – Search backend (optional)
-
----
-
-## 🌐 Domains & Routing
-
-All services are exposed as subdomains:
-
-```
-https://jellyfin.example.com
-https://sonarr.example.com
-https://radarr.example.com
-https://immich.example.com
-...
-```
-
-Routing is handled by **Caddy** using **manual TLS certificates** generated by **Tailscale Funnel**.
-
----
-
-## 🔐 TLS & Security Model
-
-- `auto_https off` in Caddy
-- TLS certificates are **not issued by Caddy**
-- Certificates are mounted from:
-  ```
-  /mnt/docker/tsdproxy/data/default/<service>/certs/
-  ```
-- Authentication & access control handled by **Tailscale**
-- Services are private unless explicitly exposed
-
----
-
-## 📁 Directory Layout
-
-```
-/mnt/docker/
-├── jellyfin_config
-├── jellyfin_cache
-├── sonarr
-├── radarr
-├── lidarr
-├── bazarr
-├── qbittorrent
-├── unmanic
-├── jellystat-db
-├── immich
-├── redis
-├── tsdproxy
-├── portainer_data
-└── watchtower
-```
-
-Media storage:
-```
-/mnt/media/
-├── Movies
-├── Shows
-├── Music
-└── torrent
+/mnt/
+├── docker/                 # Container config/data volumes
+│   ├── jellyfin_config/
+│   ├── jellyfin_cache/
+│   ├── sonarr/
+│   ├── radarr/
+│   ├── lidarr/
+│   ├── bazarr/
+│   ├── prowlarr/
+│   ├── qbittorrent/
+│   ├── seerr/
+│   ├── jellystat/
+│   ├── lidatube/
+│   ├── immich/
+│   ├── portainer_data/
+│   ├── StirlingPDF/
+│   ├── redis/
+│   └── caddy-cloudflare/
+└── media/                  # Media library
+    ├── torrent/            # Download directory
+    │   └── Music/
+    ├── Shows/
+    └── Movies/
 ```
 
 ---
 
-## ⚙️ Requirements
+## ⚙️ Environment Variables
 
-- Docker & Docker Compose
-- Tailscale account
-- Tailscale Funnel enabled
-- Intel iGPU recommended (VAAPI / OpenVINO)
-- Linux host (mini PC / server)
-
----
-
-## 🧪 Environment Variables
-
-Create a `.env` file:
+Create a `.env` file in the same directory as `docker-compose.yml`:
 
 ```env
-DOMAIN=example.com
+# General
 TZ=Europe/Istanbul
-
 PUID=1000
 PGID=1000
+HOSTNAME=your-hostname
 
-# Tailscale
-TSFUNNEL_AUTHKEY=tskey-xxxx
+# Cloudflare
+CLOUDFLARE_API_TOKEN=your_cloudflare_api_token
+TUNNEL_TOKEN=your_cloudflare_tunnel_token
+DOMAIN=yourdomain.com
+OLDDOMAIN=youroldomain.com   # optional, for redirects
 
-# Jellystat
+# Jellystat DB
 JELLYSTATDB_POSTGRES_USER=jellystat
-JELLYSTATDB_POSTGRES_PASSWORD=securepassword
+JELLYSTATDB_POSTGRES_PASSWORD=strongpassword
 JELLYSTATDB_POSTGRES_IP=jellystat-db
 JELLYSTATDB_POSTGRES_PORT=5432
-JELLYSTAT_JWT_SECRET=supersecret
+JELLYSTAT_JWT_SECRET=your_jwt_secret
 
 # Immich
-UPLOAD_LOCATION=/mnt/media/photos
-DB_DATA_LOCATION=/mnt/docker/immich_postgres
-DB_USERNAME=immich
-DB_PASSWORD=immichpassword
-DB_DATABASE_NAME=immich
 IMMICH_VERSION=release
+UPLOAD_LOCATION=/mnt/docker/immich/photos
+DB_DATA_LOCATION=/mnt/docker/immich/postgres
+DB_PASSWORD=strongpassword
+DB_USERNAME=postgres
+DB_DATABASE_NAME=immich
 
-# Watchtower (optional)
+# Watchtower notifications (optional, e.g. ntfy/Gotify URL)
 WATCHTOWER_NOTIFICATION_URL=
-HOSTNAME=homeserver
-```
 
-You can also check the `mock.env` for further additional variables.
+# Homarr (if enabled)
+SECRET_ENCRYPTION_KEY=
+```
 
 ---
 
-## 🚀 Deployment
+## 🌐 Networking
 
-```bash
-git clone https://github.com/hdenizdogan/turuserver
-cd turuserver/
-docker compose pull
-docker compose up -d
+All services (except Jellyfin and Cockpit) communicate over a custom bridge network `local_net` with subnet `172.19.0.0/24`.
+
+- **Caddy** is assigned a static IP of `172.19.0.199` within this network.
+- **Jellyfin** uses `network_mode: host` for better hardware passthrough and DLNA support.
+- **Cockpit** (host service, not Docker) is proxied via `172.17.0.1:9090` (Docker host gateway IP).
+- **Cloudflared** runs with 2 replicas for redundancy and routes traffic through the Cloudflare Tunnel to Caddy.
+
+---
+
+## 🔒 TLS & Reverse Proxy (Caddy)
+
+Caddy handles HTTPS using a **wildcard certificate** for `*.yourdomain.com` obtained via the Cloudflare DNS-01 ACME challenge. No ports need to be exposed to the internet.
+
+```
+Cloudflare DNS → Cloudflare Tunnel → Cloudflared container → Caddy → Services
 ```
 
-Check status:
+The Caddyfile uses environment variable substitution:
+
+```caddy
+{
+    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+}
+
+*.{$DOMAIN} {
+    tls {
+        dns cloudflare {$CLOUDFLARE_API_TOKEN}
+    }
+    respond 404
+}
+```
+
+Each service gets a subdomain:
+
+| Subdomain | Proxied To |
+|---|---|
+| `jellyfin.yourdomain.com` | `172.17.0.1:8096` |
+| `cockpit.yourdomain.com` | `172.17.0.1:9090` |
+| `sonarr.yourdomain.com` | `sonarr:8989` |
+| `radarr.yourdomain.com` | `radarr:7878` |
+| `bazarr.yourdomain.com` | `bazarr:6767` |
+| `lidarr.yourdomain.com` | `lidarr:8686` |
+| `prowlarr.yourdomain.com` | `prowlarr:9696` |
+| `qbittorrent.yourdomain.com` | `qbittorrent:8090` |
+| `seerr.yourdomain.com` | `seerr:5055` |
+| `jellystat.yourdomain.com` | `jellystat:3000` |
+| `lidatube.yourdomain.com` | `lidatube:5000` |
+| `unmanic.yourdomain.com` | `unmanic:8888` |
+| `portainer.yourdomain.com` | `portainer:9000` |
+| `dash.yourdomain.com` | `dash:3001` |
+| `stirling.yourdomain.com` | `stirling:8080` |
+| `immich.yourdomain.com` | `immich:2283` |
+
+> **Note:** `adguard`, `homepage`, `speedtest`, and `wizarr` entries are present in the Caddyfile but their corresponding Docker services are currently commented out.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Docker & Docker Compose
+- A domain managed by Cloudflare
+- A Cloudflare API token with `Zone:DNS:Edit` permissions
+- A Cloudflare Tunnel token
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/yourrepo.git
+   cd yourrepo
+   ```
+
+2. **Create required directories**
+   ```bash
+   sudo mkdir -p /mnt/docker /mnt/media/torrent/Music /mnt/media/Shows /mnt/media/Movies
+   ```
+
+3. **Create the `.env` file** (see [Environment Variables](#️-environment-variables) above)
+
+4. **Create the Cloudflare Tunnel** in the Cloudflare dashboard and copy the tunnel token to `.env`
+
+5. **Start the stack**
+   ```bash
+   docker compose up -d
+   ```
+
+6. **Configure the Cloudflare Tunnel** to route traffic to `http://caddy-cloudflare:80` (or `http://localhost:80` if using host networking)
+
+---
+
+## 🔧 Service Details
+
+### Jellyfin
+Media server with hardware transcoding support via `/dev/dri` (Intel QSV / VAAPI). Uses `network_mode: host` for DLNA and direct play support.
+
+### Jellystat
+Statistics and history dashboard for Jellyfin. Requires a dedicated PostgreSQL database (`jellystat-db`).
+
+### Sonarr / Radarr / Lidarr / Bazarr / Prowlarr
+The standard *arr stack for automated media management. All share `/mnt/media/torrent` as the download path for seamless hardlinking.
+
+### qBittorrent
+Torrent client with web UI on port `8090`. Web UI port is explicitly set via `WEBUI_PORT=8090`.
+
+### Seerr
+Media request and discovery tool (Overseerr fork). Connects to Jellyfin and the *arr stack.
+
+### Lidatube
+Downloads music from YouTube and imports to Lidarr automatically (`attempt_lidarr_import=True`).
+
+### Unmanic
+File transcoding pipeline with hardware acceleration support via `/dev/dri`.
+
+### Stirling PDF
+Full-featured PDF toolkit. Configured with Turkish language support (`LANGS=["tr_TR"]`). Accessible on host port `5050`.
+
+### Immich
+Self-hosted photo and video backup. Uses:
+- **OpenVINO** for ML hardware acceleration (see `hwaccel.ml.yml`)
+- **VectorChord** PostgreSQL image for efficient vector search
+- **Valkey** (Redis fork) for caching
+
+### Portainer
+Docker management UI. Mounts the Docker socket for full container control.
+
+### Dashdot
+Real-time server stats dashboard. Runs privileged with host filesystem mounted read-only for accurate disk/network metrics.
+
+### Watchtower
+Automatically updates all containers daily at 04:00. Configured with:
+- `--cleanup` — removes old images after update
+- `--no-startup-message` — suppresses the initial notification
+- `--include-restarting` — also updates containers that are restarting
+
+### Cloudflared
+Runs the Cloudflare Tunnel client with **2 replicas** for high availability. All inbound traffic is routed through this to Caddy.
+
+### Caddy
+Reverse proxy with automatic TLS. Uses the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Mounts a read-only `Caddyfile` and persists certificate data under `/mnt/docker/caddy-cloudflare/`.
+
+---
+
+## 🛠️ Useful Commands
+
 ```bash
+# Start all services
+docker compose up -d
+
+# Stop all services
+docker compose down
+
+# View logs for a specific service
+docker compose logs -f sonarr
+
+# Pull latest images and recreate containers
+docker compose pull && docker compose up -d
+
+# Restart a single service
+docker compose restart jellyfin
+
+# Check running containers
 docker compose ps
 ```
 
 ---
 
-## 🧠 Design Decisions
+## 📝 Notes
 
-### Why Jellyfin uses `network_mode: host`?
-- DLNA & auto-discovery support
-- Better performance
-- Avoids multicast issues
-
-### Why Caddy with manual TLS?
-- Funnel already provides valid certificates
-- Avoids ACME conflicts
-- Simple and predictable TLS handling
-
-### Why tsdproxy?
-- Automatic Funnel exposure using Docker labels
-- No manual `tailscale serve` commands
-- Clean Docker-native workflow
-
----
-
-## 🧩 Optional / Commented Services
-
-Pre-configured but disabled services include:
-- Homarr
-- Glances
-- Home Assistant
-- Stirling PDF
-- Wizarr
-- Jellysweep
-- Filebrowser
-- Nginx Proxy Manager
-- AdGuard Home
-
-Uncomment and configure as needed.
-
----
-
-## ⚠️ Notes
-
-- This setup assumes **trusted Tailscale users**
-- Funnel exposure is public but gated by Tailscale auth
-- Regularly back up `/mnt/docker`
-- Monitor disk usage (Immich & Unmanic can grow fast)
-
----
-
-## 📜 License
-
-Provided as-is for personal and educational use.
-
----
-
-## 🙌 Credits
-
-- Jellyfin & *Arr ecosystem
-- LinuxServer.io
-- Immich team
-- Tailscale & tsdproxy
-- Caddy Web Server
+- Several services are **commented out** in `docker-compose.yml` (Navidrome, Glances, Homepage, AdGuard, Homarr, Wizarr, Filebrowser, Metube, Speedtest, tdarr, Jellysweep, NPM, Home Assistant, tsdproxy). They can be enabled by uncommenting.
+- Cockpit (Ubuntu server web UI) is proxied through Caddy at `cockpit.yourdomain.com` → `172.17.0.1:9090`. Make sure Cockpit is configured to allow the tunnel domain in `/etc/cockpit/cockpit.conf`.
+- Watchtower is pinned to `nickfedor/watchtower` (a maintained fork of the original `containrrr/watchtower`).
