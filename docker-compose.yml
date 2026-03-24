@@ -97,14 +97,14 @@ services:
     image: ghcr.io/connorgallopo/tracearr:latest
     container_name: tracearr
     ports:
-      - "${PORT:-3000}:3000"
+      - "${PORT:-3000}:3020"
     environment:
       - NODE_ENV=production
       - PORT=3020
       - HOST=0.0.0.0
-      - TZ=${TZ}
+      - TZ=${TZ:-UTC}
       - DATABASE_URL=postgres://tracearr:${DB_PASSWORD:-tracearr}@timescale:5432/tracearr
-      - REDIS_URL=redis://tracearr-redis:6379
+      - REDIS_URL=redis://redis:6379
       - JWT_SECRET=${JWT_SECRET}
       - COOKIE_SECRET=${COOKIE_SECRET}
       - CORS_ORIGIN=${CORS_ORIGIN:-*}
@@ -113,13 +113,13 @@ services:
     depends_on:
       timescale:
         condition: service_healthy
-      tracearr-redis:
+      redis:
         condition: service_healthy
     volumes:
-      - /mnt/docker/tracearr/backups:/data/backup
+      - tracearr_backups:/data/backup
     restart: unless-stopped
     networks:
-      - local_net
+      - tracearr-network
 
   timescale:
     # TimescaleDB HA with PostgreSQL 18 - pinned for stability
@@ -138,7 +138,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD:-tracearr}
       - POSTGRES_DB=tracearr
     volumes:
-      - /mnt/docker/tracearr/timescale_data:/home/postgres/pgdata/data
+      - timescale_data:/home/postgres/pgdata/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U tracearr" ]
       interval: 10s
@@ -146,14 +146,14 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - local_net
+      - tracearr-network
 
-  tracearr-redis:
+  redis:
     image: redis:8-alpine
     container_name: tracearr-redis
     command: redis-server --appendonly yes
     volumes:
-      - /mnt/docker/tracearr/redis_data:/data
+      - redis_data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -161,7 +161,7 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - local_net
+      - tracearr-network
 
 #  jellysweep:
 #    image: ghcr.io/jon4hz/jellysweep:latest
