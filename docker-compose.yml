@@ -722,7 +722,7 @@ services:
     ports:
       - '2283:2283'
     depends_on:
-      - immich-redis
+      - immich_redis
       - database
     restart: unless-stopped
     networks:
@@ -747,7 +747,7 @@ services:
       networks:
         local_net:
 
-  immich-redis:
+  immich_redis:
       container_name: immich_redis
       image: docker.io/valkey/valkey:9@sha256:3eeb09785cd61ec8e3be35f8804c8892080f3ca21934d628abc24ee4ed1698f6
 #      labels:
