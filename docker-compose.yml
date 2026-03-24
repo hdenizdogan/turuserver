@@ -116,7 +116,7 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - tracearr_backups:/data/backup
+      - /mnt/docker/tracearr/tracearr_backups:/data/backup
     restart: unless-stopped
     networks:
       - tracearr-network
@@ -138,7 +138,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD:-tracearr}
       - POSTGRES_DB=tracearr
     volumes:
-      - timescale_data:/home/postgres/pgdata/data
+      - /mnt/docker/tracearr/timescale_data:/home/postgres/pgdata/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U tracearr" ]
       interval: 10s
@@ -153,7 +153,7 @@ services:
     container_name: tracearr-redis
     command: redis-server --appendonly yes
     volumes:
-      - redis_data:/data
+      - /mnt/docker/tracearr/redis_data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
