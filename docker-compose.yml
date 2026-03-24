@@ -722,7 +722,7 @@ services:
     ports:
       - '2283:2283'
     depends_on:
-      - redis
+      - immich-redis
       - database
     restart: unless-stopped
     networks:
