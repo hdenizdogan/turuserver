@@ -153,7 +153,7 @@ services:
     container_name: tracearr-redis
     command: redis-server --appendonly yes
     volumes:
-      - redis_data:/data
+      - /mnt/docker/tracearr/redis_data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
