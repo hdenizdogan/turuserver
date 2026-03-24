@@ -726,7 +726,7 @@ services:
       - database
     restart: unless-stopped
     networks:
-      local_net:
+      immich-network:
 
   immich-machine-learning:
       container_name: immich_machine_learning
@@ -745,7 +745,7 @@ services:
        file: hwaccel.ml.yml
        service: openvino
       networks:
-        local_net:
+        immich-network:
 
   immich-redis:
       container_name: immich_redis
@@ -758,7 +758,7 @@ services:
       volumes:
         - /mnt/docker/redis:/data
       networks:
-        local_net:
+        immich-network:
 
   database:
       container_name: immich_postgres
@@ -778,7 +778,7 @@ services:
       shm_size: 128mb
       restart: unless-stopped
       networks:
-        local_net:
+        immich-network:
 
 #  tsdproxy:
 #    image: almeidapaulopt/tsdproxy:latest
@@ -865,6 +865,8 @@ services:
 
 networks:
   tracearr-network:
+    driver: bridge
+  immich-network:
     driver: bridge
   local_net:
     driver: bridge
