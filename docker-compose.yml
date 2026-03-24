@@ -103,7 +103,7 @@ services:
       - PORT=3020
       - HOST=0.0.0.0
       - TZ=${TZ:-UTC}
-      - DATABASE_URL=postgres://tracearr:${DB_PASSWORD:-tracearr}@timescale:5432/tracearr
+      - DATABASE_URL=postgres://tracearr:${TIMESCALE_DB_PASSWORD:-tracearr}@timescale:5432/tracearr
       - REDIS_URL=redis://tracearr-redis:6379
       - JWT_SECRET=${JWT_SECRET}
       - COOKIE_SECRET=${COOKIE_SECRET}
