@@ -104,7 +104,7 @@ services:
       - HOST=0.0.0.0
       - TZ=${TZ:-UTC}
       - DATABASE_URL=postgres://tracearr:${DB_PASSWORD:-tracearr}@timescale:5432/tracearr
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=redis://tracearr-redis:6379
       - JWT_SECRET=${JWT_SECRET}
       - COOKIE_SECRET=${COOKIE_SECRET}
       - CORS_ORIGIN=${CORS_ORIGIN:-*}
@@ -113,13 +113,13 @@ services:
     depends_on:
       timescale:
         condition: service_healthy
-      redis:
+      tracearr-redis:
         condition: service_healthy
     volumes:
-      - tracearr_backups:/data/backup
+      - /mnt/docker/tracearr/tracearr_backups:/data/backup
     restart: unless-stopped
     networks:
-      - tracearr-network
+      - local_net
 
   timescale:
     # TimescaleDB HA with PostgreSQL 18 - pinned for stability
@@ -135,10 +135,10 @@ services:
     command: postgres -c timescaledb.max_tuples_decompressed_per_dml_transaction=0 -c max_locks_per_transaction=4096 -c timescaledb.telemetry_level=off
     environment:
       - POSTGRES_USER=tracearr
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-tracearr}
+      - POSTGRES_PASSWORD=${TIMESCALE_DB_PASSWORD:-tracearr}
       - POSTGRES_DB=tracearr
     volumes:
-      - timescale_data:/home/postgres/pgdata/data
+      - /mnt/docker/tracearr/timescale_data:/home/postgres/pgdata/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U tracearr" ]
       interval: 10s
@@ -146,7 +146,7 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - tracearr-network
+      - local_net
 
   tracearr-redis:
     image: redis:8-alpine
@@ -161,7 +161,7 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - tracearr-network
+      - local_net
 
 #  jellysweep:
 #    image: ghcr.io/jon4hz/jellysweep:latest
