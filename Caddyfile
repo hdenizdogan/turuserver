@@ -73,6 +73,10 @@ speedtest.{$DOMAIN} {
     reverse_proxy speedtest:80
 }
 
+tracearr.{$DOMAIN} {
+    reverse_proxy tracearr:3020
+}
+
 unmanic.{$DOMAIN} {
     reverse_proxy unmanic:8888
 }
