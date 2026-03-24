@@ -846,7 +846,7 @@ services:
   caddy-cloudflare:
     image: ghcr.io/caddybuilds/caddy-cloudflare:latest
     container_name: caddy-cloudflare
-    restart: unless-stopped
+    restart: always
     ports:
       - "80:80"
       - "443:443"
