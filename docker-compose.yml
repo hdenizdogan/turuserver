@@ -110,11 +110,6 @@ services:
       - CORS_ORIGIN=${CORS_ORIGIN:-*}
       - LOG_LEVEL=${LOG_LEVEL:-info}
       # - DATABASE_POOL_MAX=50  # Database connection pool size (default: 50)
-    depends_on:
-      timescale:
-        condition: service_healthy
-      tracearr-redis:
-        condition: service_healthy
     volumes:
       - /mnt/docker/tracearr/tracearr_backups:/data/backup
     restart: unless-stopped
@@ -139,11 +134,6 @@ services:
       - POSTGRES_DB=tracearr
     volumes:
       - /mnt/docker/tracearr/timescale_data:/home/postgres/pgdata/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U tracearr" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     restart: unless-stopped
     networks:
       - local_net
@@ -154,11 +144,6 @@ services:
     command: redis-server --appendonly yes
     volumes:
       - /mnt/docker/tracearr/redis_data:/data
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     restart: unless-stopped
     networks:
       - local_net
