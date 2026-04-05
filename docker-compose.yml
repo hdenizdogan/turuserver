@@ -378,6 +378,8 @@ services:
       - CAPTCHA_SOLVER=none
     ports:
       - "8191:8191"
+    volumes:
+      - /mnt/docker/flaresolverr:/config
 #    networks:
 #      local_net:
 
