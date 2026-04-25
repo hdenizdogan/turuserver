@@ -25,6 +25,7 @@ services:
 #      local_net:
 
   navidrome:
+    container_name: navidrome
     image: deluan/navidrome:latest
     ports:
       - "4533:4533"
