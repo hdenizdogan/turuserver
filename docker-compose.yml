@@ -29,9 +29,8 @@ services:
     ports:
       - "4533:4533"
     restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
+    env_file:
+      - .env
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
