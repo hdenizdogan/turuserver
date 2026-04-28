@@ -788,6 +788,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/tsdproxy/data:/data
+      - /mnt/docker/tsdproxy/config:/config
     environment:
       - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
       - DOCKER_HOST=unix:///var/run/docker.sock
