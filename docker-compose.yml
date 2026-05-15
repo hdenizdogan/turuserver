@@ -38,6 +38,57 @@ services:
 #    networks:
 #      local_net:
 
+  spotisub:
+    image: blastbeng/spotisub:latest
+    container_name: spotisub
+    ports:
+      - "5183:5183"
+    volumes:
+      - "/mnt/docker/spotisub:/config"
+      - "/mnt/media/torrent/Music:/music"
+    environment:
+      # --- Spotify API (mandatory) ---
+      # Create an app at https://developer.spotify.com/dashboard
+      # Set the redirect URI to: http://YOUR_SERVER_IP:5183/
+      SPOTIPY_CLIENT_ID: $SPOTIPY_CLIENT_ID
+      SPOTIPY_CLIENT_SECRET: $SPOTIPY_CLIENT_SECRET
+      SPOTIPY_REDIRECT_URI: "http://localhost:5183/"   # <CHANGE_ME> if remote
+
+      # --- Navidrome / Subsonic API (mandatory) ---
+      SUBSONIC_API_HOST: $SUBSONIC_API_HOST
+      SUBSONIC_API_PORT: $SUBSONIC_API_PORT
+      SUBSONIC_API_USER: $SUBSONIC_API_USER
+      SUBSONIC_API_PASS: $SUBSONIC_API_PASS
+
+      # --- Playlist sync schedule (hours; set to 0 to disable) ---
+      PLAYLIST_GEN_SCHED: "3"       # import your Spotify playlists
+      SAVED_GEN_SCHED: "2"          # import your Liked Songs
+      ARTIST_TOP_GEN_SCHED: "1"     # top tracks per artist
+      ARTIST_GEN_SCHED: "1"         # artist recommendations
+      RECOMEND_GEN_SCHED: "4"       # personalised recommendations
+      NUM_USER_PLAYLISTS: "5"
+
+      # --- Playlist appearance ---
+      PLAYLIST_PREFIX: "Spotify - "
+      ITEMS_PER_PLAYLIST: "100"
+      EXCLUDED_WORDS: "acoustic,instrumental,demo,live"
+
+      # --- spotDL integration (downloads missing tracks) ---
+      SPOTDL_ENABLED: "1"
+      # Files are saved as: /music/Artist/Artist - Album (Year) - 01 - Title.ext
+      SPOTDL_OUT_FORMAT: "/music/{artists}/{album} ({year})/{artists} - {album} - {track-number:0>2} - {title}.{output-ext}"
+
+      # --- Lidarr integration ---
+      # spotisub will only download tracks whose artist exists in Lidarr.
+      # After Lidarr is running, paste your API key below, then restart spotisub.
+      LIDARR_ENABLED: $LIDARR_ENABLED
+      LIDARR_IP: $LIDARR_IP
+      LIDARR_PORT: $LIDARR_PORT
+      LIDARR_TOKEN: $LIDARR_TOKEN
+      LIDARR_USE_SSL: "0"
+
+      LOG_LEVEL: "20"   # 10=DEBUG, 20=INFO, 40=ERROR
+
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
 #    container_name: meilisearch
