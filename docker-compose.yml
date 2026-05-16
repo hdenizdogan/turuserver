@@ -38,30 +38,41 @@ services:
 #    networks:
 #      local_net:
 
-  musicseerr:
-    image: ghcr.io/habirabbu/musicseerr:latest
-    container_name: musicseerr
-    environment:
-      - PUID=1000            # Run `id` on your host to find your user/group ID
-      - PGID=1000
-      - PORT=8688
-      - TZ=Europe/Istanbul           # Your timezone, e.g. Europe/London, America/New_York
-    ports:
-      - "8688:8688"
-    volumes:
-      - "/mnt/docker/musicseerr/config:/app/config"  # Persistent app configuration
-      - "/mnt/docker/musicseerr/cache:/app/cache"    # Cover art and metadata cache
-      # Optional: mount your music library for local file playback.
-      # The left side should match the root folder Lidarr uses.
-      # The right side (/music) must match "Music Directory Path" in Settings > Local Files.
-      - "/mnt/media/torrent/Music:/music:ro"
+  aurral:
+    image: ghcr.io/lklynet/aurral:latest
     restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8688/health" ]
-      interval: 30s
-      timeout: 10s
-      start_period: 15s
-      retries: 3
+    ports:
+      - "3003:3001"
+    environment:
+      - DOWNLOAD_FOLDER=${DL_FOLDER:-./data/downloads}
+    volumes:
+      - "/mnt/docker/aurral/downloads:/app/downloads"
+      - "/mnt/docker/aurral/backend/data:/app/backend/data"
+
+#  musicseerr:
+#    image: ghcr.io/habirabbu/musicseerr:latest
+#    container_name: musicseerr
+#    environment:
+#      - PUID=1000            # Run `id` on your host to find your user/group ID
+#      - PGID=1000
+#      - PORT=8688
+#      - TZ=Europe/Istanbul           # Your timezone, e.g. Europe/London, America/New_York
+#    ports:
+#      - "8688:8688"
+#    volumes:
+#      - "/mnt/docker/musicseerr/config:/app/config"  # Persistent app configuration
+#      - "/mnt/docker/musicseerr/cache:/app/cache"    # Cover art and metadata cache
+#      # Optional: mount your music library for local file playback.
+#      # The left side should match the root folder Lidarr uses.
+#      # The right side (/music) must match "Music Directory Path" in Settings > Local Files.
+#      - "/mnt/media/torrent/Music:/music:ro"
+#    restart: unless-stopped
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8688/health" ]
+#      interval: 30s
+#      timeout: 10s
+#      start_period: 15s
+#      retries: 3
 
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
@@ -175,28 +186,6 @@ services:
     restart: unless-stopped
 #    networks:
 #      - local_net
-
-#  jellysweep:
-#    image: ghcr.io/jon4hz/jellysweep:latest
-#    container_name: jellysweep
-##    labels:
-##      tsdproxy.enable: "true"
-##      tsdproxy.name: "jellysweep"
-##      tsdproxy.funnel: "true"
-##      tsdproxy.container_port: 3002
-#    restart: unless-stopped
-#    ports:
-#      - "3002:3002"
-#    networks:
-#      local_net:
-#    volumes:
-#      - /mnt/docker/jellysweep:/app/data
-#      # Mount Jellyfin library paths at the same locations for disk usage monitoring
-#      # Example: if Jellyfin has /data/movies, mount it the same way here
-#      - /mnt/media/Shows:/data/tv:ro
-#      - /mnt/media/Movies:/data/movies:ro
-#    environment:
-#      - JELLYSWEEP_DRY_RUN=true
 
 
 #  wizarr:

@@ -21,6 +21,10 @@ adguard.{$DOMAIN} {
     reverse_proxy adguard:80
 }
 
+aurral.{$DOMAIN} {
+    reverse_proxy aurral:3001
+}
+
 cockpit.{$DOMAIN} {
     reverse_proxy 172.17.0.1:9090
 }
