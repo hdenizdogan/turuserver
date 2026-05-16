@@ -44,7 +44,7 @@ services:
     ports:
       - "5183:5183"
     volumes:
-      - "/mnt/docker/spotisub:/data"
+      - "/mnt/docker/spotisub:/home/user/spotisub/cache"
       - "/mnt/media/torrent/Music:/music"
     environment:
       # --- Spotify API (mandatory) ---
