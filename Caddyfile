@@ -77,10 +77,6 @@ speedtest.{$DOMAIN} {
     reverse_proxy speedtest:80
 }
 
-spotisub.{$DOMAIN} {
-    reverse_proxy spotisub:5183
-}
-
 tracearr.{$DOMAIN} {
     reverse_proxy tracearr:3020
 }
