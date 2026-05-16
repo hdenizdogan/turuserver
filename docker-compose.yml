@@ -52,7 +52,7 @@ services:
       # Set the redirect URI to: http://YOUR_SERVER_IP:5183/
       SPOTIPY_CLIENT_ID: $SPOTIPY_CLIENT_ID
       SPOTIPY_CLIENT_SECRET: $SPOTIPY_CLIENT_SECRET
-      SPOTIPY_REDIRECT_URI: "http://localhost:5183/"   # <CHANGE_ME> if remote
+      SPOTIPY_REDIRECT_URI: $SPOTIPY_REDIRECT_URI
 
       # --- Navidrome / Subsonic API (mandatory) ---
       SUBSONIC_API_HOST: $SUBSONIC_API_HOST
