@@ -85,6 +85,10 @@ speedtest.{$DOMAIN} {
     reverse_proxy speedtest:80
 }
 
+soulsync.{$DOMAIN} {
+    reverse_proxy soulsync:8008
+}
+
 tracearr.{$DOMAIN} {
     reverse_proxy tracearr:3020
 }

@@ -38,6 +38,68 @@ services:
 #    networks:
 #      local_net:
 
+  soulsync:
+    image: boulderbadgedad/soulsync:latest
+    container_name: soulsync-webui
+    environment:
+      # User/Group ID configuration
+      - PUID=1000
+      - PGID=1000
+      - UMASK=022
+      # Web server configuration
+      - PYTHONPATH=/app
+      # Optional: Configure through environment variables
+      - SOULSYNC_CONFIG_PATH=/app/config/config.json
+      # Set timezone (change to your timezone)
+      - TZ=Europe/Istanbul
+      # OAuth callback ports. If 8888/8889 conflict with another container (e.g. Gluetun),
+      # change the port numbers below AND update the matching port mappings in the ports section.
+      # Then update the redirect URI in SoulSync → Settings → Connections AND in your Spotify/Tidal developer dashboard to match.
+      - SOULSYNC_SPOTIFY_CALLBACK_PORT=8888
+      - SOULSYNC_TIDAL_CALLBACK_PORT=8889
+    ports:
+      - "8008:8008"   # Main web app
+      - "8888:8888"   # Spotify OAuth callback — keep in sync with SOULSYNC_SPOTIFY_CALLBACK_PORT above
+      - "8889:8889"   # Tidal OAuth callback   — keep in sync with SOULSYNC_TIDAL_CALLBACK_PORT above
+    volumes:
+      # Persistent data volumes
+      - "/mnt/docker/soulsync/config:/app/config"
+      - "/mnt/docker/soulsync/logs:/app/logs"
+      - "/mnt/docker/soulsync/downloads:/app/downloads"
+      - "/mnt/docker/soulsync/Staging:/app/Staging"
+      - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
+      - "/mnt/docker/soulsync/scripts:/app/scripts"
+      # Use named volume for database persistence (separate from host database)
+      # NOTE: Changed from /app/database to /app/data to avoid overwriting Python package
+      - "/mnt/docker/soulsync/soulsync_database:/app/data"
+      # IMPORTANT: Mount host paths that your input/output folders live on.
+      # Replace these examples with your actual paths:
+      #   Linux/Mac:  - /path/to/your/downloads:/host/downloads:rw
+      # You can add as many mounts as needed for your setup.
+      - "/mnt/media/torrent:/host/downloads:rw"
+      - "/mnt/media/torrent/Music:/host/music:rw"
+      # Optional: Mount your music library for Plex/Jellyfin/Navidrome access
+      # - /path/to/your/music:/music:ro
+    extra_hosts:
+      # Allow container to reach host services
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Resource limits (adjust as needed)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
   aurral:
     image: ghcr.io/lklynet/aurral:latest
     restart: unless-stopped
