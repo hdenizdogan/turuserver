@@ -65,6 +65,10 @@ qbittorrent.{$DOMAIN} {
     reverse_proxy qbittorrent:8090
 }
 
+musicseerr.{$DOMAIN} {
+    reverse_proxy musicseerr:8688
+}
+
 navidrome.{$DOMAIN} {
     reverse_proxy navidrome:4533
 }

@@ -38,6 +38,31 @@ services:
 #    networks:
 #      local_net:
 
+  musicseerr:
+    image: ghcr.io/habirabbu/musicseerr:latest
+    container_name: musicseerr
+    environment:
+      - PUID=1000            # Run `id` on your host to find your user/group ID
+      - PGID=1000
+      - PORT=8688
+      - TZ=Europe/Istanbul           # Your timezone, e.g. Europe/London, America/New_York
+    ports:
+      - "8688:8688"
+    volumes:
+      - "/mnt/docker/musicseerr/config:/app/config"  # Persistent app configuration
+      - "/mnt/docker/musicseerr/cache:/app/cache"    # Cover art and metadata cache
+      # Optional: mount your music library for local file playback.
+      # The left side should match the root folder Lidarr uses.
+      # The right side (/music) must match "Music Directory Path" in Settings > Local Files.
+      - "/mnt/media/torrent/Music:/music:ro"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8688/health" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
 #    container_name: meilisearch
