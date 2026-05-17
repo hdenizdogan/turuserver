@@ -76,7 +76,7 @@ services:
       # Replace these examples with your actual paths:
       #   Linux/Mac:  - /path/to/your/downloads:/host/downloads:rw
       # You can add as many mounts as needed for your setup.
-      - "/mnt/media/torrent:/host/downloads:rw"
+      - "/mnt/media/torrent/Manual Download:/host/downloads:rw"
       - "/mnt/media/torrent/Music:/host/music:rw"
       # Optional: Mount your music library for Plex/Jellyfin/Navidrome access
       # - /path/to/your/music:/music:ro
