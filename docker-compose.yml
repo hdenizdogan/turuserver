@@ -938,8 +938,8 @@ services:
 #      config:
 #        - subnet: 172.19.0.0/24
 
-#volumes:
-#  tracearr_backups:
-#  timescale_data:
-#  redis_data:
+volumes:
+  tracearr_backups:
+  timescale_data:
+  redis_data:
 
