@@ -89,7 +89,7 @@ soulsync.{$DOMAIN} {
     reverse_proxy soulsync:8008
 }
 
-soulsync-spotifycallback.{$DOMAIN} {
+soulsync-callback.{$DOMAIN} {
     reverse_proxy soulsync:8887
 }
 
