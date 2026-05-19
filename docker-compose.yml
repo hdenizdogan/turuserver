@@ -102,6 +102,7 @@ services:
 
   aurral:
     image: ghcr.io/lklynet/aurral:latest
+    container_name: aurral
     restart: unless-stopped
     ports:
       - "3003:3001"
