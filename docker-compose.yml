@@ -100,16 +100,16 @@ services:
           cpus: '0.5'
           memory: 512M
 
-#  aurral:
-#    image: ghcr.io/lklynet/aurral:latest
-#    restart: unless-stopped
-#    ports:
-#      - "3003:3001"
-#    environment:
-#      - DOWNLOAD_FOLDER=${DL_FOLDER:-./data/downloads}
-#    volumes:
-#      - "/mnt/docker/aurral/downloads:/app/downloads"
-#      - "/mnt/docker/aurral/backend/data:/app/backend/data"
+  aurral:
+    image: ghcr.io/lklynet/aurral:latest
+    restart: unless-stopped
+    ports:
+      - "3003:3001"
+    environment:
+      - DOWNLOAD_FOLDER=${DL_FOLDER:-./data/downloads}
+    volumes:
+      - "/mnt/media/torrent/Manual Download:/app/downloads"
+      - "/mnt/docker/aurral/backend/data:/app/backend/data"
 
   musicseerr:
     image: ghcr.io/habirabbu/musicseerr:latest
