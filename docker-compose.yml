@@ -292,18 +292,18 @@ services:
 #    networks:
 #      local_net:
 
-#  lidatube:
-#    image: thewicklowwolf/lidatube:latest
-#    container_name: lidatube
-#    volumes:
-#      - /mnt/docker/lidatube:/lidatube/config
-#      - /mnt/media/torrent/Music:/lidatube/downloads
-#      - /etc/localtime:/etc/localtime:ro
-#    ports:
-#      - "5000:5000"
-#    restart: unless-stopped
-#    environment:
-#      - attempt_lidarr_import=True
+  lidatube:
+    image: thewicklowwolf/lidatube:latest
+    container_name: lidatube
+    volumes:
+      - /mnt/docker/lidatube:/lidatube/config
+      - /mnt/media/torrent/Music:/lidatube/downloads
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    environment:
+      - attempt_lidarr_import=True
 #    networks:
 #      local_net:
 
