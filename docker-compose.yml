@@ -775,11 +775,11 @@ services:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     devices:
       - /dev/dri:/dev/dri
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "immich"
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "immich"
 #      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 2283
+#      tsdproxy.container_port: 2283
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - ${UPLOAD_LOCATION}:/data
@@ -847,17 +847,17 @@ services:
 #      networks:
 #        local_net:
 
-  tsdproxy:
-    image: almeidapaulopt/tsdproxy:2
-    container_name: tsdproxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/tsdproxy/data:/data
-      - /mnt/docker/tsdproxy/config:/config
-    environment:
-      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - DOCKER_HOST=unix:///var/run/docker.sock
-    restart: unless-stopped
+#  tsdproxy:
+#    image: almeidapaulopt/tsdproxy:2
+#    container_name: tsdproxy
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /mnt/docker/tsdproxy/data:/data
+#      - /mnt/docker/tsdproxy/config:/config
+#    environment:
+#      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
+#      - DOCKER_HOST=unix:///var/run/docker.sock
+#    restart: unless-stopped
 #    networks:
 #      local_net:
 
