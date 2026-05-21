@@ -45,7 +45,7 @@ services:
       - "8890:8890"
     volumes:
       - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
-      - "/mnt/docker/navidrome-import-tools:/app/output"     # where M3U files are written
+      - "/mnt/docker/navidrome-import:/app/output"     # where M3U files are written
     environment:
       - CLIENT_ID=$SPOTIFY_CLIENT_ID
       - CLIENT_SECRET=$SPOTIFY_CLIENT_SECRET
