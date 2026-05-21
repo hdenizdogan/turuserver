@@ -78,7 +78,7 @@ navidrome.{$DOMAIN} {
 }
 
 navidrome-import.{$DOMAIN} {
-    reverse_proxy navidrome-import:8890
+    reverse_proxy navidrome-import:8888
 }
 
 seerr.{$DOMAIN} {

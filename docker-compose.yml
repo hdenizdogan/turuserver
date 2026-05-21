@@ -42,7 +42,7 @@ services:
     image: ethanbarclay/navidrome-import-tools:latest
     container_name: navidrome-import-tools
     ports:
-      - "8890:8890"
+      - "8890:8888"
     volumes:
       - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
       - "/mnt/docker/navidrome-import-tools:/app/output"     # where M3U files are written
