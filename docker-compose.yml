@@ -294,7 +294,7 @@ services:
 #      local_net:
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:nightly
     container_name: lidarr
 #    labels:
 #      tsdproxy.enable: "true"
