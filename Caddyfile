@@ -85,6 +85,10 @@ seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
 }
 
+soulsync.{$DOMAIN} {
+    reverse_proxy soulsync:8008
+}
+
 speedtest.{$DOMAIN} {
     reverse_proxy speedtest:80
 }
