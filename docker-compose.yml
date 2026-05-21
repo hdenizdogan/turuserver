@@ -32,6 +32,9 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - ND_DEFAULTPLAYLISTPUBLICVISIBILITY=true
+      - ND_PLAYLISTSPATH=/mnt/media/torrent/Music/playlists
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
@@ -45,7 +48,7 @@ services:
       - "8890:8890"
     volumes:
       - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
-      - "/mnt/docker/navidrome-import:/app/output"     # where M3U files are written
+      - "/mnt/media/torrent/Music/playlists:/app/output"     # where M3U files are written
     environment:
       - CLIENT_ID=$SPOTIFY_CLIENT_ID
       - CLIENT_SECRET=$SPOTIFY_CLIENT_SECRET
