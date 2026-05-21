@@ -34,7 +34,7 @@ services:
       - .env
     environment:
       - ND_DEFAULTPLAYLISTPUBLICVISIBILITY=true
-      - ND_PLAYLISTSPATH=/mnt/media/torrent/Music/playlists
+      - ND_PLAYLISTSPATH=/mnt/docker/navidrome/output
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
@@ -48,7 +48,7 @@ services:
       - "8890:8888"
     volumes:
       - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
-      - "/mnt/media/torrent/Music/playlists:/app/output"     # where M3U files are written
+      - "/mnt/docker/navidrome/output:/app/output"     # where M3U files are written
     environment:
       - PUID=$PUID
       - PGID=$PGID
