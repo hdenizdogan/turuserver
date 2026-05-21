@@ -38,11 +38,11 @@ services:
 #    networks:
 #      local_net:
 
-  navidrome-import-tools:
+  navidrome-import:
     image: ethanbarclay/navidrome-import-tools:latest
-    container_name: navidrome-import-tools
+    container_name: navidrome-import
     ports:
-      - "8890:8888"
+      - "8890:8890"
     volumes:
       - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
       - "/mnt/docker/navidrome-import-tools:/app/output"     # where M3U files are written
