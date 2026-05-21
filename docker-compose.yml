@@ -38,6 +38,22 @@ services:
 #    networks:
 #      local_net:
 
+  navidrome-import-tools:
+    image: ethanbarclay/navidrome-import-tools:latest
+    container_name: navidrome-import-tools
+    ports:
+      - "8890:8890"
+    volumes:
+      - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
+      - "/mnt/docker/navidrome-import-tools:/app/output"     # where M3U files are written
+    environment:
+      - CLIENT_ID=$SPOTIFY_CLIENT_ID
+      - CLIENT_SECRET=$SPOTIFY_CLIENT_SECRET
+      - REDIRECT_URI=$CALLBACK_URI
+      - DATABASE_PATH=/data/navidrome.db
+      - OUTPUT_DIR=/app/output
+    restart: unless-stopped
+
 #  soulsync:
 #    image: boulderbadgedad/soulsync:latest
 #    container_name: soulsync-webui

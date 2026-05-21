@@ -77,20 +77,16 @@ navidrome.{$DOMAIN} {
     reverse_proxy navidrome:4533
 }
 
+navidrome-import.{$DOMAIN} {
+    reverse_proxy navidrome-import:8890
+}
+
 seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
 }
 
 speedtest.{$DOMAIN} {
     reverse_proxy speedtest:80
-}
-
-soulsync.{$DOMAIN} {
-    reverse_proxy soulsync:8008
-}
-
-soulsync-callback.{$DOMAIN} {
-    reverse_proxy soulsync:8887
 }
 
 tracearr.{$DOMAIN} {
