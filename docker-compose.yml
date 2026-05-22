@@ -329,8 +329,8 @@ services:
       - /mnt/docker/lidarr:/config
       - /mnt/media/torrent/Music:/music
       - /mnt/media/torrent/downloads:/downloads
-      - /usr/bin/ffmpeg:/ffmpeg:ro
-      - /usr/bin/ffprobe:/ffprobe:ro
+      - /usr/bin/ffmpeg:/ffmpeg
+      - /usr/bin/ffprobe:/ffprobe
     ports:
       - "8686:8686"
     restart: unless-stopped
