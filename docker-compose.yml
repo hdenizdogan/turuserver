@@ -86,7 +86,6 @@ services:
       # Persistent data volumes
       - "/mnt/docker/soulsync/config:/app/config"
       - "/mnt/docker/soulsync/logs:/app/logs"
-      - "/mnt/docker/soulsync/downloads:/app/downloads"
       - "/mnt/media/torrent/Manual Download:/app/Staging"
       - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
       - "/mnt/docker/soulsync/scripts:/app/scripts"
