@@ -846,23 +846,22 @@ services:
 #    restart: unless-stopped
 #    networks:
 #      local_net:
-  tailscale:
-    image: tailscale/tailscale:latest
-    container_name: tailscale
-    hostname: turuserver
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    volumes:
-      - /mnt/docker/tailscale/state:/var/lib/tailscale
-    environment:
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
-      - TS_EXTRA_ARGS=--advertise-routes=10.0.0.0/24 --accept-dns=false
-    restart: unless-stopped
+#  tailscale:
+#    image: tailscale/tailscale:latest
+#    container_name: tailscale
+#    hostname: turuserver
+#    network_mode: host
+#    cap_add:
+#      - NET_ADMIN
+#      - NET_RAW
+#    devices:
+#      - /dev/net/tun:/dev/net/tun
+#    volumes:
+#      - /mnt/docker/tailscale/state:/var/lib/tailscale
+#    environment:
+#      - TS_STATE_DIR=/var/lib/tailscale
+#      - TS_EXTRA_ARGS=--advertise-routes=10.0.0.0/24 --accept-dns=false
+#    restart: unless-stopped
 
 
   cloudflared:
