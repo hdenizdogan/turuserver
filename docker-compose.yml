@@ -282,8 +282,6 @@ services:
       - /mnt/docker/lidatube:/lidatube/config
       - /mnt/media/torrent/Music:/lidatube/downloads
       - /etc/localtime:/etc/localtime:ro
-      - /usr/bin/ffmpeg:/usr/bin/ffmpeg:ro
-      - /usr/bin/ffprobe:/usr/bin/ffprobe:ro
     ports:
       - "5000:5000"
     restart: unless-stopped
@@ -329,9 +327,10 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/lidarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent/Music:/music
-      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent/downloads:/downloads
+      - /usr/bin/ffmpeg:/usr/bin/ffmpeg:ro
+      - /usr/bin/ffprobe:/usr/bin/ffprobe:ro
     ports:
       - "8686:8686"
     restart: unless-stopped
