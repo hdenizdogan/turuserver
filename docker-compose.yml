@@ -34,10 +34,11 @@ services:
       - .env
     environment:
       - ND_DEFAULTPLAYLISTPUBLICVISIBILITY=true
-      - ND_PLAYLISTSPATH=/mnt/docker/navidrome/output
+      - ND_PLAYLISTSPATH=/music/Playlists
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
+      - "/mnt/media/torrent/Music/Playlists:/music/Playlists"
 #    networks:
 #      local_net:
 
