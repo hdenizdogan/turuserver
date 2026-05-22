@@ -49,7 +49,7 @@ services:
 #      - "8890:8888"
 #    volumes:
 #      - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
-#      - "/mnt/docker/navidrome/output:/app/output"     # where M3U files are written
+#      - "/mnt/media/torrent/Music/Playlists:/app/output"     # where M3U files are written
 #    environment:
 #      - PUID=$PUID
 #      - PGID=$PGID
