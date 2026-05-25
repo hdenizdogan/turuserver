@@ -79,11 +79,11 @@ services:
       # Then update the redirect URI in SoulSync → Settings → Connections AND in your Spotify/Tidal developer dashboard to match.
 #      - SOULSYNC_SPOTIFY_CALLBACK_PORT=8887
 #      - SOULSYNC_TIDAL_CALLBACK_PORT=8889
-    ports:
+#    ports:
 #      - "8008:8008"   # Main web app
 #      - "8887:8887"   # Spotify OAuth callback — keep in sync with SOULSYNC_SPOTIFY_CALLBACK_PORT above
 #      - "8889:8889"   # Tidal OAuth callback   — keep in sync with SOULSYNC_TIDAL_CALLBACK_PORT above
-    volumes:
+#    volumes:
       # Persistent data volumes
 #      - "/mnt/docker/soulsync/config:/app/config"
 #      - "/mnt/docker/soulsync/logs:/app/logs"
