@@ -219,7 +219,7 @@ services:
 #      - POSTGRES_USER=tracearr
 #      - POSTGRES_PASSWORD=${TIMESCALE_DB_PASSWORD:-tracearr}
 #      - POSTGRES_DB=tracearr
-    volumes:
+#    volumes:
 #      - timescale_data:/home/postgres/pgdata/data
 #    restart: unless-stopped
 #    networks:
