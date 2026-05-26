@@ -16,7 +16,7 @@ services:
       - /mnt/docker/jellyfin_cache:/cache
       - /mnt/media/torrent/Movies:/media/torrent/Movies
       - /mnt/media/torrent/Shows:/media/torrent/Shows
-- /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
+      - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
     network_mode: host
