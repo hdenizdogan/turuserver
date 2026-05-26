@@ -64,7 +64,6 @@ services:
     image: boulderbadgedad/soulsync:latest
     container_name: soulsync
     environment:
-      # User/Group ID configuration
       - PUID=1000
       - PGID=1000
       - UMASK=022
