@@ -14,8 +14,9 @@ services:
     volumes:
       - /mnt/docker/jellyfin_config:/config
       - /mnt/docker/jellyfin_cache:/cache
-      - /mnt/media:/media
-      - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
+      - /mnt/media/Movies:/media/Movies
+      - /mnt/media/Shows:/media/Shows
+- /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
     network_mode: host
