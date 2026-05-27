@@ -60,46 +60,46 @@ services:
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
 
-  soulsync:
-    image: boulderbadgedad/soulsync:latest
-    container_name: soulsync
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=022
-      - PYTHONPATH=/app
-      - SOULSYNC_CONFIG_PATH=/app/config/config.json
-      - TZ=Europe/Istanbul
-      - SOULSYNC_SPOTIFY_CALLBACK_PORT=8887
-      - SOULSYNC_TIDAL_CALLBACK_PORT=8889
-    ports:
-      - "8008:8008"
-      - "8887:8887"
-      - "8889:8889"
-    volumes:
-      - "/mnt/docker/soulsync/config:/app/config"
-      - "/mnt/docker/soulsync/logs:/app/logs"
-      - "/mnt/media/torrent/Manual Download:/app/Staging"
-      - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
-      - "/mnt/docker/soulsync/scripts:/app/scripts"
-      - "/mnt/docker/soulsync/soulsync_database:/app/data"
-      - "/mnt/media/torrent/downloads:/host/downloads:rw"
-      - "/mnt/media/torrent/Music:/host/music:rw"
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
+#  soulsync:
+#    image: boulderbadgedad/soulsync:latest
+#    container_name: soulsync
+#    environment:
+#      - PUID=$PUID
+#      - PGID=$PGID
+#      - UMASK=022
+#      - PYTHONPATH=/app
+#      - SOULSYNC_CONFIG_PATH=/app/config/config.json
+#      - TZ=$TZ
+#      - SOULSYNC_SPOTIFY_CALLBACK_PORT=8887
+#      - SOULSYNC_TIDAL_CALLBACK_PORT=8889
+#    ports:
+#      - "8008:8008"
+#      - "8887:8887"
+#      - "8889:8889"
+#    volumes:
+#      - "/mnt/docker/soulsync/config:/app/config"
+#      - "/mnt/docker/soulsync/logs:/app/logs"
+#      - "/mnt/media/torrent/Manual Download:/app/Staging"
+#      - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
+#      - "/mnt/docker/soulsync/scripts:/app/scripts"
+#      - "/mnt/docker/soulsync/soulsync_database:/app/data"
+#      - "/mnt/media/torrent/downloads:/host/downloads:rw"
+#      - "/mnt/media/torrent/Music:/host/music:rw"
+#    restart: unless-stopped
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 60s
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '2.0'
+#          memory: 2G
+#        reservations:
+#          cpus: '0.5'
+#          memory: 512M
 
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
