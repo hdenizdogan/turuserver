@@ -454,10 +454,10 @@ services:
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
 
-  nextcloud:
+  nextcloud-aio-mastercontainer:
     image: ghcr.io/nextcloud-releases/all-in-one:latest
     init: true
-    container_name: nextcloud_aio_mastercontainer
+    container_name: nextcloud
     restart: unless-stopped
     environment:
       - APACHE_PORT=11000
