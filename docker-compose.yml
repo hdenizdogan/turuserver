@@ -454,20 +454,20 @@ services:
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
 
-  nextcloud-aio-mastercontainer:
-    image: ghcr.io/nextcloud-releases/all-in-one:latest
-    init: true
-    container_name: nextcloud-aio-mastercontainer
-    restart: unless-stopped
-    environment:
-      - APACHE_PORT=11000
-      - APACHE_IP_BINDING=0.0.0.0
-      - SKIP_DOMAIN_VALIDATION=true
-    ports:
-      - "8083:8080"  # was 8080 (AIO admin UI)
-    volumes:
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+#  nextcloud-aio-mastercontainer:
+#    image: ghcr.io/nextcloud-releases/all-in-one:latest
+#    init: true
+#    container_name: nextcloud-aio-mastercontainer
+#    restart: unless-stopped
+#    environment:
+#      - APACHE_PORT=11000
+#      - APACHE_IP_BINDING=0.0.0.0
+#      - SKIP_DOMAIN_VALIDATION=true
+#    ports:
+#      - "8083:8080"  # was 8080 (AIO admin UI)
+#    volumes:
+#      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 #  nginx:
 #    image: nginx:alpine
@@ -923,9 +923,9 @@ services:
 #      config:
 #        - subnet: 172.19.0.0/24
 
-volumes:
-  nextcloud_aio_mastercontainer:
-    name: nextcloud_aio_mastercontainer
+#volumes:
+#  nextcloud_aio_mastercontainer:
+#    name: nextcloud_aio_mastercontainer
 #  tracearr_backups:
 #  timescale_data:
 #  redis_data:
