@@ -466,7 +466,7 @@ services:
     ports:
       - "8083:8080"  # was 8080 (AIO admin UI)
     volumes:
-      - /mnt/docker/nextcloud:nextcloud_aio_mastercontainer
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
 #  nginx:
