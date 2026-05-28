@@ -457,7 +457,7 @@ services:
   nextcloud:
     image: ghcr.io/nextcloud-releases/all-in-one:latest
     init: true
-    container_name: nextcloud-aio-mastercontainer
+    container_name: nextcloud_aio_mastercontainer
     restart: unless-stopped
     environment:
       - APACHE_PORT=11000
