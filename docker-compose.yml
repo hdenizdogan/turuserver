@@ -14,7 +14,8 @@ services:
     volumes:
       - /mnt/docker/jellyfin_config:/config
       - /mnt/docker/jellyfin_cache:/cache
-      - /mnt/media:/media
+      - /mnt/media/torrent/Movies:/media/torrent/Movies
+      - /mnt/media/torrent/Shows:/media/torrent/Shows
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
@@ -33,7 +34,6 @@ services:
     env_file:
       - .env
     environment:
-      - ND_DEFAULTPLAYLISTPUBLICVISIBILITY=true
       - ND_PLAYLISTSPATH=/music/Playlists
     volumes:
       - "/mnt/docker/navidrome:/data"
@@ -60,66 +60,46 @@ services:
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
 
-  soulsync:
-    image: boulderbadgedad/soulsync:latest
-    container_name: soulsync
-    environment:
-      # User/Group ID configuration
-      - PUID=1000
-      - PGID=1000
-      - UMASK=022
-      # Web server configuration
-      - PYTHONPATH=/app
-      # Optional: Configure through environment variables
-      - SOULSYNC_CONFIG_PATH=/app/config/config.json
-      # Set timezone (change to your timezone)
-      - TZ=Europe/Istanbul
-      # OAuth callback ports. If 8888/8889 conflict with another container (e.g. Gluetun),
-      # change the port numbers below AND update the matching port mappings in the ports section.
-      # Then update the redirect URI in SoulSync → Settings → Connections AND in your Spotify/Tidal developer dashboard to match.
-      - SOULSYNC_SPOTIFY_CALLBACK_PORT=8887
-      - SOULSYNC_TIDAL_CALLBACK_PORT=8889
-    ports:
-      - "8008:8008"   # Main web app
-      - "8887:8887"   # Spotify OAuth callback — keep in sync with SOULSYNC_SPOTIFY_CALLBACK_PORT above
-      - "8889:8889"   # Tidal OAuth callback   — keep in sync with SOULSYNC_TIDAL_CALLBACK_PORT above
-    volumes:
-      # Persistent data volumes
-      - "/mnt/docker/soulsync/config:/app/config"
-      - "/mnt/docker/soulsync/logs:/app/logs"
-      - "/mnt/media/torrent/Manual Download:/app/Staging"
-      - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
-      - "/mnt/docker/soulsync/scripts:/app/scripts"
-      # Use named volume for database persistence (separate from host database)
-      # NOTE: Changed from /app/database to /app/data to avoid overwriting Python package
-      - "/mnt/docker/soulsync/soulsync_database:/app/data"
-      # IMPORTANT: Mount host paths that your input/output folders live on.
-      # Replace these examples with your actual paths:
-      #   Linux/Mac:  - /path/to/your/downloads:/host/downloads:rw
-      # You can add as many mounts as needed for your setup.
-      - "/mnt/media/torrent/downloads:/host/downloads:rw"
-      - "/mnt/media/torrent/Music:/host/music:rw"
-      # Optional: Mount your music library for Plex/Jellyfin/Navidrome access
-      # - /path/to/your/music:/music:ro
-    extra_hosts:
-      # Allow container to reach host services
-      - "host.docker.internal:host-gateway"
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    # Resource limits (adjust as needed)
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
+#  soulsync:
+#    image: boulderbadgedad/soulsync:latest
+#    container_name: soulsync
+#    environment:
+#      - PUID=$PUID
+#      - PGID=$PGID
+#      - UMASK=022
+#      - PYTHONPATH=/app
+#      - SOULSYNC_CONFIG_PATH=/app/config/config.json
+#      - TZ=$TZ
+#      - SOULSYNC_SPOTIFY_CALLBACK_PORT=8887
+#      - SOULSYNC_TIDAL_CALLBACK_PORT=8889
+#    ports:
+#      - "8008:8008"
+#      - "8887:8887"
+#      - "8889:8889"
+#    volumes:
+#      - "/mnt/docker/soulsync/config:/app/config"
+#      - "/mnt/docker/soulsync/logs:/app/logs"
+#      - "/mnt/media/torrent/Manual Download:/app/Staging"
+#      - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
+#      - "/mnt/docker/soulsync/scripts:/app/scripts"
+#      - "/mnt/docker/soulsync/soulsync_database:/app/data"
+#      - "/mnt/media/torrent/downloads:/host/downloads:rw"
+#      - "/mnt/media/torrent/Music:/host/music:rw"
+#    restart: unless-stopped
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#      start_period: 60s
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '2.0'
+#          memory: 2G
+#        reservations:
+#          cpus: '0.5'
+#          memory: 512M
 
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
@@ -176,62 +156,62 @@ services:
 #    networks:
 #      local_net:
 
-  tracearr:
-    image: ghcr.io/connorgallopo/tracearr:latest
-    container_name: tracearr
-    ports:
-      - "${PORT:-3020}:3020"
-    environment:
-      - NODE_ENV=production
-      - PORT=3020
-      - HOST=0.0.0.0
-      - TZ=${TZ:-UTC}
-      - DATABASE_URL=postgres://tracearr:${TIMESCALE_DB_PASSWORD:-tracearr}@timescale:5432/tracearr
-      - REDIS_URL=redis://tracearr-redis:6379
-      - JWT_SECRET=${JWT_SECRET}
-      - COOKIE_SECRET=${COOKIE_SECRET}
-      - CORS_ORIGIN=${CORS_ORIGIN:-*}
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-      - DATABASE_POOL_MAX=50  # Database connection pool size (default: 50)
-    depends_on:
-      - timescale
-      - redis
-    volumes:
-      - tracearr_backups:/data/backup
-    restart: unless-stopped
+#  tracearr:
+#    image: ghcr.io/connorgallopo/tracearr:latest
+#    container_name: tracearr
+#    ports:
+#      - "${PORT:-3020}:3020"
+#    environment:
+#      - NODE_ENV=production
+#      - PORT=3020
+#      - HOST=0.0.0.0
+#      - TZ=${TZ:-UTC}
+#      - DATABASE_URL=postgres://tracearr:${TIMESCALE_DB_PASSWORD:-tracearr}@timescale:5432/tracearr
+#      - REDIS_URL=redis://tracearr-redis:6379
+#      - JWT_SECRET=${JWT_SECRET}
+#      - COOKIE_SECRET=${COOKIE_SECRET}
+#      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+#      - LOG_LEVEL=${LOG_LEVEL:-info}
+#      - DATABASE_POOL_MAX=50  # Database connection pool size (default: 50)
+#    depends_on:
+#      - timescale
+#      - redis
+#    volumes:
+#      - tracearr_backups:/data/backup
+#    restart: unless-stopped
 #    networks:
 #      - local_net
 
 #
-  timescale:
+#  timescale:
 #    # TimescaleDB HA with PostgreSQL 18 - pinned for stability
-    image: timescale/timescaledb-ha:pg18.1-ts2.25.0
-    container_name: tracearr-db
-    shm_size: 512mb  # Required for PostgreSQL shared memory (increase for large imports)
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536  # TimescaleDB chunks require many file descriptors
+#    image: timescale/timescaledb-ha:pg18.1-ts2.25.0
+#    container_name: tracearr-db
+#    shm_size: 512mb  # Required for PostgreSQL shared memory (increase for large imports)
+#    ulimits:
+#      nofile:
+#        soft: 65536
+#        hard: 65536  # TimescaleDB chunks require many file descriptors
 #    # Allow unlimited tuple decompression for migrations on compressed hypertables
 #    # Increase lock table size for large imports (Tautulli imports with many TimescaleDB chunks)
-    command: postgres -c timescaledb.max_tuples_decompressed_per_dml_transaction=0 -c max_locks_per_transaction=4096 -c timescaledb.telemetry_level=off
-    environment:
-      - POSTGRES_USER=tracearr
-      - POSTGRES_PASSWORD=${TIMESCALE_DB_PASSWORD:-tracearr}
-      - POSTGRES_DB=tracearr
-    volumes:
-      - timescale_data:/home/postgres/pgdata/data
-    restart: unless-stopped
+#    command: postgres -c timescaledb.max_tuples_decompressed_per_dml_transaction=0 -c max_locks_per_transaction=4096 -c timescaledb.telemetry_level=off
+#    environment:
+#      - POSTGRES_USER=tracearr
+#      - POSTGRES_PASSWORD=${TIMESCALE_DB_PASSWORD:-tracearr}
+#      - POSTGRES_DB=tracearr
+#    volumes:
+#      - timescale_data:/home/postgres/pgdata/data
+#    restart: unless-stopped
 #    networks:
 #      - local_net
 
-  tracearr-redis:
-    image: redis:8-alpine
-    container_name: tracearr-redis
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
+#  tracearr-redis:
+#    image: redis:8-alpine
+#    container_name: tracearr-redis
+#    command: redis-server --appendonly yes
+#    volumes:
+#      - redis_data:/data
+#    restart: unless-stopped
 #    networks:
 #      - local_net
 
