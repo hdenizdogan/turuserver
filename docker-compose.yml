@@ -709,7 +709,7 @@ services:
 #    environment:
 #      - PUID=${PUID}
 #      - PGID=${PGID}
-#      - TZ=Europe/Istanbul
+#      - TZ=${TZ}
 #    ports:
 #      - "8999:80"
 #    restart: unless-stopped
@@ -766,7 +766,7 @@ services:
 #      tsdproxy.container_port: 8265
 #    restart: unless-stopped
 #    environment:
-#      - TZ=Europe/Istanbul
+#      - TZ=${TZ}
 #      - PUID=${PUID}
 #      - PGID=${PGID}
 #      - UMASK_SET=002
