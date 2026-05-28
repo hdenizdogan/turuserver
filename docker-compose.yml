@@ -1,14 +1,339 @@
 services:
+
+#  adguard:
+#    image: adguard/adguardhome:latest
+#    container_name: adguard
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "adguard"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 80
+#    restart: unless-stopped
+#    ports:
+#      - "3002:3000"     # initialization
+#      - "3005:80"       # HTTP UI
+#    volumes:
+#      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
+#      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
+#      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
+#    networks:
+#      local_net:
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "bazarr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 6767
+    ports:
+      - "6767:6767"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/media:/mnt/media
+      - /mnt/docker/bazarr:/config
+#    networks:
+#      local_net:
+
+#  caddy:
+#    image: caddy:latest
+#    container_name: caddy
+#    restart: unless-stopped
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+#      - /mnt/docker/caddy/caddy_data:/data
+#      - /mnt/docker/tsdproxy/data/default:/certs:ro
+#    environment:
+#      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+#      - DOMAIN=${DOMAIN}
+#      - OLDDOMAIN=${OLDDOMAIN}
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    networks:
+#      local_net:
+#        ipv4_address: 172.19.0.199
+
+  caddy-cloudflare:
+    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
+    container_name: caddy-cloudflare
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /mnt/docker/caddy-cloudflare/caddy_data:/data
+      - /mnt/docker/tsdproxy/data/default:/certs:ro
+  #      - /mnt/docker/caddy/caddy_config:/config
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - DOMAIN=${DOMAIN}
+      - OLDDOMAIN=${OLDDOMAIN}
+#    networks:
+#      local_net:
+#        ipv4_address: 172.19.0.199
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    container_name: cloudflared
+  #    deploy:
+  #     replicas: 2
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+#    networks:
+#      local_net:
+
+  dash:
+    image: mauricenino/dashdot:latest
+    container_name: dash
+    restart: unless-stopped
+    privileged: true
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "dash"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 3001
+    ports:
+      - "3001:3001"
+    environment:
+      - DASHDOT_WIDGET_LIST=os,cpu,storage,ram,network
+      - DASHDOT_SHOW_DASH_VERSION=bottom_right
+      - DASHDOT_ENABLE_CPU_TEMPS=true
+      - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
+      - DASHDOT_ACCEPT_OOKLA_EULA=true
+      - DASHDOT_SHOW_HOST=true
+    volumes:
+      - /:/mnt/host:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    networks:
+#      local_net:
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+  #    labels:
+  #      com.centurylinklabs.watchtower.enable: false
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
+    # DB_STORAGE_TYPE: 'HDD'
+    volumes:
+    # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+#    networks:
+#      local_net:
+
+#  filebrowser:
+#    image: filebrowser/filebrowser:latest
+#    container_name: filebrowser
+#    environment:
+#      - TZ=${TZ}
+##    labels:
+##      tsdproxy.enable: "true"
+##      tsdproxy.name: "filebrowser"
+##      tsdproxy.funnel: "true"
+##      tsdproxy.container_port: 80
+#    ports:
+#      - "3010:80"
+#    volumes:
+#      - /mnt/docker/filebrowser/data:/database
+#      - /mnt/docker/filebrowser/config:/config
+#      - /mnt/media:/srv
+#    restart: unless-stopped
+#    networks:
+#      local_net:
+
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=info
+      - CAPTCHA_SOLVER=none
+    ports:
+      - "8191:8191"
+    volumes:
+      - /mnt/docker/flaresolverr:/config
+#    networks:
+#      local_net:
+
+#  glances:
+#    image: nicolargo/glances:latest
+#    container_name: glances
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "glances"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 61208
+#    restart: unless-stopped
+#    pid: host               # so it can see host processes
+#    network_mode: host      # gives accurate network metrics & web access
+#    privileged: true        # needed for sensors & iGPU info
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:ro# show Docker containers
+#      - /etc/hostname:/etc/hostname:ro
+#      - /etc/os-release:/etc/os-release:ro
+#    environment:
+#      - GLANCES_OPT=-w    # start in web server mode
+
+#  homeassistant:
+#    container_name: homeassistant
+#    image: "ghcr.io/home-assistant/home-assistant:stable"
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "homeassistant"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8123
+#    volumes:
+#      - /mnt/docker/homeassistant:/config
+#      - /etc/localtime:/etc/localtime:ro
+#      - /run/dbus:/run/dbus:ro
+#    restart: unless-stopped
+#    cap_add:
+#      - NET_ADMIN
+#      - NET_RAW
+#    privileged: true
+#    network_mode: host
+
+#  homepage:
+#    image: ghcr.io/gethomepage/homepage:latest
+#    container_name: homepage
+#    ports:
+#      - "3000:3010"
+#    volumes:
+#      - /mnt/docker/homepage:/app/config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    env_file:
+#      - .env
+#    networks:
+#      local_net:
+
+#  homarr:
+#    container_name: homarr
+#    image: ghcr.io/homarr-labs/homarr:latest
+#    restart: unless-stopped
+##    labels:
+##      tsdproxy.enable: "true"
+##      tsdproxy.name: "homarr"
+##      tsdproxy.funnel: "true"
+##      tsdproxy.container_port: 7575
+#    volumes:
+#      - /var/lib/docker/volumes:/var/lib/docker/volumes
+#      - /mnt/docker/homarr/appdata:/appdata
+#    environment:
+#      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
+#    ports:
+#      - '7575:7575'
+#    networks:
+#      local_net:
+
+  immich:
+    container_name: immich
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    devices:
+      - /dev/dri:/dev/dri
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "immich"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 2283
+    volumes:
+    # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
+      - ${UPLOAD_LOCATION}:/data
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    ports:
+      - '2283:2283'
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+#    networks:
+#      local_net:
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+  # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
+  # Example tag: ${IMMICH_VERSION:-release}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-openvino
+  # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
+  #   file: hwaccel.ml.yml
+  #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    volumes:
+      - /mnt/docker/immich_machine_learning/cache:/cache
+    env_file:
+      - .env
+    restart: unless-stopped
+    extends:
+      file: hwaccel.ml.yml
+      service: openvino
+#    networks:
+#      local_net:
+
+  jellystat:
+    image: 'cyfershepard/jellystat:latest'
+    container_name: jellystat
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "jellystat"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 3000
+    environment:
+      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
+      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
+      JWT_SECRET: $JELLYSTAT_JWT_SECRET
+      TZ: $TZ
+    volumes:
+      - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
+    ports:
+      - '3000:3000'
+    depends_on:
+      - jellystat-db
+#    networks:
+#      local_net:
+
+  jellystat-db:
+    image: 'postgres:15.2'
+    shm_size: 1gb
+    container_name: jellystat-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+    volumes:
+      - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
+#    networks:
+#      local_net:
+
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellyfin"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8096
-#      com.centurylinklabs.watchtower.enable: false
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "jellyfin"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8096
+  #      com.centurylinklabs.watchtower.enable: false
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -22,6 +347,75 @@ services:
     network_mode: host
 #    ports:
 #      - "8096:8096"
+#    networks:
+#      local_net:
+
+  lidatube:
+    image: thewicklowwolf/lidatube:latest
+    container_name: lidatube
+    volumes:
+      - /mnt/docker/lidatube:/lidatube/config
+      - /mnt/media/torrent/Music:/lidatube/downloads
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    environment:
+      - attempt_lidarr_import=True
+#    networks:
+#      local_net:
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:nightly
+    container_name: lidarr
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "lidarr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8686
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/lidarr:/config
+      - /mnt/media/torrent/Music:/music
+      - /mnt/media/torrent/downloads:/downloads
+      - /mnt/media/torrent/Manual Download:/Manual Download
+      - /usr/bin/:/ffmpeg
+    ports:
+      - "8686:8686"
+    restart: unless-stopped
+#    networks:
+#      local_net:
+
+#  meilisearch:
+#    image: getmeili/meilisearch:latest
+#    container_name: meilisearch
+#    restart: unless-stopped
+#    ports:
+#      - "7700:7700"
+##    volumes:
+##      - /mnt/docker/meilisearch:/meili_data
+#    environment:
+#      - MEILI_ENV=development
+#      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+#    networks:
+#      local_net:
+
+#  metube:
+#    image: ghcr.io/alexta69/metube
+#    container_name: metube
+#    restart: unless-stopped
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "metube"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 8081
+#    ports:
+#      - "8081:8081"
+#    volumes:
+#      - /tmp/metube:/downloads
 #    networks:
 #      local_net:
 
@@ -48,8 +442,8 @@ services:
 #    ports:
 #      - "8890:8888"
 #    volumes:
-#      - "/mnt/docker/navidrome:/data:ro"   # shares the navidrome.db read-only
-#      - "/mnt/media/torrent/Music/Playlists:/app/output"     # where M3U files are written
+#      - "/mnt/docker/navidrome:/data:ro" # shares the navidrome.db read-only
+#      - "/mnt/media/torrent/Music/Playlists:/app/output"   # where M3U files are written
 #    environment:
 #      - PUID=$PUID
 #      - PGID=$PGID
@@ -59,6 +453,209 @@ services:
 #      - DATABASE_PATH=/data/navidrome.db
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
+
+#  nextcloud:
+#    image: ghcr.io/nextcloud-releases/all-in-one:latest
+#    init: true
+#    container_name: nextcloud
+#    restart: unless-stopped
+#      environment:
+#        - APACHE_PORT=11000
+#        - APACHE_IP_BINDING=0.0.0.0
+#        - SKIP_DOMAIN_VALIDATION=true # required behind Cloudflare tunnel
+#    ports:
+#      - "8083:8080"  # was 8080 (AIO admin UI)
+#    volumes:
+#      - /mnt/docker/nextcloud:/mnt/docker-aio-config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+#  nginx:
+#    image: nginx:alpine
+#    container_name: nginx
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+#    restart: unless-stopped
+#    ports:
+#      - "80:80"
+
+#  npm:
+#    image: jc21/nginx-proxy-manager:latest
+#    container_name: npm
+#    restart: unless-stopped
+#    ports:
+#      - "81:81"    # Web UI
+#      - "443:443/tcp"  # HTTPS
+#      - "80:80"  # HTTP
+#    environment:
+#      DB_SQLITE_FILE: "/data/database.sqlite"
+#      DISABLE_IPV6: 'true'
+#      TZ: ${TZ}
+#    volumes:
+#      - /mnt/docker/npm/data:/data
+#      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
+#    networks:
+#      local_net:
+#        ipv4_address: 172.19.0.199
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "portainer"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 9000
+    ports:
+      - "9000:9000"
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker/portainer_data:/data
+#    networks:
+#      local_net:
+
+#  profilarr:
+#    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
+#    container_name: profilarr
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "profilarr"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 6868
+#    ports:
+#      - "6868:6868"
+#    volumes:
+#      - /mnt/docker/profilarr:/config
+#    environment:
+#      - TZ=${TZ}
+#    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "prowlarr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 9696
+    ports:
+      - "9696:9696"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/prowlarr:/config
+      - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
+#    networks:
+#      local_net:
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "qbittorrent"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8090
+    ports:
+      - "8090:8090"
+      - "6881:6881"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - WEBUI_PORT=8090
+      - TZ=${TZ}
+    volumes:
+      - /mnt/media:/mnt/media
+      - /mnt/media/torrent:/downloads
+      - /mnt/docker/qbittorrent/config:/config
+#    networks:
+#      local_net:
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "radarr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 7878
+    ports:
+      - "7878:7878"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/radarr:/config
+      - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
+#    networks:
+#      local_net:
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:9@sha256:3eeb09785cd61ec8e3be35f8804c8892080f3ca21934d628abc24ee4ed1698f6
+  #    labels:
+  #      com.centurylinklabs.watchtower.enable: false
+    healthcheck:
+      test: redis-cli ping || exit 1
+    restart: unless-stopped
+    volumes:
+      - /mnt/docker/redis:/data
+#    networks:
+#      local_net:
+
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "seerr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 5055
+    ports:
+      - "5055:5055"
+    environment:
+      - LOG_LEVEL=info
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - /mnt/docker/seerr/config:/app/config
+#    networks:
+#      local_net:
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "sonarr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8989
+    ports:
+      - "8989:8989"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/sonarr:/config
+      - /mnt/media/torrent:/mnt/media/torrent
+      - /mnt/media/torrent:/downloads
+#    networks:
+#      local_net:
 
 #  soulsync:
 #    image: boulderbadgedad/soulsync:latest
@@ -101,367 +698,63 @@ services:
 #          cpus: '0.5'
 #          memory: 512M
 
-#  meilisearch:
-#    image: getmeili/meilisearch:latest
-#    container_name: meilisearch
-#    restart: unless-stopped
-#    ports:
-#      - "7700:7700"
-##    volumes:
-##      - /mnt/docker/meilisearch:/meili_data
-#    environment:
-#      - MEILI_ENV=development
-#      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-#    networks:
-#      local_net:
-
-
-  jellystat-db:
-    image: 'postgres:15.2'
-    shm_size: 1gb
-    container_name: jellystat-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-    volumes:
-      - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
-#    networks:
-#      local_net:
-
-
-
-  jellystat:
-    image: 'cyfershepard/jellystat:latest'
-    container_name: jellystat
-    restart: unless-stopped
+#  speedtest:
+#    image: lscr.io/linuxserver/librespeed:latest
+#    container_name: speedtest
 #    labels:
 #      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellystat"
+#      tsdproxy.name: "speedtest"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 3000
-    environment:
-      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
-      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
-      JWT_SECRET: $JELLYSTAT_JWT_SECRET
-      TZ: $TZ
-    volumes:
-      - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
-    ports:
-      - '3000:3000'
-    depends_on:
-      - jellystat-db
-#    networks:
-#      local_net:
-
-#  tracearr:
-#    image: ghcr.io/connorgallopo/tracearr:latest
-#    container_name: tracearr
-#    ports:
-#      - "${PORT:-3020}:3020"
-#    environment:
-#      - NODE_ENV=production
-#      - PORT=3020
-#      - HOST=0.0.0.0
-#      - TZ=${TZ:-UTC}
-#      - DATABASE_URL=postgres://tracearr:${TIMESCALE_DB_PASSWORD:-tracearr}@timescale:5432/tracearr
-#      - REDIS_URL=redis://tracearr-redis:6379
-#      - JWT_SECRET=${JWT_SECRET}
-#      - COOKIE_SECRET=${COOKIE_SECRET}
-#      - CORS_ORIGIN=${CORS_ORIGIN:-*}
-#      - LOG_LEVEL=${LOG_LEVEL:-info}
-#      - DATABASE_POOL_MAX=50  # Database connection pool size (default: 50)
-#    depends_on:
-#      - timescale
-#      - redis
-#    volumes:
-#      - tracearr_backups:/data/backup
-#    restart: unless-stopped
-#    networks:
-#      - local_net
-
-#
-#  timescale:
-#    # TimescaleDB HA with PostgreSQL 18 - pinned for stability
-#    image: timescale/timescaledb-ha:pg18.1-ts2.25.0
-#    container_name: tracearr-db
-#    shm_size: 512mb  # Required for PostgreSQL shared memory (increase for large imports)
-#    ulimits:
-#      nofile:
-#        soft: 65536
-#        hard: 65536  # TimescaleDB chunks require many file descriptors
-#    # Allow unlimited tuple decompression for migrations on compressed hypertables
-#    # Increase lock table size for large imports (Tautulli imports with many TimescaleDB chunks)
-#    command: postgres -c timescaledb.max_tuples_decompressed_per_dml_transaction=0 -c max_locks_per_transaction=4096 -c timescaledb.telemetry_level=off
-#    environment:
-#      - POSTGRES_USER=tracearr
-#      - POSTGRES_PASSWORD=${TIMESCALE_DB_PASSWORD:-tracearr}
-#      - POSTGRES_DB=tracearr
-#    volumes:
-#      - timescale_data:/home/postgres/pgdata/data
-#    restart: unless-stopped
-#    networks:
-#      - local_net
-
-#  tracearr-redis:
-#    image: redis:8-alpine
-#    container_name: tracearr-redis
-#    command: redis-server --appendonly yes
-#    volumes:
-#      - redis_data:/data
-#    restart: unless-stopped
-#    networks:
-#      - local_net
-
-
-#  wizarr:
-#    container_name: wizarr
-#    image: ghcr.io/wizarrrr/wizarr:latest
-#    restart: unless-stopped
-#    ports:
-#      - '5690:5690'
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "wizarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5690
-#    volumes:
-#      - /mnt/docker/wizarr:/data
+#      tsdproxy.container_port: 80
 #    environment:
 #      - PUID=${PUID}
 #      - PGID=${PGID}
-#      - TZ=${TZ}
-#      - DISABLE_BUILTIN_AUTH=false
-#    networks:
-#      local_net:
-
-#  homarr:
-#    container_name: homarr
-#    image: ghcr.io/homarr-labs/homarr:latest
-#    restart: unless-stopped
-##    labels:
-##      tsdproxy.enable: "true"
-##      tsdproxy.name: "homarr"
-##      tsdproxy.funnel: "true"
-##      tsdproxy.container_port: 7575
-#    volumes:
-#      - /var/lib/docker/volumes:/var/lib/docker/volumes
-#      - /mnt/docker/homarr/appdata:/appdata
-#    environment:
-#      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
+#      - TZ=Europe/Istanbul
 #    ports:
-#      - '7575:7575'
-#    networks:
-#      local_net:
-
-  lidatube:
-    image: thewicklowwolf/lidatube:latest
-    container_name: lidatube
-    volumes:
-      - /mnt/docker/lidatube:/lidatube/config
-      - /mnt/media/torrent/Music:/lidatube/downloads
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "5000:5000"
-    restart: unless-stopped
-    environment:
-      - attempt_lidarr_import=True
-#    networks:
-#      local_net:
-
-
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "prowlarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 9696
-    ports:
-      - "9696:9696"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/prowlarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
-#    networks:
-#      local_net:
-
-  lidarr:
-    image: lscr.io/linuxserver/lidarr:nightly
-    container_name: lidarr
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "lidarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8686
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/lidarr:/config
-      - /mnt/media/torrent/Music:/music
-      - /mnt/media/torrent/downloads:/downloads
-      - /mnt/media/torrent/Manual Download:/Manual Download
-      - /usr/bin/:/ffmpeg
-    ports:
-      - "8686:8686"
-    restart: unless-stopped
-#    networks:
-#      local_net:
-
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "sonarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8989
-    ports:
-      - "8989:8989"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/sonarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
-#    networks:
-#      local_net:
-
-  radarr:
-    image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "radarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 7878
-    ports:
-      - "7878:7878"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/radarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
-#    networks:
-#      local_net:
-
-  bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
-    container_name: bazarr
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "bazarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 6767
-    ports:
-      - "6767:6767"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /mnt/media:/mnt/media
-      - /mnt/docker/bazarr:/config
-#    networks:
-#      local_net:
-
-#  profilarr:
-#    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
-#    container_name: profilarr
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "profilarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 6868
-#    ports:
-#      - "6868:6868"
-#    volumes:
-#      - /mnt/docker/profilarr:/config
-#    environment:
-#      - TZ=${TZ}
+#      - "8999:80"
 #    restart: unless-stopped
-
-
-
-  flaresolverr:
-    image: flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    restart: unless-stopped
-    environment:
-      - LOG_LEVEL=info
-      - CAPTCHA_SOLVER=none
-    ports:
-      - "8191:8191"
-    volumes:
-      - /mnt/docker/flaresolverr:/config
 #    networks:
 #      local_net:
 
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
-    container_name: qbittorrent
+  stirling:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling
     restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "qbittorrent"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8090
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "stirling"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8080
     ports:
-      - "8090:8090"
-      - "6881:6881"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - WEBUI_PORT=8090
-      - TZ=${TZ}
+      - "5050:8080"
     volumes:
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/downloads
-      - /mnt/docker/qbittorrent/config:/config
+      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
+      - /mnt/docker/StirlingPDF/extraConfigs:/configs
+      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
+      - /mnt/docker/StirlingPDF/logs:/logs/
+      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=["tr_TR"]
 #    networks:
 #      local_net:
 
-  unmanic:
-    image: josh5/unmanic:latest
-    container_name: unmanic
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "unmanic"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8888
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - /mnt/docker/unmanic:/config
-      - /mnt/media/torrent:/library
-      - /tmp/unmanic:/tmp/unmanic
-    ports:
-      - "8888:8888"
-    devices:
-      - /dev/dri:/dev/dri
-#    networks:
-#      local_net:
+#  tailscale:
+#    image: tailscale/tailscale:latest
+#    container_name: tailscale
+#    hostname: turuserver
+#    network_mode: host
+#    cap_add:
+#      - NET_ADMIN
+#      - NET_RAW
+#    devices:
+#      - /dev/net/tun:/dev/net/tun
+#    volumes:
+#      - /mnt/docker/tailscale/state:/var/lib/tailscale
+#    environment:
+#      - TS_STATE_DIR=/var/lib/tailscale
+#      - TS_EXTRA_ARGS=--advertise-routes=10.0.0.0/24 --accept-dns=false
+#    restart: unless-stopped
 
 #  tdarr:
 #    image: ghcr.io/haveagitgat/tdarr:latest
@@ -488,331 +781,68 @@ services:
 #      - /mnt/media/:/media
 #      - /temp/tdarr:/temp
 #    ports:
-#      - "8265:8265"   # Web UI
-#      - "8266:8266"   # Server API
+#      - "8265:8265" # Web UI
+#      - "8266:8266" # Server API
 #    networks:
 #      local_net:
 
-  seerr:
-    image: ghcr.io/seerr-team/seerr:latest
-    init: true
-    container_name: seerr
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "seerr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5055
-    ports:
-      - "5055:5055"
-    environment:
-      - LOG_LEVEL=info
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
-    volumes:
-      - /mnt/docker/seerr/config:/app/config
-#    networks:
-#      local_net:
-
-#  homeassistant:
-#    container_name: homeassistant
-#    image: "ghcr.io/home-assistant/home-assistant:stable"
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "homeassistant"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8123
-#    volumes:
-#      - /mnt/docker/homeassistant:/config
-#      - /etc/localtime:/etc/localtime:ro
-#      - /run/dbus:/run/dbus:ro
-#    restart: unless-stopped
-#    cap_add:
-#      - NET_ADMIN
-#      - NET_RAW
-#    privileged: true
-#    network_mode: host
-
-
-  stirling:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-    container_name: stirling
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "stirling"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8080
-    ports:
-      - "5050:8080"
-    volumes:
-      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
-      - /mnt/docker/StirlingPDF/extraConfigs:/configs
-      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
-      - /mnt/docker/StirlingPDF/logs:/logs/
-      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
-    environment:
-      - DOCKER_ENABLE_SECURITY=false
-      - LANGS=["tr_TR"]
-#    networks:
-#      local_net:
-
-#  metube:
-#    image: ghcr.io/alexta69/metube
-#    container_name: metube
-#    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "metube"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8081
-#    ports:
-#      - "8081:8081"
-#    volumes:
-#      - /tmp/metube:/downloads
-#    networks:
-#      local_net:
-
-
-  dash:
-    image: mauricenino/dashdot:latest
-    container_name: dash
-    restart: unless-stopped
-    privileged: true
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "dash"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 3001
-    ports:
-      - "3001:3001"
-    environment:
-      - DASHDOT_WIDGET_LIST=os,cpu,storage,ram,network
-      - DASHDOT_SHOW_DASH_VERSION=bottom_right
-      - DASHDOT_ENABLE_CPU_TEMPS=true
-      - DASHDOT_ALWAYS_SHOW_PERCENTAGES=true
-      - DASHDOT_ACCEPT_OOKLA_EULA=true
-      - DASHDOT_SHOW_HOST=true
-    volumes:
-      - /:/mnt/host:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-#    networks:
-#      local_net:
-
-#  glances:
-#    image: nicolargo/glances:latest
-#    container_name: glances
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "glances"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 61208
-#    restart: unless-stopped
-#    pid: host                 # so it can see host processes
-#    network_mode: host        # gives accurate network metrics & web access
-#    privileged: true          # needed for sensors & iGPU info
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:ro  # show Docker containers
-#      - /etc/hostname:/etc/hostname:ro
-#      - /etc/os-release:/etc/os-release:ro
+#  timescale:
+#  # TimescaleDB HA with PostgreSQL 18 - pinned for stability
+#    image: timescale/timescaledb-ha:pg18.1-ts2.25.0
+#    container_name: tracearr-db
+#    shm_size: 512mb# Required for PostgreSQL shared memory (increase for large imports)
+#    ulimits:
+#      nofile:
+#        soft: 65536
+#        hard: 65536# TimescaleDB chunks require many file descriptors
+#  # Allow unlimited tuple decompression for migrations on compressed hypertables
+#  # Increase lock table size for large imports (Tautulli imports with many TimescaleDB chunks)
+#    command: postgres -c timescaledb.max_tuples_decompressed_per_dml_transaction=0 -c max_locks_per_transaction=4096 -c timescaledb.telemetry_level=off
 #    environment:
-#      - GLANCES_OPT=-w      # start in web server mode
+#      - POSTGRES_USER=tracearr
+#      - POSTGRES_PASSWORD=${TIMESCALE_DB_PASSWORD:-tracearr}
+#      - POSTGRES_DB=tracearr
+#    volumes:
+#      - timescale_data:/home/postgres/pgdata/data
+#    restart: unless-stopped
+#    networks:
+#      - local_net
 
-
-#  filebrowser:
-#    image: filebrowser/filebrowser:latest
-#    container_name: filebrowser
+#  tracearr:
+#    image: ghcr.io/connorgallopo/tracearr:latest
+#    container_name: tracearr
+#    ports:
+#      - "${PORT:-3020}:3020"
 #    environment:
-#      - TZ=${TZ}
-##    labels:
-##      tsdproxy.enable: "true"
-##      tsdproxy.name: "filebrowser"
-##      tsdproxy.funnel: "true"
-##      tsdproxy.container_port: 80
-#    ports:
-#      - "3010:80"
+#      - NODE_ENV=production
+#      - PORT=3020
+#      - HOST=0.0.0.0
+#      - TZ=${TZ:-UTC}
+#      - DATABASE_URL=postgres://tracearr:${TIMESCALE_DB_PASSWORD:-tracearr}@timescale:5432/tracearr
+#      - REDIS_URL=redis://tracearr-redis:6379
+#      - JWT_SECRET=${JWT_SECRET}
+#      - COOKIE_SECRET=${COOKIE_SECRET}
+#      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+#      - LOG_LEVEL=${LOG_LEVEL:-info}
+#      - DATABASE_POOL_MAX=50# Database connection pool size (default: 50)
+#    depends_on:
+#      - timescale
+#      - redis
 #    volumes:
-#      - /mnt/docker/filebrowser/data:/database
-#      - /mnt/docker/filebrowser/config:/config
-#      - /mnt/media:/srv
+#      - tracearr_backups:/data/backup
 #    restart: unless-stopped
 #    networks:
-#      local_net:
+#      - local_net
 
-
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    restart: unless-stopped
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "portainer"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 9000
-    ports:
-      - "9000:9000"
-    environment:
-      - TZ=${TZ}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/portainer_data:/data
-#    networks:
-#      local_net:
-
-#  adguard:
-#    image: adguard/adguardhome:latest
-#    container_name: adguard
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "adguard"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 80
+#  tracearr-redis:
+#    image: redis:8-alpine
+#    container_name: tracearr-redis
+#    command: redis-server --appendonly yes
+#    volumes:
+#      - redis_data:/data
 #    restart: unless-stopped
-#    ports:
-#      - "3002:3000"       # initialization
-#      - "3005:80"         # HTTP UI
-#    volumes:
-#      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
-#      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-#      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
 #    networks:
-#      local_net:
-
-
-
-
-#  nginx:
-#    image: nginx:alpine
-#    container_name: nginx
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-#    restart: unless-stopped
-#    ports:
-#      - "80:80"
-
-#  npm:
-#    image: jc21/nginx-proxy-manager:latest
-#    container_name: npm
-#    restart: unless-stopped
-#    ports:
-#      - "81:81"      # Web UI
-#      - "443:443/tcp"    # HTTPS
-#      - "80:80"    # HTTP
-#    environment:
-#      DB_SQLITE_FILE: "/data/database.sqlite"
-#      DISABLE_IPV6: 'true'
-#      TZ: ${TZ}
-#    volumes:
-#      - /mnt/docker/npm/data:/data
-#      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-#    networks:
-#      local_net:
-#        ipv4_address: 172.19.0.199
-
-#  homepage:
-#    image: ghcr.io/gethomepage/homepage:latest
-#    container_name: homepage
-#    ports:
-#      - "3000:3010"
-#    volumes:
-#      - /mnt/docker/homepage:/app/config
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#    env_file:
-#      - .env
-#    networks:
-#      local_net:
-
-
-  watchtower:
-    image: nickfedor/watchtower
-    restart: unless-stopped
-    container_name: watchtower
-    environment:
-      - TZ=${TZ}
-      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
-      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
-
-
-  immich:
-    container_name: immich
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
-    devices:
-      - /dev/dri:/dev/dri
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "immich"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 2283
-    volumes:
-      # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
-      - ${UPLOAD_LOCATION}:/data
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
-    ports:
-      - '2283:2283'
-    depends_on:
-      - redis
-      - database
-    restart: unless-stopped
-#    networks:
-#      local_net:
-
-  immich-machine-learning:
-      container_name: immich_machine_learning
-      # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
-      # Example tag: ${IMMICH_VERSION:-release}-cuda
-      image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-openvino
-      # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
-      #   file: hwaccel.ml.yml
-      #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
-      volumes:
-        - /mnt/docker/immich_machine_learning/cache:/cache
-      env_file:
-        - .env
-      restart: unless-stopped
-      extends:
-       file: hwaccel.ml.yml
-       service: openvino
-#      networks:
-#        local_net:
-
-  redis:
-      container_name: immich_redis
-      image: docker.io/valkey/valkey:9@sha256:3eeb09785cd61ec8e3be35f8804c8892080f3ca21934d628abc24ee4ed1698f6
-#      labels:
-#        com.centurylinklabs.watchtower.enable: false
-      healthcheck:
-        test: redis-cli ping || exit 1
-      restart: unless-stopped
-      volumes:
-        - /mnt/docker/redis:/data
-#      networks:
-#        local_net:
-
-  database:
-      container_name: immich_postgres
-      image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
-#      labels:
-#        com.centurylinklabs.watchtower.enable: false
-      environment:
-        POSTGRES_PASSWORD: ${DB_PASSWORD}
-        POSTGRES_USER: ${DB_USERNAME}
-        POSTGRES_DB: ${DB_DATABASE_NAME}
-        POSTGRES_INITDB_ARGS: '--data-checksums'
-        # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
-        # DB_STORAGE_TYPE: 'HDD'
-      volumes:
-        # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
-        - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
-      shm_size: 128mb
-      restart: unless-stopped
-#      networks:
-#        local_net:
+#      - local_net
 
 #  tsdproxy:
 #    image: almeidapaulopt/tsdproxy:2
@@ -827,94 +857,63 @@ services:
 #    restart: unless-stopped
 #    networks:
 #      local_net:
-#  tailscale:
-#    image: tailscale/tailscale:latest
-#    container_name: tailscale
-#    hostname: turuserver
-#    network_mode: host
-#    cap_add:
-#      - NET_ADMIN
-#      - NET_RAW
-#    devices:
-#      - /dev/net/tun:/dev/net/tun
-#    volumes:
-#      - /mnt/docker/tailscale/state:/var/lib/tailscale
-#    environment:
-#      - TS_STATE_DIR=/var/lib/tailscale
-#      - TS_EXTRA_ARGS=--advertise-routes=10.0.0.0/24 --accept-dns=false
-#    restart: unless-stopped
 
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
+  unmanic:
+    image: josh5/unmanic:latest
+    container_name: unmanic
     restart: unless-stopped
-    container_name: cloudflared
-#    deploy:
-#     replicas: 2
-    command: tunnel run
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "unmanic"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8888
     environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/unmanic:/config
+      - /mnt/media/torrent:/library
+      - /tmp/unmanic:/tmp/unmanic
+    ports:
+      - "8888:8888"
+    devices:
+      - /dev/dri:/dev/dri
 #    networks:
 #      local_net:
 
-#  speedtest:
-#    image: lscr.io/linuxserver/librespeed:latest
-#    container_name: speedtest
+  watchtower:
+    image: nickfedor/watchtower
+    restart: unless-stopped
+    container_name: watchtower
+    environment:
+      - TZ=${TZ}
+      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
+      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
+
+#  wizarr:
+#    container_name: wizarr
+#    image: ghcr.io/wizarrrr/wizarr:latest
+#    restart: unless-stopped
+#    ports:
+#      - '5690:5690'
 #    labels:
 #      tsdproxy.enable: "true"
-#      tsdproxy.name: "speedtest"
+#      tsdproxy.name: "wizarr"
 #      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 80
+#      tsdproxy.container_port: 5690
+#    volumes:
+#      - /mnt/docker/wizarr:/data
 #    environment:
 #      - PUID=${PUID}
 #      - PGID=${PGID}
-#      - TZ=Europe/Istanbul
-#    ports:
-#      - "8999:80"
-#    restart: unless-stopped
+#      - TZ=${TZ}
+#      - DISABLE_BUILTIN_AUTH=false
 #    networks:
 #      local_net:
-
-#  caddy:
-#    image: caddy:latest
-#    container_name: caddy
-#    restart: unless-stopped
-#    env_file:
-#      - .env
-#    volumes:
-#      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-#      - /mnt/docker/caddy/caddy_data:/data
-#      - /mnt/docker/tsdproxy/data/default:/certs:ro
-#    environment:
-#      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
-#      - DOMAIN=${DOMAIN}
-#      - OLDDOMAIN=${OLDDOMAIN}
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    networks:
-#      local_net:
-#        ipv4_address: 172.19.0.199
-
-  caddy-cloudflare:
-    image: ghcr.io/caddybuilds/caddy-cloudflare:latest
-    container_name: caddy-cloudflare
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - /mnt/docker/caddy-cloudflare/caddy_data:/data
-      - /mnt/docker/tsdproxy/data/default:/certs:ro
-#      - /mnt/docker/caddy/caddy_config:/config
-    environment:
-      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
-      - DOMAIN=${DOMAIN}
-      - OLDDOMAIN=${OLDDOMAIN}
-#    networks:
-#      local_net:
-#        ipv4_address: 172.19.0.199
 
 #networks:
 #  local_net:
@@ -924,8 +923,7 @@ services:
 #      config:
 #        - subnet: 172.19.0.0/24
 
-volumes:
-  tracearr_backups:
-  timescale_data:
-  redis_data:
-
+#volumes:
+#  tracearr_backups:
+#  timescale_data:
+#  redis_data:

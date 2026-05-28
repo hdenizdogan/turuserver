@@ -81,6 +81,14 @@ navidrome-import.{$DOMAIN} {
     reverse_proxy navidrome-import:8888
 }
 
+nextcloudadmin.{$DOMAIN} {
+    reverse_proxy nextcloud:8080
+}
+
+nextcloud.{$DOMAIN} {
+    reverse_proxy nextcloud:11000
+}
+
 seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
 }
