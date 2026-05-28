@@ -330,6 +330,7 @@ services:
       - /mnt/docker/lidarr:/config
       - /mnt/media/torrent/Music:/music
       - /mnt/media/torrent/downloads:/downloads
+      - /mnt/media/torrent/Manual Download:/Manual Download
       - /usr/bin/:/ffmpeg
     ports:
       - "8686:8686"
