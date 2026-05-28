@@ -925,6 +925,7 @@ services:
 
 volumes:
   nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
 #  tracearr_backups:
 #  timescale_data:
 #  redis_data:
