@@ -657,6 +657,20 @@ services:
 #    networks:
 #      local_net:
 
+  slskd:
+    image: slskd/slskd:latest
+    container_name: slskd
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+      - SLSKD_API_KEY=$SLSKD_API_KEY
+      - TZ=$TZ
+    ports:
+      - "5030:5030"
+    volumes:
+      - /mnt/socker/slskd/:/app
+      - /mnt/media/torrent/downloads:/app/downloads
+    restart: unless-stopped
+
   soulsync:
     image: boulderbadgedad/soulsync:latest
     container_name: soulsync
