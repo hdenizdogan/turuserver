@@ -698,6 +698,7 @@ services:
       - "/mnt/docker/soulsync/scripts:/app/scripts"
       - "/mnt/docker/soulsync/soulsync_database:/app/data"
       - "/mnt/media/torrent/downloads:/host/downloads:rw"
+      - "/mnt/media/torrent/downloads:/app/downloads:rw"
       - "/mnt/media/torrent/Music:/host/music:rw"
     restart: unless-stopped
     healthcheck:
