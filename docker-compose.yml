@@ -663,6 +663,8 @@ services:
     environment:
       - SLSKD_REMOTE_CONFIGURATION=true
       - SLSKD_API_KEY=$SLSKD_API_KEY
+      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
+      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
       - TZ=$TZ
     ports:
       - "5030:5030"
