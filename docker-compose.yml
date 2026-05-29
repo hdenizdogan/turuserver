@@ -667,7 +667,7 @@ services:
     ports:
       - "5030:5030"
     volumes:
-      - /mnt/socker/slskd/:/app
+      - /mnt/docker/slskd/:/app
       - /mnt/media/torrent/downloads:/app/downloads
     restart: unless-stopped
 
