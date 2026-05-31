@@ -16,8 +16,7 @@ services:
 #      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
 #      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
 #      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
-#    networks:
-#      local_net:
+
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -37,8 +36,7 @@ services:
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
-#    networks:
-#      local_net:
+
 
 #  caddy:
 #    image: caddy:latest
@@ -57,8 +55,7 @@ services:
 #    ports:
 #      - "80:80"
 #      - "443:443"
-#    networks:
-#      local_net:
+
 #        ipv4_address: 172.19.0.199
 
   caddy-cloudflare:
@@ -77,8 +74,7 @@ services:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - DOMAIN=${DOMAIN}
       - OLDDOMAIN=${OLDDOMAIN}
-#    networks:
-#      local_net:
+
 #        ipv4_address: 172.19.0.199
 
   cloudflared:
@@ -90,8 +86,7 @@ services:
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-#    networks:
-#      local_net:
+
 
   dash:
     image: mauricenino/dashdot:latest
@@ -115,8 +110,7 @@ services:
     volumes:
       - /:/mnt/host:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-#    networks:
-#      local_net:
+
 
   database:
     container_name: immich_postgres
@@ -135,8 +129,7 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: unless-stopped
-#    networks:
-#      local_net:
+
 
 #  filebrowser:
 #    image: filebrowser/filebrowser:latest
@@ -155,8 +148,7 @@ services:
 #      - /mnt/docker/filebrowser/config:/config
 #      - /mnt/media:/srv
 #    restart: unless-stopped
-#    networks:
-#      local_net:
+
 
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
@@ -169,8 +161,7 @@ services:
       - "8191:8191"
     volumes:
       - /mnt/docker/flaresolverr:/config
-#    networks:
-#      local_net:
+
 
 #  glances:
 #    image: nicolargo/glances:latest
@@ -220,8 +211,7 @@ services:
 #      - /var/run/docker.sock:/var/run/docker.sock:ro
 #    env_file:
 #      - .env
-#    networks:
-#      local_net:
+
 
 #  homarr:
 #    container_name: homarr
@@ -239,8 +229,7 @@ services:
 #      - SECRET_ENCRYPTION_KEY=$SECRET_ENCRYPTION_KEY
 #    ports:
 #      - '7575:7575'
-#    networks:
-#      local_net:
+
 
   immich:
     container_name: immich
@@ -264,8 +253,7 @@ services:
       - redis
       - database
     restart: unless-stopped
-#    networks:
-#      local_net:
+
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -283,8 +271,7 @@ services:
     extends:
       file: hwaccel.ml.yml
       service: openvino
-#    networks:
-#      local_net:
+
 
   jellystat:
     image: 'cyfershepard/jellystat:latest'
@@ -308,8 +295,7 @@ services:
       - '3000:3000'
     depends_on:
       - jellystat-db
-#    networks:
-#      local_net:
+
 
   jellystat-db:
     image: 'postgres:15.2'
@@ -321,8 +307,7 @@ services:
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
     volumes:
       - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
-#    networks:
-#      local_net:
+
 
   jellyfin:
     image: jellyfin/jellyfin
@@ -347,8 +332,7 @@ services:
     network_mode: host
 #    ports:
 #      - "8096:8096"
-#    networks:
-#      local_net:
+
 
 #  lidatube:
 #    image: thewicklowwolf/lidatube:latest
@@ -362,8 +346,7 @@ services:
 #    restart: unless-stopped
 #    environment:
 #      - attempt_lidarr_import=True
-#    networks:
-#      local_net:
+
 
 #  lidarr:
 #    image: lscr.io/linuxserver/lidarr:nightly
@@ -386,8 +369,7 @@ services:
 #    ports:
 #      - "8686:8686"
 #    restart: unless-stopped
-#    networks:
-#      local_net:
+
 
 #  meilisearch:
 #    image: getmeili/meilisearch:latest
@@ -400,8 +382,7 @@ services:
 #    environment:
 #      - MEILI_ENV=development
 #      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-#    networks:
-#      local_net:
+
 
 #  metube:
 #    image: ghcr.io/alexta69/metube
@@ -416,8 +397,7 @@ services:
 #      - "8081:8081"
 #    volumes:
 #      - /tmp/metube:/downloads
-#    networks:
-#      local_net:
+
 
   navidrome:
     container_name: navidrome
@@ -433,8 +413,7 @@ services:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
       - "/mnt/media/torrent/Music/Playlists:/music/Playlists"
-#    networks:
-#      local_net:
+
 
 #  navidrome-import:
 #    image: ethanbarclay/navidrome-import-tools:latest
@@ -493,8 +472,7 @@ services:
 #    volumes:
 #      - /mnt/docker/npm/data:/data
 #      - /mnt/docker/npm/letsencrypt:/etc/letsencrypt
-#    networks:
-#      local_net:
+
 #        ipv4_address: 172.19.0.199
 
   portainer:
@@ -513,8 +491,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
-#    networks:
-#      local_net:
+
 
 #  profilarr:
 #    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
@@ -551,8 +528,7 @@ services:
       - /mnt/docker/prowlarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-#    networks:
-#      local_net:
+
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -575,8 +551,7 @@ services:
       - /mnt/media:/mnt/media
       - /mnt/media/torrent:/downloads
       - /mnt/docker/qbittorrent/config:/config
-#    networks:
-#      local_net:
+
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -597,8 +572,7 @@ services:
       - /mnt/docker/radarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-#    networks:
-#      local_net:
+
 
   redis:
     container_name: immich_redis
@@ -610,8 +584,7 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/docker/redis:/data
-#    networks:
-#      local_net:
+
 
   seerr:
     image: ghcr.io/seerr-team/seerr:latest
@@ -632,8 +605,7 @@ services:
       - PGID=${PGID}
     volumes:
       - /mnt/docker/seerr/config:/app/config
-#    networks:
-#      local_net:
+
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -654,8 +626,7 @@ services:
       - /mnt/docker/sonarr:/config
       - /mnt/media/torrent:/mnt/media/torrent
       - /mnt/media/torrent:/downloads
-#    networks:
-#      local_net:
+
 
   slskd:
     image: slskd/slskd:latest
@@ -730,8 +701,7 @@ services:
 #    ports:
 #      - "8999:80"
 #    restart: unless-stopped
-#    networks:
-#      local_net:
+
 
   stirling:
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
@@ -753,8 +723,7 @@ services:
     environment:
       - DOCKER_ENABLE_SECURITY=false
       - LANGS=["tr_TR"]
-#    networks:
-#      local_net:
+
 
 #  tailscale:
 #    image: tailscale/tailscale:latest
@@ -800,8 +769,7 @@ services:
 #    ports:
 #      - "8265:8265" # Web UI
 #      - "8266:8266" # Server API
-#    networks:
-#      local_net:
+
 
 #  timescale:
 #  # TimescaleDB HA with PostgreSQL 18 - pinned for stability
@@ -872,8 +840,7 @@ services:
 #      - TSDPROXY_AUTHKEY=$TSFUNNEL_AUTHKEY
 #      - DOCKER_HOST=unix:///var/run/docker.sock
 #    restart: unless-stopped
-#    networks:
-#      local_net:
+
 
   unmanic:
     image: josh5/unmanic:latest
@@ -896,8 +863,7 @@ services:
       - "8888:8888"
     devices:
       - /dev/dri:/dev/dri
-#    networks:
-#      local_net:
+
 
   watchtower:
     image: nickfedor/watchtower
@@ -929,16 +895,7 @@ services:
 #      - PGID=${PGID}
 #      - TZ=${TZ}
 #      - DISABLE_BUILTIN_AUTH=false
-#    networks:
-#      local_net:
 
-#networks:
-#  local_net:
-#    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: 172.19.0.0/24
 
 #volumes:
 #  nextcloud_aio_mastercontainer:
