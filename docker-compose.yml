@@ -686,21 +686,21 @@ services:
           cpus: '0.5'
           memory: 512M
 
-  speedtest:
-    image: lscr.io/linuxserver/librespeed:latest
-    container_name: speedtest
+#  speedtest:
+#    image: lscr.io/linuxserver/librespeed:latest
+#    container_name: speedtest
 #    labels:
 #      tsdproxy.enable: "true"
 #      tsdproxy.name: "speedtest"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 80
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    ports:
-      - "8999:80"
-    restart: unless-stopped
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    ports:
+#      - "8999:80"
+#    restart: unless-stopped
 
 
   stirling:
