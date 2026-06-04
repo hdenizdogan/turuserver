@@ -409,6 +409,7 @@ services:
       - .env
     environment:
       - ND_PLAYLISTSPATH=/music/Playlists
+      - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
