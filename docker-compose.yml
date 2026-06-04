@@ -668,7 +668,7 @@ services:
       - "/mnt/media/torrent/downloads:/app/Staging"
       - "/mnt/docker/soulsync/scripts:/app/scripts"
       - "/mnt/docker/soulsync/soulsync_database:/app/data"
-      - "/mnt/media/torrent/Music:/host/music:rw"
+      - "/mnt/media/torrent/Music:/host/music"
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
