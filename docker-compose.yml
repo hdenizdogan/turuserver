@@ -664,10 +664,9 @@ services:
       - "/mnt/docker/soulsync/config:/app/config"
       - "/mnt/docker/soulsync/logs:/app/logs"
       - "/mnt/docker/soulsync/transfer:/app/Transfer"
-      - "/mnt/media/torrent/Manual Download:/app/Staging"
+      - "/mnt/media/torrent/downloads:/app/Staging"
       - "/mnt/docker/soulsync/scripts:/app/scripts"
       - "/mnt/docker/soulsync/soulsync_database:/app/data"
-      - "/mnt/media/torrent/downloads:/app/downloads"
       - "/mnt/media/torrent/Music:/host/music:rw"
     restart: unless-stopped
     healthcheck:
