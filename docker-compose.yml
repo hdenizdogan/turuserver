@@ -628,21 +628,21 @@ services:
       - /mnt/media/torrent:/downloads
 
 
-#  slskd:
-#    image: slskd/slskd:latest
-#    container_name: slskd
-#    environment:
-#      - SLSKD_REMOTE_CONFIGURATION=true
-#      - SLSKD_API_KEY=$SLSKD_API_KEY
-#      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
-#      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
-#      - TZ=$TZ
-#    ports:
-#      - "5030:5030"
-#    volumes:
-#      - /mnt/docker/slskd/:/app
-#      - /mnt/media/torrent/downloads:/app/downloads
-#    restart: unless-stopped
+  slskd:
+    image: slskd/slskd:latest
+    container_name: slskd
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+      - SLSKD_API_KEY=$SLSKD_API_KEY
+      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
+      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
+      - TZ=$TZ
+    ports:
+      - "5030:5030"
+    volumes:
+      - /mnt/docker/slskd/:/app
+      - /mnt/media/torrent/downloads:/app/downloads
+    restart: unless-stopped
 
   soulsync:
     image: boulderbadgedad/soulsync:latest
