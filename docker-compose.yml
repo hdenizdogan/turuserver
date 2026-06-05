@@ -324,8 +324,7 @@ services:
     volumes:
       - /mnt/docker/jellyfin_config:/config
       - /mnt/docker/jellyfin_cache:/cache
-      - /mnt/media/torrent/Movies:/media/torrent/Movies
-      - /mnt/media/torrent/Shows:/media/torrent/Shows
+      - /mnt/media/torrent:/media/torrent
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
@@ -527,8 +526,6 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/prowlarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
 
 
   qbittorrent:
@@ -549,8 +546,7 @@ services:
       - WEBUI_PORT=8090
       - TZ=${TZ}
     volumes:
-      - /mnt/media:/mnt/media
-      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent/downloads:/downloads
       - /mnt/docker/qbittorrent/config:/config
 
 
@@ -571,8 +567,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/radarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent/Movies:/mnt/media/torrent/Movies
+      - /mnt/media/torrent/downloads:/downloads
 
 
   redis:
@@ -625,8 +621,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/sonarr:/config
-      - /mnt/media/torrent:/mnt/media/torrent
-      - /mnt/media/torrent:/downloads
+      - /mnt/media/torrent/Shows:/mnt/media/torrent/Shows
+      - /mnt/media/torrent/downloads:/downloads
 
 
   slskd:
