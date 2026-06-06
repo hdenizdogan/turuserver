@@ -21,8 +21,28 @@ adguard.{$DOMAIN} {
     reverse_proxy adguard:80
 }
 
+bazarr.{$DOMAIN} {
+    reverse_proxy bazarr:6767
+}
+
 cockpit.{$DOMAIN} {
     reverse_proxy 172.17.0.1:9090
+}
+
+dash.{$DOMAIN} {
+    reverse_proxy dash:3001
+}
+
+feishin.{$DOMAIN} {
+    reverse_proxy feishin:9180
+}
+
+homepage.{$DOMAIN} {
+    reverse_proxy homepage:3000
+}
+
+immich.{$DOMAIN} {
+    reverse_proxy immich:2283
 }
 
 jellyfin.{$DOMAIN} {
@@ -33,18 +53,6 @@ jellystat.{$DOMAIN} {
     reverse_proxy jellystat:3000
 }
 
-sonarr.{$DOMAIN} {
-    reverse_proxy sonarr:8989
-}
-
-radarr.{$DOMAIN} {
-    reverse_proxy radarr:7878
-}
-
-bazarr.{$DOMAIN} {
-    reverse_proxy bazarr:6767
-}
-
 lidarr.{$DOMAIN} {
     reverse_proxy lidarr:8686
 }
@@ -53,8 +61,12 @@ lidatube.{$DOMAIN} {
     reverse_proxy lidatube:5000
 }
 
-homepage.{$DOMAIN} {
-    reverse_proxy homepage:3000
+navidrome.{$DOMAIN} {
+    reverse_proxy navidrome:4533
+}
+
+portainer.{$DOMAIN} {
+    reverse_proxy portainer:9000
 }
 
 prowlarr.{$DOMAIN} {
@@ -65,12 +77,16 @@ qbittorrent.{$DOMAIN} {
     reverse_proxy qbittorrent:8090
 }
 
-navidrome.{$DOMAIN} {
-    reverse_proxy navidrome:4533
+radarr.{$DOMAIN} {
+    reverse_proxy radarr:7878
 }
 
 seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
+}
+
+sonarr.{$DOMAIN} {
+    reverse_proxy sonarr:8989
 }
 
 soulsync.{$DOMAIN} {
@@ -81,28 +97,16 @@ speedtest.{$DOMAIN} {
     reverse_proxy speedtest:80
 }
 
+stirling.{$DOMAIN} {
+    reverse_proxy stirling:8080
+}
+
 tracearr.{$DOMAIN} {
     reverse_proxy tracearr:3020
 }
 
 unmanic.{$DOMAIN} {
     reverse_proxy unmanic:8888
-}
-
-portainer.{$DOMAIN} {
-    reverse_proxy portainer:9000
-}
-
-dash.{$DOMAIN} {
-    reverse_proxy dash:3001
-}
-
-stirling.{$DOMAIN} {
-    reverse_proxy stirling:8080
-}
-
-immich.{$DOMAIN} {
-    reverse_proxy immich:2283
 }
 
 wizarr.{$DOMAIN} {
