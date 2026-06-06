@@ -42,8 +42,6 @@ services:
 #    image: caddy:latest
 #    container_name: caddy
 #    restart: unless-stopped
-#    env_file:
-#      - .env
 #    volumes:
 #      - ./Caddyfile:/etc/caddy/Caddyfile:ro
 #      - /mnt/docker/caddy/caddy_data:/data
@@ -225,8 +223,6 @@ services:
 #    volumes:
 #      - /mnt/docker/homepage:/app/config
 #      - /var/run/docker.sock:/var/run/docker.sock:ro
-#    env_file:
-#      - .env
 
 
 #  homarr:
@@ -420,8 +416,6 @@ services:
     ports:
       - "4533:4533"
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       - ND_PLAYLISTSPATH=/music/Playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
