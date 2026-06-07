@@ -643,7 +643,7 @@ services:
       - "5030:5030"
     volumes:
       - /mnt/docker/slskd/:/app
-      - /mnt/media/torrent/downloads:/app/downloads
+      - /mnt/media/torrent/staging:/app/downloads
     restart: unless-stopped
 
   soulsync:
@@ -666,9 +666,9 @@ services:
       - "/mnt/docker/soulsync/config:/app/config"
       - "/mnt/docker/soulsync/logs:/app/logs"
       - "/mnt/docker/soulsync/transfer:/app/Transfer"
-      - "/mnt/media/torrent/downloads:/app/Staging"
+      - "/mnt/media/torrent/staging:/app/Staging"
       - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
-      - "/mnt/media/torrent/soulsync:/app/downloads"
+      - "/mnt/media/torrent/downloads:/app/downloads"
       - "/mnt/docker/soulsync/scripts:/app/scripts"
       - "/mnt/docker/soulsync/soulsync_database:/app/data"
       - "/mnt/media/torrent/Music:/host/music"
