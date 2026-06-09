@@ -407,8 +407,8 @@ services:
   navidrome:
     container_name: navidrome
     image: deluan/navidrome:latest
-#    ports:
-#      - "4533:4533"
+    ports:
+      - "4533:4533"
     restart: unless-stopped
     environment:
       - ND_BASEURL=https://navidrome.${DOMAIN}
@@ -419,7 +419,6 @@ services:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
       - "/mnt/media/torrent/Music/Playlists:/music/Playlists"
-    network_mode: host
 
 
 #  navidrome-import:
