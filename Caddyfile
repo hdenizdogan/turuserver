@@ -61,6 +61,11 @@ lidatube.{$DOMAIN} {
     reverse_proxy lidatube:5000
 }
 
+metube.{$DOMAIN} {
+    reverse_proxy metube:8081
+}
+
+
 navidrome.{$DOMAIN} {
     reverse_proxy navidrome:4533
 }
