@@ -251,8 +251,6 @@ services:
     # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - /mnt/immichdata:/data
       - /etc/localtime:/etc/localtime:ro
-#    env_file:
-#      - .env
     environment:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_USERNAME=${DB_USERNAME}
@@ -275,8 +273,6 @@ services:
   #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
     volumes:
       - /mnt/docker/immich/immich_machine_learning/cache:/cache
-#    env_file:
-#      - .env
     restart: unless-stopped
     extends:
       file: hwaccel.ml.yml
