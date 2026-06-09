@@ -389,14 +389,12 @@ services:
 #      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
 
 
-  metube:
-    image: ghcr.io/alexta69/metube
-    container_name: metube
-    restart: unless-stopped
-    ports:
-      - "8081:8081"
-    volumes:
-      - /tmp/metube:/downloads
+#  metube:
+#    image: ghcr.io/alexta69/metube
+#    container_name: metube
+#    restart: unless-stopped
+#    ports:
+#      - "8081:8081"
 
 
   navidrome:

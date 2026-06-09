@@ -65,7 +65,6 @@ metube.{$DOMAIN} {
     reverse_proxy metube:8081
 }
 
-
 navidrome.{$DOMAIN} {
     reverse_proxy navidrome:4533
 }
