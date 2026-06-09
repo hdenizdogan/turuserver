@@ -62,7 +62,7 @@ lidatube.{$DOMAIN} {
 }
 
 navidrome.{$DOMAIN} {
-    reverse_proxy navidrome:4533
+    reverse_proxy 172.17.0.1:4533
 }
 
 portainer.{$DOMAIN} {
