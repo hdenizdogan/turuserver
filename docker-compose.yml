@@ -415,6 +415,7 @@ services:
       - ND_PLAYLISTSPATH=/music/Playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
       - ND_LYRICSPRIORITY=.lrc,nd-lyrics,embedded
+      - ND_DEFAULTLANGUAGE=tr
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music:ro"
