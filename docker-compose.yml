@@ -1,16 +1,16 @@
 services:
 
-  adguard:
-    image: adguard/adguardhome:latest
-    container_name: adguard
-    restart: unless-stopped
-    ports:
-      - "3002:3000"     # initialization
-      - "3005:80"       # HTTP UI
-    volumes:
-      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
-      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
-      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
+#  adguard:
+#    image: adguard/adguardhome:latest
+#    container_name: adguard
+#    restart: unless-stopped
+#    ports:
+#      - "3002:3000"     # initialization
+#      - "3005:80"       # HTTP UI
+#    volumes:
+#      - /mnt/docker/adguardhome/work:/opt/adguardhome/work
+#      - /mnt/docker/adguardhome/conf:/opt/adguardhome/conf
+#      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
 
 
   bazarr:
