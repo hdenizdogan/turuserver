@@ -109,6 +109,10 @@ tracearr.{$DOMAIN} {
     reverse_proxy tracearr:3020
 }
 
+tsdproxy.{$DOMAIN} {
+    reverse_proxy tsdproxy:8080
+}
+
 unmanic.{$DOMAIN} {
     reverse_proxy unmanic:8888
 }
