@@ -33,10 +33,6 @@ dash.{$DOMAIN} {
     reverse_proxy dash:3001
 }
 
-feishin.{$DOMAIN} {
-    reverse_proxy feishin:9180
-}
-
 homepage.{$DOMAIN} {
     reverse_proxy homepage:3000
 }
