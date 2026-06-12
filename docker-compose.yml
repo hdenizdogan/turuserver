@@ -123,18 +123,18 @@ services:
     restart: unless-stopped
 
 
-  filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: filebrowser
-    environment:
-      - TZ=${TZ}
-    ports:
-      - "3010:80"
-    volumes:
-      - /mnt/docker/filebrowser/data:/database
-      - /mnt/docker/filebrowser/config:/config
-      - /mnt:/srv
-    restart: unless-stopped
+#  filebrowser:
+#    image: filebrowser/filebrowser:latest
+#    container_name: filebrowser
+#    environment:
+#      - TZ=${TZ}
+#    ports:
+#      - "3010:80"
+#    volumes:
+#      - /mnt/docker/filebrowser/data:/database
+#      - /mnt/docker/filebrowser/config:/config
+#      - /mnt:/srv
+#    restart: unless-stopped
 
 
 #  feishin:
