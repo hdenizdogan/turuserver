@@ -33,6 +33,10 @@ dash.{$DOMAIN} {
     reverse_proxy dash:3001
 }
 
+filebrowser.{$DOMAIN} {
+    reverse_proxy filebrowser:80
+}
+
 homepage.{$DOMAIN} {
     reverse_proxy homepage:3000
 }
