@@ -69,6 +69,10 @@ navidrome.{$DOMAIN} {
     reverse_proxy navidrome:4533
 }
 
+nextcloud.{$DOMAIN} {
+    reverse_proxy nextcloud:80
+}
+
 portainer.{$DOMAIN} {
     reverse_proxy portainer:9000
 }
