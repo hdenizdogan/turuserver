@@ -645,7 +645,7 @@ services:
       - "5030:5030"
     volumes:
       - /mnt/docker/slskd/:/app
-      - /mnt/media/torrent/staging:/app/downloads
+      - /mnt/media/torrent/downloads:/app/downloads
     restart: unless-stopped
 
   soulsync:
