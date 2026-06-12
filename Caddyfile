@@ -71,6 +71,17 @@ navidrome.{$DOMAIN} {
 
 nextcloud.{$DOMAIN} {
     reverse_proxy nextcloud:80
+
+    redir /.well-known/carddav /remote.php/dav 301
+    redir /.well-known/caldav /remote.php/dav 301
+
+    header {
+        Strict-Transport-Security "max-age=15552000"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        X-Robots-Tag "noindex, nofollow"
+        Referrer-Policy "no-referrer"
+    }
 }
 
 portainer.{$DOMAIN} {
