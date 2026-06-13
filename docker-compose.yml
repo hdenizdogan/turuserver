@@ -441,8 +441,8 @@ services:
       - TZ=${TZ}
       - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.${DOMAIN}
       - SQLITE_DATABASE=nextcloud   # no separate DB container needed
-#      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN}
-#      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+#      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN} # for initial setup only
+#      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD} # for initial setup only
     volumes:
       - /mnt/docker/nextcloud:/var/www/html
       - /mnt/nextclouddata:/var/www/html/data
