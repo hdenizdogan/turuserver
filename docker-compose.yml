@@ -333,28 +333,23 @@ services:
       - "8096:8096"
 
 
-#  lidatube:
-#    image: thewicklowwolf/lidatube:latest
-#    container_name: lidatube
-#    volumes:
-#      - /mnt/docker/lidatube:/lidatube/config
-#      - /mnt/media/torrent/Music:/lidatube/downloads
-#      - /etc/localtime:/etc/localtime:ro
-#    ports:
-#      - "5000:5000"
-#    restart: unless-stopped
-#    environment:
-#      - attempt_lidarr_import=True
+  lidatube:
+    image: thewicklowwolf/lidatube:latest
+    container_name: lidatube
+    volumes:
+      - /mnt/docker/lidatube:/lidatube/config
+      - /mnt/media/torrent/Music:/lidatube/downloads
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    environment:
+      - attempt_lidarr_import=True
 
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:nightly
+    image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "lidarr"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 8686
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
