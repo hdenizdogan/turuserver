@@ -347,27 +347,26 @@ services:
 #      - attempt_lidarr_import=True
 
 
-#  lidarr:
-#    image: lscr.io/linuxserver/lidarr:nightly
-#    container_name: lidarr
-#  #    labels:
-#  #      tsdproxy.enable: "true"
-#  #      tsdproxy.name: "lidarr"
-#  #      tsdproxy.funnel: "true"
-#  #      tsdproxy.container_port: 8686
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - TZ=${TZ}
-#    volumes:
-#      - /mnt/docker/lidarr:/config
-#      - /mnt/media/torrent/Music:/music
-#      - /mnt/media/torrent/downloads:/downloads
-#      - /mnt/media/torrent/Manual Download:/Manual Download
-#      - /usr/bin/:/ffmpeg
-#    ports:
-#      - "8686:8686"
-#    restart: unless-stopped
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:nightly
+    container_name: lidarr
+  #    labels:
+  #      tsdproxy.enable: "true"
+  #      tsdproxy.name: "lidarr"
+  #      tsdproxy.funnel: "true"
+  #      tsdproxy.container_port: 8686
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/lidarr:/config
+      - /mnt/media/torrent/Music:/music
+      - /mnt/media/torrent/downloads:/downloads
+      - /mnt/media/torrent/Manual Download:/Manual Download
+    ports:
+      - "8686:8686"
+    restart: unless-stopped
 
 
 #  meilisearch:
