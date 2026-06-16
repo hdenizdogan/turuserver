@@ -317,7 +317,6 @@ services:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
-      tsdproxy.autodetect: "false"
       tsdproxy.port: "8096"
     restart: unless-stopped
     devices:
