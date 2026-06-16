@@ -850,6 +850,8 @@ services:
       - /mnt/docker/tsdproxy/data:/data
       - /mnt/docker/tsdproxy/config:/config
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 
   unmanic:
