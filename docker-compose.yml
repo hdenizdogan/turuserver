@@ -348,7 +348,7 @@ services:
 
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:nightly
+    image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
     environment:
       - PUID=${PUID}
