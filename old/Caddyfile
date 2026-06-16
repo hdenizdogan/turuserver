@@ -159,7 +159,7 @@ http://*.{$OLDDOMAIN} {
 
 https://jellyfin.{$OLDDOMAIN} {
 	import tailscale_tls jellyfin
-	import proxy 172.17.0.1:8096
+	import proxy jellyfin:8096
 }
 
 https://navidrome.{$OLDDOMAIN} {
