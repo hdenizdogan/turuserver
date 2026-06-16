@@ -850,7 +850,7 @@ services:
       - /mnt/docker/tsdproxy/config:/config
     restart: unless-stopped
     environment:
-      - TS_AUTHKEY=${TSFUNNEL_AUTHKEY}
+      - TS_AUTHKEY=${TS_AUTHKEY}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
