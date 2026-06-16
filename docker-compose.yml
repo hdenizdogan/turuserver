@@ -403,7 +403,7 @@ services:
       - ND_BASEURL=https://navidrome.${DOMAIN}
       - ND_PLAYLISTSPATH=/music/Playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
-      - ND_LYRICSPRIORITY=.lrc,nd-lyrics,embedded
+      - ND_LYRICSPRIORITY=.lrc,nd-lyrics,navidrome-musixmatch-plugin,embedded
       - ND_DEFAULTLANGUAGE=tr
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
