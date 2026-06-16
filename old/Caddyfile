@@ -157,6 +157,11 @@ http://*.{$OLDDOMAIN} {
 	    /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
 }
 
+https://jellyfin.{$OLDDOMAIN} {
+	import tailscale_tls jellyfin
+	import proxy 172.17.0.1:8096
+}
+
 https://navidrome.{$OLDDOMAIN} {
 	import tailscale_tls navidrome
 	import proxy navidrome:4533
