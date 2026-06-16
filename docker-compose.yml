@@ -317,7 +317,8 @@ services:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
-      tsdproxy.port: "8096"
+      tsdproxy.autodetect: "false"
+      tsdproxy.port.1: "443/https:8096/http, no_autodetect"
     restart: unless-stopped
     devices:
       - /dev/dri:/dev/dri
@@ -848,8 +849,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/tsdproxy/data:/data
       - /mnt/docker/tsdproxy/config:/config
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
 
