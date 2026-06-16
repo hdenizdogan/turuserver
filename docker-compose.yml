@@ -317,7 +317,8 @@ services:
       tsdproxy.enable: "true"
       tsdproxy.name: "jellyfin"
       tsdproxy.funnel: "true"
-      tsdproxy.port: "8096"
+      tsdproxy.autodetect: "false"
+      tsdproxy.port.1: "443/https:8096/http, no_autodetect"
     restart: unless-stopped
     devices:
       - /dev/dri:/dev/dri
@@ -328,9 +329,9 @@ services:
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
-#    network_mode: host
-    ports:
-      - "8096:8096"
+    network_mode: host
+#    ports:
+#      - "8096:8096"
 
 
   lidatube:
