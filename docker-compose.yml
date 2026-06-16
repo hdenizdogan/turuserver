@@ -360,8 +360,6 @@ services:
       - /mnt/media/torrent/downloads:/downloads
       - /mnt/media/torrent/staging:/staging
       - /mnt/media/torrent/Manual Download:/Manual Download
-      - /usr/bin/ffmpeg:/usr/bin/ffmpeg:ro
-      - /usr/bin/ffprobe:/usr/bin/ffprobe:ro
     ports:
       - "8686:8686"
     restart: unless-stopped
