@@ -357,7 +357,7 @@ services:
     volumes:
       - /mnt/docker/lidarr:/config
       - /mnt/media/torrent/Music:/music
-      - /mnt/media/torrent/downloads:/app/downloads
+      - /mnt/media/torrent/downloads:/downloads
       - /mnt/media/torrent/staging:/staging
       - /mnt/media/torrent/Manual Download:/Manual Download
     ports:
