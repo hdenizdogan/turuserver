@@ -338,7 +338,7 @@ services:
     container_name: lidatube
     volumes:
       - /mnt/docker/lidatube:/lidatube/config
-      - /mnt/media/torrent/Manual Download:/lidatube/downloads
+      - /mnt/media/torrent/Music:/lidatube/downloads
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "5000:5000"
