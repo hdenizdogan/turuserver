@@ -343,8 +343,8 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
-#    environment:
-#      - attempt_lidarr_import=True
+    environment:
+      - attempt_lidarr_import=True
 
 
   lidarr:
