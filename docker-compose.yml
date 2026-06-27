@@ -402,7 +402,6 @@ services:
       - ND_PLAYLISTSPATH=/music/Playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
       - ND_LYRICSPRIORITY=embedded,.lrc,nd-lyrics,navidrome-musixmatch-plugin
-      - ND_DEFAULTLANGUAGE=tr
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
