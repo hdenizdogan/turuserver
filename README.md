@@ -1,6 +1,6 @@
 # 🏠 Home Media Server Stack
 
-A self-hosted media server stack running on Docker, with Caddy as a reverse proxy using Cloudflare DNS challenge for wildcard TLS certificates, and Cloudflare Tunnel for secure public access.
+A self-hosted media server stack running on Docker. Caddy acts as a local reverse proxy using Cloudflare DNS-01 challenge for wildcard TLS certificates. Cloudflare Tunnel runs independently for public access, routing directly to services — not through Caddy.
 
 ---
 
@@ -134,19 +134,25 @@ WATCHTOWER_NOTIFICATION_URL=
 
 Services communicate via Docker's default bridge network. A few exceptions:
 
-- **Jellyfin** exposes its port on the host (`172.17.0.1:8096`) so Caddy can proxy it.
+- **Jellyfin** exposes its port on the host (`172.17.0.1:8096`) so Caddy can proxy it via local DNS.
 - **Cockpit** (host service, not Docker) is proxied via `172.17.0.1:9090` (Docker host gateway IP).
-- **Cloudflared** routes all inbound public traffic through the Cloudflare Tunnel to Caddy.
+- **Cloudflared** runs independently of Caddy. It uses simple routing rules in the Cloudflare Tunnel dashboard to forward public traffic directly to individual services by port.
 - **TSDProxy** handles Tailscale-based access for selected services (currently Jellyfin and Navidrome via the `$OLDDOMAIN` TLS setup).
 
 ---
 
 ## 🔒 TLS & Reverse Proxy (Caddy)
 
-Caddy handles HTTPS using a **wildcard certificate** for `*.yourdomain.com` obtained via the Cloudflare DNS-01 ACME challenge. No ports need to be exposed directly to the internet.
+Caddy handles HTTPS for **local access** using a **wildcard certificate** for `*.yourdomain.com` obtained via the Cloudflare DNS-01 ACME challenge. Your local DNS resolver (e.g. router or AdGuard) points `*.yourdomain.com` to the server's local IP, so all subdomain traffic is resolved and terminated locally by Caddy — no internet exposure needed for this path.
 
 ```
-Cloudflare DNS → Cloudflare Tunnel → Cloudflared container → Caddy → Services
+Local DNS (*.yourdomain.com → server LAN IP) → Caddy → Services
+```
+
+The Cloudflare Tunnel runs **separately** and is configured in the Cloudflare dashboard with simple routing rules pointing directly to services by port. It does not go through Caddy.
+
+```
+Cloudflare Tunnel → Cloudflared container → Service (by host:port)
 ```
 
 The Caddyfile uses a reusable `(proxy)` snippet and environment variable substitution. A wildcard anchor block forces issuance of the wildcard certificate:
@@ -308,10 +314,10 @@ Automatically updates all containers daily at 04:00. Configured with:
 - `--include-restarting` — also updates containers that are restarting
 
 ### Cloudflared
-Runs the Cloudflare Tunnel client, routing all inbound public traffic to Caddy.
+Runs the Cloudflare Tunnel client. Routing rules are configured in the Cloudflare dashboard and point directly to services by host and port — independent of Caddy.
 
 ### Caddy
-Reverse proxy with automatic wildcard TLS via Cloudflare DNS-01. Uses the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
+Local reverse proxy with automatic wildcard TLS via Cloudflare DNS-01. Uses the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Resolves subdomains via local DNS — not connected to the Cloudflare Tunnel. TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
 
 ---
 
