@@ -313,11 +313,11 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "jellyfin"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.port: "8096"
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "jellyfin"
+      tsdproxy.funnel: "true"
+      tsdproxy.port: "8096"
     restart: unless-stopped
     devices:
       - /dev/dri:/dev/dri
