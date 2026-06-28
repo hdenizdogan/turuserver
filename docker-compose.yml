@@ -582,6 +582,7 @@ services:
     volumes:
       - /mnt/docker/radarr:/config
       - /mnt/media/torrent/Movies:/mnt/media/torrent/Movies
+      - /mnt/media/torrent/Manual Download:/Manual Download
       - /mnt/media/torrent/downloads:/downloads
 
 
@@ -636,6 +637,7 @@ services:
     volumes:
       - /mnt/docker/sonarr:/config
       - /mnt/media/torrent/Shows:/mnt/media/torrent/Shows
+      - /mnt/media/torrent/Manual Download:/Manual Download
       - /mnt/media/torrent/downloads:/downloads
 
 
