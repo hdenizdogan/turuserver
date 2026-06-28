@@ -1,6 +1,6 @@
 # 🏠 Home Media Server Stack
 
-A self-hosted media server stack running on Docker, with Caddy as a reverse proxy using Cloudflare DNS challenge for wildcard TLS certificates, and Cloudflare Tunnel for secure public access.
+A self-hosted media server stack running on Docker. Caddy acts as a local reverse proxy using Cloudflare DNS-01 challenge for wildcard TLS certificates. Cloudflare Tunnel runs independently for public access, routing directly to services — not through Caddy.
 
 ---
 
@@ -18,13 +18,20 @@ A self-hosted media server stack running on Docker, with Caddy as a reverse prox
 | [qBittorrent](#qbittorrent) | Torrent client | `8090` |
 | [Seerr](#seerr) | Media request manager | `5055` |
 | [Lidatube](#lidatube) | YouTube → Lidarr downloader | `5000` |
+| [Metube](#metube) | YouTube downloader UI | `8081` |
+| [Navidrome](#navidrome) | Music streaming server | `4533` |
+| [Nextcloud](#nextcloud) | Self-hosted cloud storage | `8083` |
+| [Slskd](#slskd) | Soulseek client | `5030` |
+| [Soulsync](#soulsync) | Music sync automation | `8008` |
 | [Unmanic](#unmanic) | Media transcoding pipeline | `8888` |
 | [Stirling PDF](#stirling-pdf) | PDF tools | `5050` |
 | [Immich](#immich) | Photo/video backup | `2283` |
 | [Portainer](#portainer) | Docker management UI | `9000` |
 | [Dashdot](#dashdot) | Server stats dashboard | `3001` |
+| [Flaresolverr](#flaresolverr) | Cloudflare bypass for indexers | `8191` |
 | [Watchtower](#watchtower) | Automatic container updates | — |
 | [Cloudflared](#cloudflared) | Cloudflare Tunnel | — |
+| [TSDProxy](#tsdproxy) | Tailscale reverse proxy | — |
 | [Caddy](#caddy) | Reverse proxy with TLS | `80`, `443` |
 
 ---
@@ -55,16 +62,24 @@ Media and config are stored on the host:
 │   ├── seerr/
 │   ├── jellystat/
 │   ├── lidatube/
+│   ├── navidrome/
+│   ├── nextcloud/
+│   ├── slskd/
+│   ├── soulsync/
 │   ├── immich/
 │   ├── portainer_data/
 │   ├── StirlingPDF/
-│   ├── redis/
+│   ├── tsdproxy/
 │   └── caddy-cloudflare/
-└── media/                  # Media library
-    ├── torrent/            # Download directory
-    │   └── Music/
-    ├── Shows/
-    └── Movies/
+├── media/                  # Media library
+│   └── torrent/
+│       ├── Music/
+│       ├── Shows/
+│       ├── Movies/
+│       ├── downloads/
+│       └── staging/
+├── immichdata/             # Immich media uploads
+└── nextclouddata/          # Nextcloud user data
 ```
 
 ---
@@ -84,7 +99,7 @@ HOSTNAME=your-hostname
 CLOUDFLARE_API_TOKEN=your_cloudflare_api_token
 TUNNEL_TOKEN=your_cloudflare_tunnel_token
 DOMAIN=yourdomain.com
-OLDDOMAIN=youroldomain.com   # optional, for redirects
+OLDDOMAIN=youroldomain.com   # Tailscale domain, used for legacy TLS access
 
 # Jellystat DB
 JELLYSTATDB_POSTGRES_USER=jellystat
@@ -94,48 +109,55 @@ JELLYSTATDB_POSTGRES_PORT=5432
 JELLYSTAT_JWT_SECRET=your_jwt_secret
 
 # Immich
-IMMICH_VERSION=release
-UPLOAD_LOCATION=/mnt/docker/immich/photos
+UPLOAD_LOCATION=/mnt/immichdata
 DB_DATA_LOCATION=/mnt/docker/immich/postgres
 DB_PASSWORD=strongpassword
 DB_USERNAME=postgres
 DB_DATABASE_NAME=immich
 
+# Navidrome
+ND_LASTFM_APIKEY=your_lastfm_api_key
+ND_LASTFM_SECRET=your_lastfm_secret
+
+# Slskd
+SLSKD_API_KEY=your_api_key
+SLSKD_SLSK_USERNAME=your_soulseek_username
+SLSKD_SLSK_PASSWORD=your_soulseek_password
+
 # Watchtower notifications (optional, e.g. ntfy/Gotify URL)
 WATCHTOWER_NOTIFICATION_URL=
-
-# Homarr (if enabled)
-SECRET_ENCRYPTION_KEY=
 ```
 
 ---
 
 ## 🌐 Networking
 
-All services (except Jellyfin and Cockpit) communicate over a custom bridge network `local_net` with subnet `172.19.0.0/24`.
+Services communicate via Docker's default bridge network. A few exceptions:
 
-- **Caddy** is assigned a static IP of `172.19.0.199` within this network.
-- **Jellyfin** uses `network_mode: host` for better hardware passthrough and DLNA support.
+- **Jellyfin** exposes its port on the host (`172.17.0.1:8096`) so Caddy can proxy it via local DNS.
 - **Cockpit** (host service, not Docker) is proxied via `172.17.0.1:9090` (Docker host gateway IP).
-- **Cloudflared** runs with 2 replicas for redundancy and routes traffic through the Cloudflare Tunnel to Caddy.
+- **Cloudflared** runs independently of Caddy. It uses simple routing rules in the Cloudflare Tunnel dashboard to forward public traffic directly to individual services by port.
+- **TSDProxy** handles Tailscale-based access for selected services (currently Jellyfin and Navidrome via the `$OLDDOMAIN` TLS setup).
 
 ---
 
 ## 🔒 TLS & Reverse Proxy (Caddy)
 
-Caddy handles HTTPS using a **wildcard certificate** for `*.yourdomain.com` obtained via the Cloudflare DNS-01 ACME challenge. No ports need to be exposed to the internet.
+Caddy handles HTTPS for **local access** using a **wildcard certificate** for `*.yourdomain.com` obtained via the Cloudflare DNS-01 ACME challenge. Your local DNS resolver (e.g. router or AdGuard) points `*.yourdomain.com` to the server's local IP, so all subdomain traffic is resolved and terminated locally by Caddy — no internet exposure needed for this path.
 
 ```
-Cloudflare DNS → Cloudflare Tunnel → Cloudflared container → Caddy → Services
+Local DNS (*.yourdomain.com → server LAN IP) → Caddy → Services
 ```
 
-The Caddyfile uses environment variable substitution:
+The Cloudflare Tunnel runs **separately** and is configured in the Cloudflare dashboard with simple routing rules pointing directly to services by port. It does not go through Caddy.
+
+```
+Cloudflare Tunnel → Cloudflared container → Service (by host:port)
+```
+
+The Caddyfile uses a reusable `(proxy)` snippet and environment variable substitution. A wildcard anchor block forces issuance of the wildcard certificate:
 
 ```caddy
-{
-    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
-}
-
 *.{$DOMAIN} {
     tls {
         dns cloudflare {$CLOUDFLARE_API_TOKEN}
@@ -144,28 +166,49 @@ The Caddyfile uses environment variable substitution:
 }
 ```
 
-Each service gets a subdomain:
+### Public subdomains
 
 | Subdomain | Proxied To |
 |---|---|
-| `jellyfin.yourdomain.com` | `172.17.0.1:8096` |
-| `cockpit.yourdomain.com` | `172.17.0.1:9090` |
-| `sonarr.yourdomain.com` | `sonarr:8989` |
-| `radarr.yourdomain.com` | `radarr:7878` |
+| `adguard.yourdomain.com` | `adguard:80` *(service commented out)* |
 | `bazarr.yourdomain.com` | `bazarr:6767` |
+| `cockpit.yourdomain.com` | `172.17.0.1:9090` |
+| `dash.yourdomain.com` | `dash:3001` |
+| `filebrowser.yourdomain.com` | `filebrowser:80` *(service commented out)* |
+| `homepage.yourdomain.com` | `homepage:3000` *(service commented out)* |
+| `immich.yourdomain.com` | `immich:2283` |
+| `jellyfin.yourdomain.com` | `172.17.0.1:8096` |
+| `jellystat.yourdomain.com` | `jellystat:3000` |
 | `lidarr.yourdomain.com` | `lidarr:8686` |
+| `lidatube.yourdomain.com` | `lidatube:5000` |
+| `metube.yourdomain.com` | `metube:8081` |
+| `navidrome.yourdomain.com` | `navidrome:4533` |
+| `nextcloud.yourdomain.com` | `nextcloud:80` |
+| `portainer.yourdomain.com` | `portainer:9000` |
 | `prowlarr.yourdomain.com` | `prowlarr:9696` |
 | `qbittorrent.yourdomain.com` | `qbittorrent:8090` |
+| `radarr.yourdomain.com` | `radarr:7878` |
 | `seerr.yourdomain.com` | `seerr:5055` |
-| `jellystat.yourdomain.com` | `jellystat:3000` |
-| `lidatube.yourdomain.com` | `lidatube:5000` |
-| `unmanic.yourdomain.com` | `unmanic:8888` |
-| `portainer.yourdomain.com` | `portainer:9000` |
-| `dash.yourdomain.com` | `dash:3001` |
+| `slskd.yourdomain.com` | `slskd:5030` |
+| `sonarr.yourdomain.com` | `sonarr:8989` |
+| `soulsync.yourdomain.com` | `soulsync:8008` |
+| `speedtest.yourdomain.com` | `speedtest:80` *(service commented out)* |
 | `stirling.yourdomain.com` | `stirling:8080` |
-| `immich.yourdomain.com` | `immich:2283` |
+| `tracearr.yourdomain.com` | `tracearr:3020` *(service commented out)* |
+| `tsdproxy.yourdomain.com` | `tsdproxy:8080` |
+| `unmanic.yourdomain.com` | `unmanic:8888` |
+| `wizarr.yourdomain.com` | `wizarr:5690` *(service commented out)* |
 
-> **Note:** `adguard`, `homepage`, `speedtest`, and `wizarr` entries are present in the Caddyfile but their corresponding Docker services are currently commented out.
+### Tailscale domain (`$OLDDOMAIN`)
+
+HTTP requests to `*.OLDDOMAIN` are redirected to HTTPS. Two services are proxied using manual TLS certificates managed by TSDProxy:
+
+| Subdomain | Proxied To |
+|---|---|
+| `jellyfin.OLDDOMAIN` | `jellyfin:8096` |
+| `navidrome.OLDDOMAIN` | `navidrome:4533` |
+
+Certificates are read from `/mnt/docker/tsdproxy/data/default` (mounted into Caddy at `/certs`).
 
 ---
 
@@ -188,7 +231,8 @@ Each service gets a subdomain:
 
 2. **Create required directories**
    ```bash
-   sudo mkdir -p /mnt/docker /mnt/media/torrent/Music /mnt/media/Shows /mnt/media/Movies
+   sudo mkdir -p /mnt/docker /mnt/media/torrent/Music /mnt/media/torrent/downloads \
+     /mnt/media/torrent/staging /mnt/immichdata /mnt/nextclouddata
    ```
 
 3. **Create the `.env` file** (see [Environment Variables](#️-environment-variables) above)
@@ -200,17 +244,17 @@ Each service gets a subdomain:
    docker compose up -d
    ```
 
-6. **Configure the Cloudflare Tunnel** to route traffic to `http://caddy-cloudflare:80` (or `http://localhost:80` if using host networking)
+6. **Configure the Cloudflare Tunnel** to route traffic to `http://caddy-cloudflare:80`
 
 ---
 
 ## 🔧 Service Details
 
 ### Jellyfin
-Media server with hardware transcoding support via `/dev/dri` (Intel QSV / VAAPI). Uses `network_mode: host` for DLNA and direct play support.
+Media server with hardware transcoding via `/dev/dri` (Intel QSV / VAAPI). Port `8096` is exposed on the host so Caddy can proxy it at `172.17.0.1:8096`. Also accessible over Tailscale via `jellyfin.OLDDOMAIN`.
 
 ### Jellystat
-Statistics and history dashboard for Jellyfin. Requires a dedicated PostgreSQL database (`jellystat-db`).
+Statistics and history dashboard for Jellyfin. Requires a dedicated PostgreSQL 15 database (`jellystat-db`).
 
 ### Sonarr / Radarr / Lidarr / Bazarr / Prowlarr
 The standard *arr stack for automated media management. All share `/mnt/media/torrent` as the download path for seamless hardlinking.
@@ -223,6 +267,24 @@ Media request and discovery tool (Overseerr fork). Connects to Jellyfin and the 
 
 ### Lidatube
 Downloads music from YouTube and imports to Lidarr automatically (`attempt_lidarr_import=True`).
+
+### Metube
+Web UI for downloading videos/audio via yt-dlp.
+
+### Navidrome
+Self-hosted music streaming server with Last.fm scrobbling support. Also accessible over Tailscale via `navidrome.OLDDOMAIN`.
+
+### Nextcloud
+Self-hosted cloud storage using SQLite (no separate database container). User data is stored at `/mnt/nextclouddata`.
+
+### Slskd
+Web-based Soulseek client for peer-to-peer music sharing. Remote configuration is enabled.
+
+### Soulsync
+Music sync automation tool. Bridges Spotify/Tidal playlists with Soulseek downloads and Lidarr imports. CPU and memory usage is constrained via `deploy.resources`.
+
+### Flaresolverr
+Cloudflare bypass proxy used by Prowlarr to access protected torrent indexers.
 
 ### Unmanic
 File transcoding pipeline with hardware acceleration support via `/dev/dri`.
@@ -240,7 +302,10 @@ Self-hosted photo and video backup. Uses:
 Docker management UI. Mounts the Docker socket for full container control.
 
 ### Dashdot
-Real-time server stats dashboard. Runs privileged with host filesystem mounted read-only for accurate disk/network metrics.
+Real-time server stats dashboard. Runs privileged with the host filesystem mounted read-only for accurate disk/network metrics. Displays OS, CPU, storage, RAM, and network with temperatures and percentages enabled.
+
+### TSDProxy
+Tailscale reverse proxy that automatically exposes selected containers (currently Jellyfin and Navidrome) as Tailscale nodes. Provides the TLS certificates used by Caddy for the `$OLDDOMAIN` routes.
 
 ### Watchtower
 Automatically updates all containers daily at 04:00. Configured with:
@@ -249,10 +314,10 @@ Automatically updates all containers daily at 04:00. Configured with:
 - `--include-restarting` — also updates containers that are restarting
 
 ### Cloudflared
-Runs the Cloudflare Tunnel client with **2 replicas** for high availability. All inbound traffic is routed through this to Caddy.
+Runs the Cloudflare Tunnel client. Routing rules are configured in the Cloudflare dashboard and point directly to services by host and port — independent of Caddy.
 
 ### Caddy
-Reverse proxy with automatic TLS. Uses the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Mounts a read-only `Caddyfile` and persists certificate data under `/mnt/docker/caddy-cloudflare/`.
+Local reverse proxy with automatic wildcard TLS via Cloudflare DNS-01. Uses the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Resolves subdomains via local DNS — not connected to the Cloudflare Tunnel. TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
 
 ---
 
@@ -282,6 +347,7 @@ docker compose ps
 
 ## 📝 Notes
 
-- Several services are **commented out** in `docker-compose.yml` (Navidrome, Glances, Homepage, AdGuard, Homarr, Wizarr, Filebrowser, Metube, Speedtest, tdarr, Jellysweep, NPM, Home Assistant, tsdproxy). They can be enabled by uncommenting.
-- Cockpit (Ubuntu server web UI) is proxied through Caddy at `cockpit.yourdomain.com` → `172.17.0.1:9090`. Make sure Cockpit is configured to allow the tunnel domain in `/etc/cockpit/cockpit.conf`.
-- Watchtower is pinned to `nickfedor/watchtower` (a maintained fork of the original `containrrr/watchtower`).
+- Several services are **commented out** in `docker-compose.yml` and have Caddyfile entries ready for when they're re-enabled: AdGuard, Filebrowser, Homepage, Speedtest, Wizarr, Tracearr, Glances, Home Assistant, Homarr, tdarr, NPM, Tailscale, Feishin, and the Navidrome import tool.
+- **Cockpit** (Ubuntu server web UI) is proxied through Caddy at `cockpit.yourdomain.com → 172.17.0.1:9090`. Make sure Cockpit allows the tunnel domain in `/etc/cockpit/cockpit.conf`.
+- **Watchtower** is pinned to `nickfedor/watchtower` (a maintained fork of `containrrr/watchtower`).
+- The `(proxy)` snippet in the Caddyfile is defined for convenience but each service block uses `reverse_proxy` directly for clarity.
