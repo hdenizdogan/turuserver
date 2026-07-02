@@ -405,6 +405,7 @@ services:
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
+      - TZ=${TZ}
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music"
