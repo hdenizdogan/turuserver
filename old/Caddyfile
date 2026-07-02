@@ -75,7 +75,7 @@ lidatube.{$DOMAIN} {
 }
 
 lrcget.{$DOMAIN} {
-    reverse_proxy lrcget:5800
+    reverse_proxy 172.17.0.1:5800
 }
 
 metube.{$DOMAIN} {
