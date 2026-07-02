@@ -408,7 +408,6 @@ services:
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music"
-      - "/mnt/media/torrent/Music/Playlists:/music/Playlists"
 
 
 #  navidrome-import:
