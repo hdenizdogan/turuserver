@@ -407,7 +407,7 @@ services:
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
     volumes:
       - "/mnt/docker/navidrome:/data"
-      - "/mnt/media/torrent/Music:/music:ro"
+      - "/mnt/media/torrent/Music:/music"
       - "/mnt/media/torrent/Music/Playlists:/music/Playlists"
 
 
