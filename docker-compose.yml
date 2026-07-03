@@ -35,8 +35,8 @@ services:
   bentopdf: # reverse proxy to 8080
     image: ghcr.io/alam00000/bentopdf-simple:latest # Self-Hosted build (recommended)
     container_name: bentopdf
-    ports:
-      - '3000:8080'
+#    ports:
+#      - '3000:8080'
     restart: unless-stopped
 
 
