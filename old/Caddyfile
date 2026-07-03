@@ -90,6 +90,10 @@ nextcloud.{$DOMAIN} {
     reverse_proxy nextcloud:80
 }
 
+pdf.{$DOMAIN} {
+    reverse_proxy bento:8080
+}
+
 portainer.{$DOMAIN} {
     reverse_proxy portainer:9000
 }

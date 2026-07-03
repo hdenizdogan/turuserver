@@ -1,6 +1,6 @@
 services:
 
-#  adguard:
+#  adguard: # reverse proxy to 80
 #    image: adguard/adguardhome:latest
 #    container_name: adguard
 #    restart: unless-stopped
@@ -13,7 +13,7 @@ services:
 #      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
 
 
-  bazarr:
+  bazarr: # reverse proxy to 6767
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
@@ -31,6 +31,13 @@ services:
     volumes:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
+
+  bentopdf: # reverse proxy to 8080
+    image: ghcr.io/alam00000/bentopdf-simple:latest # Self-Hosted build (recommended)
+    container_name: bentopdf
+    ports:
+      - '3000:8080'
+    restart: unless-stopped
 
 
 #  caddy:
@@ -81,7 +88,7 @@ services:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
 
 
-  dash:
+  dash: # reverse proxy to 3001
     image: mauricenino/dashdot:latest
     container_name: dash
     restart: unless-stopped
@@ -153,7 +160,7 @@ services:
 #      - 9180:9180
 
 
-  flaresolverr:
+  flaresolverr: # reverse proxy to 8191
     image: flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     restart: unless-stopped
@@ -204,7 +211,7 @@ services:
 #    privileged: true
 #    network_mode: host
 
-#  homepage:
+#  homepage: # reverse proxy to 3010
 #    image: ghcr.io/gethomepage/homepage:latest
 #    container_name: homepage
 #    ports:
@@ -214,7 +221,7 @@ services:
 #      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 
-#  homarr:
+#  homarr: # reverse proxy to 7575
 #    container_name: homarr
 #    image: ghcr.io/homarr-labs/homarr:latest
 #    restart: unless-stopped
@@ -232,7 +239,7 @@ services:
 #      - '7575:7575'
 
 
-  immich:
+  immich: # reverse proxy to 2283
     container_name: immich
     image: ghcr.io/immich-app/immich-server:release
     devices:
@@ -274,7 +281,7 @@ services:
       service: openvino
 
 
-  jellystat:
+  jellystat: # reverse proxy to 3000
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
@@ -310,7 +317,7 @@ services:
       - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
 
 
-  jellyfin:
+  jellyfin: # reverse proxy to 8096
     image: jellyfin/jellyfin
     container_name: jellyfin
     labels:
@@ -333,7 +340,7 @@ services:
       - "8096:8096"
 
 
-  lidatube:
+  lidatube: # reverse proxy to 5000
     image: thewicklowwolf/lidatube:latest
     container_name: lidatube
     volumes:
@@ -347,7 +354,7 @@ services:
       - attempt_lidarr_import=True
 
 
-  lidarr:
+  lidarr: # reverse proxy to 8686
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
     environment:
@@ -378,7 +385,7 @@ services:
 #      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
 
 
-  metube:
+  metube: # reverse proxy to 8081
     image: ghcr.io/alexta69/metube
     container_name: metube
     restart: unless-stopped
@@ -388,7 +395,7 @@ services:
       - /downloads
 
 
-  navidrome:
+  navidrome: # reverse proxy to 4533
     container_name: navidrome
     image: deluan/navidrome:latest
     labels:
@@ -413,7 +420,7 @@ services:
       - "/mnt/media/torrent/Music:/music"
 
 
-#  navidrome-import:
+#  navidrome-import: # reverse proxy to 8888
 #    image: ethanbarclay/navidrome-import-tools:latest
 #    container_name: navidrome-import
 #    ports:
@@ -431,7 +438,7 @@ services:
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
 
-  nextcloud:
+  nextcloud: # reverse proxy to 80
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
@@ -491,7 +498,7 @@ services:
 
 #        ipv4_address: 172.19.0.199
 
-  portainer:
+  portainer: # reverse proxy to 9000
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
@@ -525,7 +532,7 @@ services:
 #      - TZ=${TZ}
 #    restart: unless-stopped
 
-  prowlarr:
+  prowlarr: # reverse proxy to 9696
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
@@ -544,7 +551,7 @@ services:
       - /mnt/docker/prowlarr:/config
 
 
-  qbittorrent:
+  qbittorrent: # reverse proxy to 8090
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
@@ -566,7 +573,7 @@ services:
       - /mnt/docker/qbittorrent/config:/config
 
 
-  radarr:
+  radarr: # reverse proxy to 7878
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
@@ -600,7 +607,7 @@ services:
       - /mnt/docker/immich/redis:/data
 
 
-  seerr:
+  seerr: # reverse proxy to 5055
     image: ghcr.io/seerr-team/seerr:latest
     init: true
     container_name: seerr
@@ -621,7 +628,7 @@ services:
       - /mnt/docker/seerr/config:/app/config
 
 
-  sonarr:
+  sonarr: # reverse proxy to 8989
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
@@ -643,7 +650,7 @@ services:
       - /mnt/media/torrent/downloads:/downloads
 
 
-  slskd:
+  slskd: # reverse proxy to 5030
     image: slskd/slskd:latest
     container_name: slskd
     environment:
@@ -659,7 +666,7 @@ services:
       - /mnt/media/torrent/downloads:/app/downloads
     restart: unless-stopped
 
-  soulsync:
+  soulsync: # reverse proxy to 8008
     image: boulderbadgedad/soulsync:latest
     container_name: soulsync
     environment:
@@ -701,7 +708,7 @@ services:
           cpus: '0.5'
           memory: 512M
 
-#  speedtest:
+#  speedtest: # reverse proxy to 80
 #    image: lscr.io/linuxserver/librespeed:latest
 #    container_name: speedtest
 #    labels:
@@ -718,26 +725,26 @@ services:
 #    restart: unless-stopped
 
 
-  stirling:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
-    container_name: stirling
-    restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "stirling"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 8080
-    ports:
-      - "5050:8080"
-    volumes:
-      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
-      - /mnt/docker/StirlingPDF/extraConfigs:/configs
-      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
-      - /mnt/docker/StirlingPDF/logs:/logs/
-      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
-    environment:
-      - DOCKER_ENABLE_SECURITY=false
-      - LANGS=["tr_TR"]
+#  stirling: # reverse proxy to 8080
+#    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+#    container_name: stirling
+#    restart: unless-stopped
+#  #    labels:
+#  #      tsdproxy.enable: "true"
+#  #      tsdproxy.name: "stirling"
+#  #      tsdproxy.funnel: "true"
+#  #      tsdproxy.container_port: 8080
+#    ports:
+#      - "5050:8080"
+#    volumes:
+#      - /mnt/docker/StirlingPDF/trainingData:/usr/share/tessdata
+#      - /mnt/docker/StirlingPDF/extraConfigs:/configs
+#      - /mnt/docker/StirlingPDF/customFiles:/customFiles/
+#      - /mnt/docker/StirlingPDF/logs:/logs/
+#      - /mnt/docker/StirlingPDF/pipeline:/pipeline/
+#    environment:
+#      - DOCKER_ENABLE_SECURITY=false
+#      - LANGS=["tr_TR"]
 
 
 #  tailscale:
@@ -757,7 +764,7 @@ services:
 #      - TS_EXTRA_ARGS=--advertise-routes=10.0.0.0/24 --accept-dns=false
 #    restart: unless-stopped
 
-#  tdarr:
+#  tdarr: # reverse proxy to 8265
 #    image: ghcr.io/haveagitgat/tdarr:latest
 #    container_name: tdarr
 #    labels:
@@ -808,7 +815,7 @@ services:
 #    networks:
 #      - local_net
 
-#  tracearr:
+#  tracearr: # reverse proxy to 3020
 #    image: ghcr.io/connorgallopo/tracearr:latest
 #    container_name: tracearr
 #    ports:
@@ -844,7 +851,7 @@ services:
 #    networks:
 #      - local_net
 
-  tsdproxy:
+  tsdproxy: # reverse proxy to 8080
     image: almeidapaulopt/tsdproxy:2
     container_name: tsdproxy
     volumes:
@@ -858,7 +865,7 @@ services:
       - "host.docker.internal:host-gateway"
 
 
-  unmanic:
+  unmanic: # reverse proxy to 8888
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
@@ -893,7 +900,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
-#  wizarr:
+#  wizarr: # reverse proxy to 5690
 #    container_name: wizarr
 #    image: ghcr.io/wizarrrr/wizarr:latest
 #    restart: unless-stopped
