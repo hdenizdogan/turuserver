@@ -91,7 +91,7 @@ nextcloud.{$DOMAIN} {
 }
 
 pdf.{$DOMAIN} {
-    reverse_proxy bento:8080
+    reverse_proxy bentopdf:8080
 }
 
 portainer.{$DOMAIN} {
