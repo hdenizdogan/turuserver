@@ -25,6 +25,10 @@ bazarr.{$DOMAIN} {
     reverse_proxy bazarr:6767
 }
 
+beszel.{$DOMAIN} {
+    reverse_proxy beszel:8090
+}
+
 cockpit.{$DOMAIN} {
     reverse_proxy 172.17.0.1:9090
 }

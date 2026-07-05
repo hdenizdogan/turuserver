@@ -32,12 +32,47 @@ services:
       - /mnt/media:/mnt/media
       - /mnt/docker/bazarr:/config
 
-  bentopdf: # reverse proxy to 8080
+  bentopdf: # reverse proxy to http://bentopdf:8080
     image: ghcr.io/alam00000/bentopdf-simple:latest # Self-Hosted build (recommended)
     container_name: bentopdf
 #    ports:
 #      - '3000:8080'
     restart: unless-stopped
+
+  beszel: # reverse proxy to http://beszel:8090
+    image: henrygd/beszel:latest
+    container_name: beszel
+    restart: unless-stopped
+    environment:
+      APP_URL: https://beszel.${DOMAIN}
+#    ports:
+#      - 8090:8090
+    volumes:
+      - /mnt/docker/beszel/beszel_data:/beszel_data
+      - /mnt/docker/beszel/beszel_socket:/beszel_socket
+    healthcheck:
+      test: ['CMD', '/beszel', 'health', '--url', 'http://localhost:8090']
+      interval: 120s
+      start_period: 10s
+      timeout: 5s
+
+  beszel-agent:
+    image: henrygd/beszel-agent:latest
+    container_name: beszel-agent
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /mnt/docker/beszel/beszel-agent/beszel_agent_data:/var/lib/beszel-agent
+      - /mnt/docker/beszel/beszel-agent/beszel_socket:/beszel_socket
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      LISTEN: /beszel_socket/beszel.sock
+      HUB_URL: http://beszel:8090
+#      TOKEN: <token>
+#      KEY: "<key>"
+    healthcheck:
+      test: ['CMD', '/agent', 'health']
+      interval: 120s
 
 
 #  caddy:
