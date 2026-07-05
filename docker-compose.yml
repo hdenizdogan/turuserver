@@ -1,5 +1,25 @@
 services:
 
+  actual: #reverse proxy to http://actual:5006
+    image: docker.io/actualbudget/actual-server:latest
+    container_name: actual
+#    ports:
+#      - '5006:5006'
+    volumes:
+      # Change './actual-data' below to the path to the folder you want Actual to store its data in on your server.
+      # '/data' is the path Actual will look for its files in by default, so leave that as-is.
+      - /mnt/docker/actual/actual-data:/data
+    healthcheck:
+      # Enable health check for the instance
+      test: [ 'CMD-SHELL', 'node scripts/health-check.js' ]
+      # health check using self signed certs
+      # test: ['CMD-SHELL', 'NODE_EXTRA_CA_CERTS=/data/selfhost.crt node scripts/health-check.js']
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
 #  adguard: # reverse proxy to 80
 #    image: adguard/adguardhome:latest
 #    container_name: adguard
