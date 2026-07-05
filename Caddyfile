@@ -17,10 +17,6 @@
 # Services
 # -------------------------------------------------
 
-actual.{$DOMAIN} {
-    reverse_proxy actual:5006
-}
-
 adguard.{$DOMAIN} {
     reverse_proxy adguard:80
 }
