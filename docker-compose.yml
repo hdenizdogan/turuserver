@@ -67,9 +67,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       LISTEN: /beszel_socket/beszel.sock
-      HUB_URL: http://beszel:8090
-#      TOKEN: <token>
-#      KEY: "<key>"
+      HUB_URL: https://beszel.${DOMAIN}
+      TOKEN: ${BESZEL_TOKEN}
+      KEY: ${BESZEL_KEY}
     healthcheck:
       test: ['CMD', '/agent', 'health']
       interval: 120s
