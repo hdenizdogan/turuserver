@@ -454,6 +454,7 @@ services:
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
+      - ND_SESSIONTIMEOUT=720h
       - TZ=${TZ}
     volumes:
       - "/mnt/docker/navidrome:/data"
