@@ -50,6 +50,10 @@ dash.{$DOMAIN} {
     reverse_proxy dash:3001
 }
 
+feishin.{$DOMAIN} {
+    reverse_proxy http://feishin:9180
+}
+
 filebrowser.{$DOMAIN} {
     reverse_proxy filebrowser:80
 }
