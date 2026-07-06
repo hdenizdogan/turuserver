@@ -187,7 +187,7 @@ services:
       tsdproxy.enable: "true"
       tsdproxy.name: "feishin"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 9180
+      tsdproxy.port: "9180"
     environment:
       - SERVER_NAME=navidrome # pre-defined server name
       - SERVER_LOCK=true # When true AND name/type/url are set, only username/password can be toggled
