@@ -17,11 +17,6 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "bazarr"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 6767
     ports:
       - "6767:6767"
     environment:
@@ -39,40 +34,40 @@ services:
 #      - '3000:8080'
     restart: unless-stopped
 
-  beszel: # reverse proxy to http://beszel:8090
-    image: henrygd/beszel:latest
-    container_name: beszel
-    restart: unless-stopped
-    environment:
-      APP_URL: https://beszel.${DOMAIN}
-#    ports:
-#      - 8090:8090
-    volumes:
-      - /mnt/docker/beszel/beszel_data:/beszel_data
-      - /mnt/docker/beszel/beszel_socket:/beszel_socket
-    healthcheck:
-      test: ['CMD', '/beszel', 'health', '--url', 'http://localhost:8090']
-      interval: 120s
-      start_period: 10s
-      timeout: 5s
+#  beszel: # reverse proxy to http://beszel:8090
+#    image: henrygd/beszel:latest
+#    container_name: beszel
+#    restart: unless-stopped
+#    environment:
+#      APP_URL: https://beszel.${DOMAIN}
+##    ports:
+##      - 8090:8090
+#    volumes:
+#      - /mnt/docker/beszel/beszel_data:/beszel_data
+#      - /mnt/docker/beszel/beszel_socket:/beszel_socket
+#    healthcheck:
+#      test: ['CMD', '/beszel', 'health', '--url', 'http://localhost:8090']
+#      interval: 120s
+#      start_period: 10s
+#      timeout: 5s
 
-  beszel-agent:
-    image: henrygd/beszel-agent:latest
-    container_name: beszel-agent
-    restart: unless-stopped
-    network_mode: host
-    volumes:
-      - /mnt/docker/beszel/beszel-agent/beszel_agent_data:/var/lib/beszel-agent
-      - /mnt/docker/beszel/beszel-agent/beszel_socket:/beszel_socket
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      LISTEN: /beszel_socket/beszel.sock
-      HUB_URL: https://beszel.${DOMAIN}
-      TOKEN: ${BESZEL_TOKEN}
-      KEY: ${BESZEL_KEY}
-    healthcheck:
-      test: ['CMD', '/agent', 'health']
-      interval: 120s
+#  beszel-agent:
+#    image: henrygd/beszel-agent:latest
+#    container_name: beszel-agent
+#    restart: unless-stopped
+#    network_mode: host
+#    volumes:
+#      - /mnt/docker/beszel/beszel-agent/beszel_agent_data:/var/lib/beszel-agent
+#      - /mnt/docker/beszel/beszel-agent/beszel_socket:/beszel_socket
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    environment:
+#      LISTEN: /beszel_socket/beszel.sock
+#      HUB_URL: https://beszel.${DOMAIN}
+#      TOKEN: ${BESZEL_TOKEN}
+#      KEY: ${BESZEL_KEY}
+#    healthcheck:
+#      test: ['CMD', '/agent', 'health']
+#      interval: 120s
 
 
 #  caddy:
@@ -116,8 +111,8 @@ services:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
     container_name: cloudflared
-  #    deploy:
-  #     replicas: 2
+#    deploy:
+#      replicas: 2
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
@@ -128,11 +123,6 @@ services:
     container_name: dash
     restart: unless-stopped
     privileged: true
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "dash"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 3001
     ports:
       - "3001:3001"
     environment:
@@ -284,11 +274,6 @@ services:
     image: ghcr.io/immich-app/immich-server:release
     devices:
       - /dev/dri:/dev/dri
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "immich"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 2283
     volumes:
     # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
       - /mnt/immichdata:/data
@@ -325,11 +310,6 @@ services:
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "jellystat"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 3000
     environment:
       POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
       POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
@@ -429,8 +409,8 @@ services:
     image: ghcr.io/alexta69/metube
     container_name: metube
     restart: unless-stopped
-    ports:
-      - "8081:8081"
+#    ports:
+#      - "8081:8081"
     tmpfs:
       - /downloads
 
