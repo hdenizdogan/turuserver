@@ -52,10 +52,15 @@ services:
       timeout: 5s
 
   beszel-agent:
-    image: henrygd/beszel-agent:latest
+    image: henrygd/beszel-agent:alpine
     container_name: beszel-agent
     restart: unless-stopped
     network_mode: host
+    devices:
+      - /dev/nvme0:/dev/nvme0
+      - /dev/nvme1:/dev/nvme1
+    cap_add:
+      - SYS_ADMIN
     volumes:
       - /mnt/docker/beszel/beszel-agent/beszel_agent_data:/var/lib/beszel-agent
       - /mnt/docker/beszel/beszel-agent/beszel_socket:/beszel_socket
@@ -66,7 +71,7 @@ services:
       TOKEN: ${BESZEL_TOKEN}
       KEY: ${BESZEL_KEY}
     healthcheck:
-      test: ['CMD', '/agent', 'health']
+      test: [ 'CMD', '/agent', 'health' ]
       interval: 120s
 
 
