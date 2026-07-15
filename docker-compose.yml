@@ -38,10 +38,15 @@ services:
     image: henrygd/beszel:latest
     container_name: beszel
     restart: unless-stopped
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "beszel"
+      tsdproxy.funnel: "true"
+      tsdproxy.port: "8090"
     environment:
       APP_URL: https://beszel.${DOMAIN}
-#    ports:
-#      - 8090:8090
+    ports:
+      - 8090:8090
     volumes:
       - /mnt/docker/beszel/beszel_data:/beszel_data
       - /mnt/docker/beszel/beszel_socket:/beszel_socket
@@ -586,9 +591,9 @@ services:
   #      tsdproxy.name: "qbittorrent"
   #      tsdproxy.funnel: "true"
   #      tsdproxy.container_port: 8090
-    ports:
-      - "8090:8090"
-      - "6881:6881"
+#    ports:
+#      - "8090:8090"
+#      - "6881:6881"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
