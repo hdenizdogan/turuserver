@@ -918,6 +918,16 @@ services:
     devices:
       - /dev/dri:/dev/dri
 
+  waha: # reverse proxy to http://waha:3000
+    image: devlikeapro/waha
+    container_name: waha
+    restart: unless-stopped
+#    ports:
+#      - "3000:3000"
+    volumes:
+      - /mnt/docker/waha:/app/.sessions
+    environment:
+      - WAHA_PRINT_QR=False
 
   watchtower:
     image: nickfedor/watchtower
@@ -932,16 +942,16 @@ services:
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
 
-#  whatseerr: # reverse proxy to http://whatseerr:3006
-#    image: ghcr.io/sufxgit/whatseerr:latest
-#    container_name: whatseerr
-#    restart: unless-stopped
-##    ports:
-##      - "3006:3006"
-#    volumes:
-#      - /mnt/docker/whatseerr/config:/config
-#    environment:
-#      - TZ=${TZ}
+  whatseerr: # reverse proxy to http://whatseerr:3006
+    image: ghcr.io/sufxgit/whatseerr:latest
+    container_name: whatseerr
+    restart: unless-stopped
+#    ports:
+#      - "3006:3006"
+    volumes:
+      - /mnt/docker/whatseerr/config:/config
+    environment:
+      - TZ=${TZ}
 
 #  wizarr: # reverse proxy to 5690
 #    container_name: wizarr
