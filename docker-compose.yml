@@ -931,6 +931,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
+
+  whatseerr: # reverse proxy to http://whatseerr:3006
+    image: ghcr.io/sufxgit/whatseerr:latest
+    container_name: whatseerr
+    restart: unless-stopped
+#    ports:
+#      - "3006:3006"
+    volumes:
+      - /mnt/docker/whatseerr/config:/config
+    environment:
+      - TZ=${TZ}
+
 #  wizarr: # reverse proxy to 5690
 #    container_name: wizarr
 #    image: ghcr.io/wizarrrr/wizarr:latest
