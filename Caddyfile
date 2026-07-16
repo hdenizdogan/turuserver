@@ -137,6 +137,10 @@ unmanic.{$DOMAIN} {
     reverse_proxy unmanic:8888
 }
 
+whatseerr.{$DOMAIN} {
+    reverse_proxy whatseerr:3006
+}
+
 wizarr.{$DOMAIN} {
     reverse_proxy wizarr:5690
 }
