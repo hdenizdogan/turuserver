@@ -927,7 +927,6 @@ services:
     volumes:
       - /mnt/docker/waha:/app/.sessions
     environment:
-      - WAHA_PRINT_QR=False
       - WAHA_API_KEY=${WAHA_API_KEY}
       - WAHA_DASHBOARD_USERNAME=${WAHA_DASHBOARD_USERNAME}
       - WAHA_DASHBOARD_PASSWORD=${WAHA_DASHBOARD_PASSWORD}
