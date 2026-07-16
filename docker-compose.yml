@@ -350,11 +350,11 @@ services:
   jellyfin: # reverse proxy to 8096
     image: jellyfin/jellyfin
     container_name: jellyfin
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "jellyfin"
-      tsdproxy.funnel: "true"
-      tsdproxy.port: "8096"
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "jellyfin"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.port: "8096"
     restart: unless-stopped
     devices:
       - /dev/dri:/dev/dri
@@ -365,9 +365,9 @@ services:
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
-#    network_mode: host
-    ports:
-      - "8096:8096"
+    network_mode: host
+#    ports:
+#      - "8096:8096"
 
 
   lidatube: # reverse proxy to 5000
