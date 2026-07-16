@@ -329,8 +329,8 @@ services:
       TZ: $TZ
     volumes:
       - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
-    ports:
-      - '3000:3000'
+#    ports:
+#      - '3000:3000'
     depends_on:
       - jellystat-db
 
@@ -922,8 +922,8 @@ services:
     image: devlikeapro/waha
     container_name: waha
     restart: unless-stopped
-#    ports:
-#      - "3000:3000"
+    ports:
+      - "3000:3000"
     volumes:
       - /mnt/docker/waha:/app/.sessions
     environment:
