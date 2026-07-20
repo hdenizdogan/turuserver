@@ -98,7 +98,7 @@ services:
 
 #        ipv4_address: 172.19.0.199
 
-  caddy-cloudflare:
+  caddy-cloudflare: # for local reverse proxy via dns redirection
     image: ghcr.io/caddybuilds/caddy-cloudflare:latest
     container_name: caddy-cloudflare
     restart: always
