@@ -385,7 +385,7 @@ services:
 
 
   lidarr: # reverse proxy to 8686
-    image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:nightly
     container_name: lidarr
     environment:
       - PUID=${PUID}
