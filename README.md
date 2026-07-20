@@ -1,6 +1,6 @@
 # 🏠 Home Media Server Stack
 
-A self-hosted media server stack running on Docker. Caddy acts as a local reverse proxy using Cloudflare DNS-01 challenge for wildcard TLS certificates. Cloudflare Tunnel runs independently for public access, routing directly to services — not through Caddy.
+A self-hosted media server stack running on Docker. Caddy (via the `caddy-cloudflare` image) acts as a local reverse proxy using Cloudflare DNS-01 challenge for wildcard TLS certificates. Cloudflare Tunnel runs independently for public access, routing directly to services — not through Caddy. TSDProxy additionally exposes select services over Tailscale, including a public Tailscale Funnel for Beszel.
 
 ---
 
@@ -9,30 +9,32 @@ A self-hosted media server stack running on Docker. Caddy acts as a local revers
 | Service | Description | Port |
 |---|---|---|
 | [Jellyfin](#jellyfin) | Media server (movies, shows, music) | `8096` |
-| [Jellystat](#jellystat) | Jellyfin statistics dashboard | `3000` |
+| [Jellystat](#jellystat) | Jellyfin statistics dashboard | `3000` (internal) |
 | [Sonarr](#sonarr) | TV show management | `8989` |
 | [Radarr](#radarr) | Movie management | `7878` |
 | [Lidarr](#lidarr) | Music management | `8686` |
 | [Bazarr](#bazarr) | Subtitle management | `6767` |
 | [Prowlarr](#prowlarr) | Indexer manager | `9696` |
-| [qBittorrent](#qbittorrent) | Torrent client | `8090` |
+| [qBittorrent](#qbittorrent) | Torrent client | `8090` (internal) |
 | [Seerr](#seerr) | Media request manager | `5055` |
 | [Lidatube](#lidatube) | YouTube → Lidarr downloader | `5000` |
-| [Metube](#metube) | YouTube downloader UI | `8081` |
+| [Metube](#metube) | YouTube downloader UI | `8081` (internal) |
 | [Navidrome](#navidrome) | Music streaming server | `4533` |
 | [Nextcloud](#nextcloud) | Self-hosted cloud storage | `8083` |
-| [Slskd](#slskd) | Soulseek client | `5030` |
-| [Soulsync](#soulsync) | Music sync automation | `8008` |
 | [Unmanic](#unmanic) | Media transcoding pipeline | `8888` |
-| [Stirling PDF](#stirling-pdf) | PDF tools | `5050` |
+| [BentoPDF](#bentopdf) | PDF tools | `8080` (internal) |
 | [Immich](#immich) | Photo/video backup | `2283` |
 | [Portainer](#portainer) | Docker management UI | `9000` |
+| [Beszel](#beszel) | Lightweight server monitoring hub | `8090` |
+| [Beszel Agent](#beszel-agent) | Monitoring agent (host metrics) | — |
 | [Dashdot](#dashdot) | Server stats dashboard | `3001` |
 | [Flaresolverr](#flaresolverr) | Cloudflare bypass for indexers | `8191` |
 | [Watchtower](#watchtower) | Automatic container updates | — |
 | [Cloudflared](#cloudflared) | Cloudflare Tunnel | — |
-| [TSDProxy](#tsdproxy) | Tailscale reverse proxy | — |
-| [Caddy](#caddy) | Reverse proxy with TLS | `80`, `443` |
+| [TSDProxy](#tsdproxy) | Tailscale reverse proxy | `8080` |
+| [Caddy](#caddy) | Reverse proxy with TLS (`caddy-cloudflare`) | `80`, `443` |
+
+> Several previously-listed services (Slskd, Soulsync, Stirling PDF, AdGuard, and others) are currently **commented out** in `docker-compose.yml` — see [Notes](#-notes) below.
 
 ---
 
@@ -41,7 +43,7 @@ A self-hosted media server stack running on Docker. Caddy acts as a local revers
 ```
 .
 ├── docker-compose.yml
-├── Caddyfile
+├── old/Caddyfile           # Caddy config (note: now sourced from ./old/)
 ├── hwaccel.ml.yml          # Immich hardware acceleration config
 └── .env                    # Environment variables (see below)
 ```
@@ -64,11 +66,13 @@ Media and config are stored on the host:
 │   ├── lidatube/
 │   ├── navidrome/
 │   ├── nextcloud/
-│   ├── slskd/
-│   ├── soulsync/
 │   ├── immich/
 │   ├── portainer_data/
-│   ├── StirlingPDF/
+│   ├── beszel/
+│   │   ├── beszel_data/
+│   │   ├── beszel_socket/
+│   │   └── beszel-agent/
+│   ├── unmanic/
 │   ├── tsdproxy/
 │   └── caddy-cloudflare/
 ├── media/                  # Media library
@@ -119,14 +123,15 @@ DB_DATABASE_NAME=immich
 ND_LASTFM_APIKEY=your_lastfm_api_key
 ND_LASTFM_SECRET=your_lastfm_secret
 
-# Slskd
-SLSKD_API_KEY=your_api_key
-SLSKD_SLSK_USERNAME=your_soulseek_username
-SLSKD_SLSK_PASSWORD=your_soulseek_password
+# Beszel
+BESZEL_TOKEN=your_beszel_agent_token
+BESZEL_KEY=your_beszel_agent_key
 
 # Watchtower notifications (optional, e.g. ntfy/Gotify URL)
 WATCHTOWER_NOTIFICATION_URL=
 ```
+
+> Note: `SLSKD_*`, `SPOTIFY_CLIENT_*`, and `MEILI_MASTER_KEY` variables are no longer needed unless you re-enable the corresponding commented-out services.
 
 ---
 
@@ -134,10 +139,11 @@ WATCHTOWER_NOTIFICATION_URL=
 
 Services communicate via Docker's default bridge network. A few exceptions:
 
-- **Jellyfin** exposes its port on the host (`172.17.0.1:8096`) so Caddy can proxy it via local DNS.
+- **Jellyfin** uses `network_mode: host`, so it's reachable directly on the host at port `8096` (Caddy proxies it via `172.17.0.1:8096`).
+- **Beszel Agent** also uses `network_mode: host` (with `SYS_ADMIN` capability and direct NVMe device access) so it can report accurate host-level metrics.
 - **Cockpit** (host service, not Docker) is proxied via `172.17.0.1:9090` (Docker host gateway IP).
 - **Cloudflared** runs independently of Caddy. It uses simple routing rules in the Cloudflare Tunnel dashboard to forward public traffic directly to individual services by port.
-- **TSDProxy** handles Tailscale-based access for selected services (currently Jellyfin and Navidrome via the `$OLDDOMAIN` TLS setup).
+- **TSDProxy** handles Tailscale-based access for selected services, identified via `tsdproxy.*` labels. Currently enabled for **Beszel** (with `tsdproxy.funnel: true`, exposing it publicly over Tailscale Funnel) and **Navidrome** (used for the `$OLDDOMAIN` TLS setup, together with Jellyfin).
 
 ---
 
@@ -155,7 +161,7 @@ The Cloudflare Tunnel runs **separately** and is configured in the Cloudflare da
 Cloudflare Tunnel → Cloudflared container → Service (by host:port)
 ```
 
-The Caddyfile uses a reusable `(proxy)` snippet and environment variable substitution. A wildcard anchor block forces issuance of the wildcard certificate:
+Caddy now loads its config from **`./old/Caddyfile`** (previously `./Caddyfile`) and uses a reusable `(proxy)` snippet with environment variable substitution. A wildcard anchor block forces issuance of the wildcard certificate:
 
 ```caddy
 *.{$DOMAIN} {
@@ -189,15 +195,17 @@ The Caddyfile uses a reusable `(proxy)` snippet and environment variable substit
 | `qbittorrent.yourdomain.com` | `qbittorrent:8090` |
 | `radarr.yourdomain.com` | `radarr:7878` |
 | `seerr.yourdomain.com` | `seerr:5055` |
-| `slskd.yourdomain.com` | `slskd:5030` |
 | `sonarr.yourdomain.com` | `sonarr:8989` |
-| `soulsync.yourdomain.com` | `soulsync:8008` |
 | `speedtest.yourdomain.com` | `speedtest:80` *(service commented out)* |
-| `stirling.yourdomain.com` | `stirling:8080` |
+| `slskd.yourdomain.com` | `slskd:5030` *(service commented out)* |
+| `soulsync.yourdomain.com` | `soulsync:8008` *(service commented out)* |
+| `stirling.yourdomain.com` | `stirling:8080` *(service commented out)* |
 | `tracearr.yourdomain.com` | `tracearr:3020` *(service commented out)* |
 | `tsdproxy.yourdomain.com` | `tsdproxy:8080` |
 | `unmanic.yourdomain.com` | `unmanic:8888` |
 | `wizarr.yourdomain.com` | `wizarr:5690` *(service commented out)* |
+
+BentoPDF and Beszel are not yet listed here: BentoPDF currently exposes no host port and has no active reverse-proxy labels (add a Caddyfile entry for `bentopdf:8080` if you want to route it through Caddy), and Beszel is instead exposed via **TSDProxy's Tailscale Funnel** rather than through Caddy.
 
 ### Tailscale domain (`$OLDDOMAIN`)
 
@@ -251,46 +259,37 @@ Certificates are read from `/mnt/docker/tsdproxy/data/default` (mounted into Cad
 ## 🔧 Service Details
 
 ### Jellyfin
-Media server with hardware transcoding via `/dev/dri` (Intel QSV / VAAPI). Port `8096` is exposed on the host so Caddy can proxy it at `172.17.0.1:8096`. Also accessible over Tailscale via `jellyfin.OLDDOMAIN`.
+Media server with hardware transcoding via `/dev/dri` (Intel QSV / VAAPI). Runs with `network_mode: host` so Caddy can proxy it at `172.17.0.1:8096`. Also accessible over Tailscale via `jellyfin.OLDDOMAIN`.
 
 ### Jellystat
-Statistics and history dashboard for Jellyfin. Requires a dedicated PostgreSQL 15 database (`jellystat-db`).
+Statistics and history dashboard for Jellyfin. Requires a dedicated PostgreSQL 15 database (`jellystat-db`). No longer exposes a host port directly — access via reverse proxy.
 
 ### Sonarr / Radarr / Lidarr / Bazarr / Prowlarr
 The standard *arr stack for automated media management. All share `/mnt/media/torrent` as the download path for seamless hardlinking.
 
 ### qBittorrent
-Torrent client with web UI on port `8090`. Web UI port is explicitly set via `WEBUI_PORT=8090`.
+Torrent client with web UI configured via `WEBUI_PORT=8090`. Host port publishing is currently disabled (commented out) — access via reverse proxy only.
 
 ### Seerr
-Media request and discovery tool (Overseerr fork). Connects to Jellyfin and the *arr stack.
+Media request and discovery tool. Connects to Jellyfin and the *arr stack.
 
 ### Lidatube
 Downloads music from YouTube and imports to Lidarr automatically (`attempt_lidarr_import=True`).
 
 ### Metube
-Web UI for downloading videos/audio via yt-dlp.
+Web UI for downloading videos/audio via yt-dlp. Uses a `tmpfs` mount for `/downloads`; no host port is currently published.
 
 ### Navidrome
-Self-hosted music streaming server with Last.fm scrobbling support. Also accessible over Tailscale via `navidrome.OLDDOMAIN`.
+Self-hosted music streaming server with Last.fm scrobbling support. Also accessible over Tailscale via `navidrome.OLDDOMAIN` and exposed via TSDProxy.
 
 ### Nextcloud
 Self-hosted cloud storage using SQLite (no separate database container). User data is stored at `/mnt/nextclouddata`.
 
-### Slskd
-Web-based Soulseek client for peer-to-peer music sharing. Remote configuration is enabled.
-
-### Soulsync
-Music sync automation tool. Bridges Spotify/Tidal playlists with Soulseek downloads and Lidarr imports. CPU and memory usage is constrained via `deploy.resources`.
-
-### Flaresolverr
-Cloudflare bypass proxy used by Prowlarr to access protected torrent indexers.
-
 ### Unmanic
 File transcoding pipeline with hardware acceleration support via `/dev/dri`.
 
-### Stirling PDF
-Full-featured PDF toolkit. Configured with Turkish language support (`LANGS=["tr_TR"]`). Accessible on host port `5050`.
+### BentoPDF
+Self-hosted PDF toolkit (`bentopdf-simple` build). Currently runs with no host port published and no reverse-proxy labels — intended to be proxied to `bentopdf:8080` once configured.
 
 ### Immich
 Self-hosted photo and video backup. Uses:
@@ -301,11 +300,20 @@ Self-hosted photo and video backup. Uses:
 ### Portainer
 Docker management UI. Mounts the Docker socket for full container control.
 
+### Beszel
+Lightweight, self-hosted server monitoring hub. Exposed via **TSDProxy** with `tsdproxy.funnel: true`, making it publicly reachable over a Tailscale Funnel at `beszel.${DOMAIN}`. Includes a healthcheck against its own `/beszel health` endpoint.
+
+### Beszel Agent
+Companion agent that reports host metrics to the Beszel hub over a Unix socket. Runs with `network_mode: host`, `SYS_ADMIN` capability, direct access to `/dev/nvme0` and `/dev/nvme1`, and a read-only Docker socket mount so it can also report container stats.
+
 ### Dashdot
 Real-time server stats dashboard. Runs privileged with the host filesystem mounted read-only for accurate disk/network metrics. Displays OS, CPU, storage, RAM, and network with temperatures and percentages enabled.
 
+### Flaresolverr
+Cloudflare bypass proxy used by Prowlarr to access protected torrent indexers.
+
 ### TSDProxy
-Tailscale reverse proxy that automatically exposes selected containers (currently Jellyfin and Navidrome) as Tailscale nodes. Provides the TLS certificates used by Caddy for the `$OLDDOMAIN` routes.
+Tailscale reverse proxy that automatically exposes selected containers (currently Beszel and Navidrome) as Tailscale nodes. Also provides the TLS certificates used by Caddy for the `$OLDDOMAIN` routes.
 
 ### Watchtower
 Automatically updates all containers daily at 04:00. Configured with:
@@ -317,7 +325,7 @@ Automatically updates all containers daily at 04:00. Configured with:
 Runs the Cloudflare Tunnel client. Routing rules are configured in the Cloudflare dashboard and point directly to services by host and port — independent of Caddy.
 
 ### Caddy
-Local reverse proxy with automatic wildcard TLS via Cloudflare DNS-01. Uses the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Resolves subdomains via local DNS — not connected to the Cloudflare Tunnel. TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
+Local reverse proxy with automatic wildcard TLS via Cloudflare DNS-01, using the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Config is now loaded from `./old/Caddyfile`. Resolves subdomains via local DNS — not connected to the Cloudflare Tunnel. TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
 
 ---
 
@@ -347,7 +355,9 @@ docker compose ps
 
 ## 📝 Notes
 
-- Several services are **commented out** in `docker-compose.yml` and have Caddyfile entries ready for when they're re-enabled: AdGuard, Filebrowser, Homepage, Speedtest, Wizarr, Tracearr, Glances, Home Assistant, Homarr, tdarr, NPM, Tailscale, Feishin, and the Navidrome import tool.
+- The following services are currently **commented out** in `docker-compose.yml` and can be re-enabled as needed: AdGuard, Filebrowser, Homepage, Speedtest, Wizarr, Tracearr (+ its Timescale/TimescaleDB and Redis backends), Glances, Home Assistant, Homarr, Meilisearch, tdarr, standalone Caddy, NPM (Nginx Proxy Manager), plain Nginx, Profilarr, Tailscale, Feishin, Navidrome import tool, **Slskd**, **Soulsync**, and **Stirling PDF**.
+- **BentoPDF, Beszel, and Beszel Agent** are new additions since the last update — see their entries above for details.
 - **Cockpit** (Ubuntu server web UI) is proxied through Caddy at `cockpit.yourdomain.com → 172.17.0.1:9090`. Make sure Cockpit allows the tunnel domain in `/etc/cockpit/cockpit.conf`.
 - **Watchtower** is pinned to `nickfedor/watchtower` (a maintained fork of `containrrr/watchtower`).
 - The `(proxy)` snippet in the Caddyfile is defined for convenience but each service block uses `reverse_proxy` directly for clarity.
+- The Caddyfile path changed from `./Caddyfile` to **`./old/Caddyfile`** — update your local file layout accordingly if migrating from an older version of this stack.
