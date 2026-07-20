@@ -441,6 +441,7 @@ services:
       - ND_PLAYLISTSPATH=/music/Playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
       - ND_LYRICSPRIORITY=.ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded,nd-lyrics
+      - ND_AGENTS=deezer,lastfm,listenbrainz,coverartarchive
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
