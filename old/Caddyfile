@@ -176,7 +176,7 @@ https://beszel.{$OLDDOMAIN} {
 
 https://feishin.{$OLDDOMAIN} {
 	import tailscale_tls feishin
-	import proxy feishin:8190
+	import proxy feishin:9180
 }
 
 https://jellyfin.{$OLDDOMAIN} {
