@@ -196,8 +196,8 @@ services:
       - REMOTE_URL=https://navidrome.${DOMAIN} # http://address or https://address
       - LEGACY_AUTHENTICATION=false # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
       - ANALYTICS_DISABLED=true # Set to true to disable Umami analytics tracking
-#    ports:
-#      - 9180:9180
+    ports:
+      - 9180:9180
 
 
   flaresolverr: # reverse proxy to 8191
