@@ -365,9 +365,9 @@ services:
       - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
-    network_mode: host
-#    ports:
-#      - "8096:8096"
+#    network_mode: host
+    ports:
+      - "8096:8096"
 
 
   lidatube: # reverse proxy to 5000
