@@ -38,7 +38,7 @@ dash.{$DOMAIN} {
 }
 
 feishin.{$DOMAIN} {
-    reverse_proxy http://feishin:9180
+    reverse_proxy feishin:9180
 }
 
 filebrowser.{$DOMAIN} {
