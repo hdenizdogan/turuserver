@@ -34,7 +34,7 @@ A self-hosted media server stack running on Docker. Caddy (via the `caddy-cloudf
 | [TSDProxy](#tsdproxy) | Tailscale reverse proxy | `8080` |
 | [Caddy](#caddy) | Reverse proxy with TLS (`caddy-cloudflare`) | `80`, `443` |
 
-> Several previously-listed services (Slskd, Soulsync, Stirling PDF, AdGuard, and others) are currently **commented out** in `docker-compose.yml` — see [Notes](#-notes) below.
+> Several previously-listed services (Slskd, Soulsync, Stirling PDF, AdGuard, Feishin, Filebrowser, Homepage, Speedtest, Tracearr, Wizarr, and others) are currently **commented out** in `docker-compose.yml`, but Caddy still carries route definitions for most of them — see [Notes](#-notes) below.
 
 ---
 
@@ -143,7 +143,7 @@ Services communicate via Docker's default bridge network. A few exceptions:
 - **Beszel Agent** also uses `network_mode: host` (with `SYS_ADMIN` capability and direct NVMe device access) so it can report accurate host-level metrics.
 - **Cockpit** (host service, not Docker) is proxied via `172.17.0.1:9090` (Docker host gateway IP).
 - **Cloudflared** runs independently of Caddy. It uses simple routing rules in the Cloudflare Tunnel dashboard to forward public traffic directly to individual services by port.
-- **TSDProxy** handles Tailscale-based access for selected services, identified via `tsdproxy.*` labels. Currently enabled for **Beszel** (with `tsdproxy.funnel: true`, exposing it publicly over Tailscale Funnel) and **Navidrome** (used for the `$OLDDOMAIN` TLS setup, together with Jellyfin).
+- **TSDProxy** handles Tailscale-based access for selected services, identified via `tsdproxy.*` labels. Currently enabled for **Beszel** (with `tsdproxy.funnel: true`, exposing it publicly over Tailscale Funnel), **Navidrome**, and **Jellyfin** (used for the `$OLDDOMAIN` TLS setup, together with Caddy's manual-TLS blocks below).
 
 ---
 
@@ -161,9 +161,13 @@ The Cloudflare Tunnel runs **separately** and is configured in the Cloudflare da
 Cloudflare Tunnel → Cloudflared container → Service (by host:port)
 ```
 
-Caddy now loads its config from **`./old/Caddyfile`** (previously `./Caddyfile`) and uses a reusable `(proxy)` snippet with environment variable substitution. A wildcard anchor block forces issuance of the wildcard certificate:
+Caddy loads its config from **`./old/Caddyfile`** and uses a reusable `(proxy)` snippet with environment variable substitution. The global options block sets Cloudflare DNS-01 (`acme_dns cloudflare`) as the default ACME resolver for the whole file, and a wildcard anchor block additionally forces explicit issuance of the `*.{$DOMAIN}` certificate:
 
 ```caddy
+{
+    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+}
+
 *.{$DOMAIN} {
     tls {
         dns cloudflare {$CLOUDFLARE_API_TOKEN}
@@ -178,8 +182,10 @@ Caddy now loads its config from **`./old/Caddyfile`** (previously `./Caddyfile`)
 |---|---|
 | `adguard.yourdomain.com` | `adguard:80` *(service commented out)* |
 | `bazarr.yourdomain.com` | `bazarr:6767` |
+| `beszel.yourdomain.com` | `beszel:8090` |
 | `cockpit.yourdomain.com` | `172.17.0.1:9090` |
 | `dash.yourdomain.com` | `dash:3001` |
+| `feishin.yourdomain.com` | `feishin:9180` *(service commented out)* |
 | `filebrowser.yourdomain.com` | `filebrowser:80` *(service commented out)* |
 | `homepage.yourdomain.com` | `homepage:3000` *(service commented out)* |
 | `immich.yourdomain.com` | `immich:2283` |
@@ -190,33 +196,35 @@ Caddy now loads its config from **`./old/Caddyfile`** (previously `./Caddyfile`)
 | `metube.yourdomain.com` | `metube:8081` |
 | `navidrome.yourdomain.com` | `navidrome:4533` |
 | `nextcloud.yourdomain.com` | `nextcloud:80` |
+| `pdf.yourdomain.com` | `bentopdf:8080` |
 | `portainer.yourdomain.com` | `portainer:9000` |
 | `prowlarr.yourdomain.com` | `prowlarr:9696` |
 | `qbittorrent.yourdomain.com` | `qbittorrent:8090` |
 | `radarr.yourdomain.com` | `radarr:7878` |
 | `seerr.yourdomain.com` | `seerr:5055` |
-| `sonarr.yourdomain.com` | `sonarr:8989` |
-| `speedtest.yourdomain.com` | `speedtest:80` *(service commented out)* |
 | `slskd.yourdomain.com` | `slskd:5030` *(service commented out)* |
+| `sonarr.yourdomain.com` | `sonarr:8989` |
 | `soulsync.yourdomain.com` | `soulsync:8008` *(service commented out)* |
+| `speedtest.yourdomain.com` | `speedtest:80` *(service commented out)* |
 | `stirling.yourdomain.com` | `stirling:8080` *(service commented out)* |
 | `tracearr.yourdomain.com` | `tracearr:3020` *(service commented out)* |
 | `tsdproxy.yourdomain.com` | `tsdproxy:8080` |
 | `unmanic.yourdomain.com` | `unmanic:8888` |
 | `wizarr.yourdomain.com` | `wizarr:5690` *(service commented out)* |
 
-BentoPDF and Beszel are not yet listed here: BentoPDF currently exposes no host port and has no active reverse-proxy labels (add a Caddyfile entry for `bentopdf:8080` if you want to route it through Caddy), and Beszel is instead exposed via **TSDProxy's Tailscale Funnel** rather than through Caddy.
+`pdf.yourdomain.com` (BentoPDF) and `beszel.yourdomain.com` are now routed through Caddy directly — BentoPDF still exposes no host port of its own, so this Caddy route is the only way to reach it, while Beszel is reachable both through this route and through TSDProxy's Tailscale Funnel.
 
 ### Tailscale domain (`$OLDDOMAIN`)
 
-HTTP requests to `*.OLDDOMAIN` are redirected to HTTPS. Two services are proxied using manual TLS certificates managed by TSDProxy:
+HTTP requests to `*.OLDDOMAIN` are redirected to HTTPS. Three services are proxied using manual TLS certificates managed by TSDProxy:
 
 | Subdomain | Proxied To |
 |---|---|
+| `beszel.OLDDOMAIN` | `beszel:8090` |
 | `jellyfin.OLDDOMAIN` | `jellyfin:8096` |
 | `navidrome.OLDDOMAIN` | `navidrome:4533` |
 
-Certificates are read from `/mnt/docker/tsdproxy/data/default` (mounted into Caddy at `/certs`).
+These three blocks use `import tailscale_tls <name>` and `import proxy <name>:<port>` snippets rather than a bare `reverse_proxy` directive. Certificates are read from `/mnt/docker/tsdproxy/data/default` (mounted into Caddy at `/certs`).
 
 ---
 
@@ -233,8 +241,8 @@ Certificates are read from `/mnt/docker/tsdproxy/data/default` (mounted into Cad
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/yourrepo.git
-   cd yourrepo
+   git clone https://github.com/hdenizdogan/turuserver.git
+   cd turuserver/
    ```
 
 2. **Create required directories**
@@ -249,10 +257,8 @@ Certificates are read from `/mnt/docker/tsdproxy/data/default` (mounted into Cad
 
 5. **Start the stack**
    ```bash
-   docker compose up -d
+   docker compose up -d --remove-orphans
    ```
-
-6. **Configure the Cloudflare Tunnel** to route traffic to `http://caddy-cloudflare:80`
 
 ---
 
@@ -289,7 +295,7 @@ Self-hosted cloud storage using SQLite (no separate database container). User da
 File transcoding pipeline with hardware acceleration support via `/dev/dri`.
 
 ### BentoPDF
-Self-hosted PDF toolkit (`bentopdf-simple` build). Currently runs with no host port published and no reverse-proxy labels — intended to be proxied to `bentopdf:8080` once configured.
+Self-hosted PDF toolkit (`bentopdf-simple` build). Publishes no host port of its own; reachable via Caddy at `pdf.yourdomain.com → bentopdf:8080`.
 
 ### Immich
 Self-hosted photo and video backup. Uses:
@@ -301,7 +307,7 @@ Self-hosted photo and video backup. Uses:
 Docker management UI. Mounts the Docker socket for full container control.
 
 ### Beszel
-Lightweight, self-hosted server monitoring hub. Exposed via **TSDProxy** with `tsdproxy.funnel: true`, making it publicly reachable over a Tailscale Funnel at `beszel.${DOMAIN}`. Includes a healthcheck against its own `/beszel health` endpoint.
+Lightweight, self-hosted server monitoring hub. Reachable three ways: through Caddy on the public domain (`beszel.yourdomain.com → beszel:8090`), through Caddy on the Tailscale domain with a manually-managed TSDProxy certificate (`beszel.OLDDOMAIN`), and through TSDProxy itself with `tsdproxy.funnel: true`, which additionally exposes it publicly over a Tailscale Funnel. Includes a healthcheck against its own `/beszel health` endpoint.
 
 ### Beszel Agent
 Companion agent that reports host metrics to the Beszel hub over a Unix socket. Runs with `network_mode: host`, `SYS_ADMIN` capability, direct access to `/dev/nvme0` and `/dev/nvme1`, and a read-only Docker socket mount so it can also report container stats.
@@ -325,7 +331,7 @@ Automatically updates all containers daily at 04:00. Configured with:
 Runs the Cloudflare Tunnel client. Routing rules are configured in the Cloudflare dashboard and point directly to services by host and port — independent of Caddy.
 
 ### Caddy
-Local reverse proxy with automatic wildcard TLS via Cloudflare DNS-01, using the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Config is now loaded from `./old/Caddyfile`. Resolves subdomains via local DNS — not connected to the Cloudflare Tunnel. TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
+Local reverse proxy with automatic wildcard TLS via Cloudflare DNS-01, using the `caddy-cloudflare` image (Caddy built with the Cloudflare DNS plugin). Config is loaded from `./old/Caddyfile`. Resolves subdomains via local DNS — not connected to the Cloudflare Tunnel. TSDProxy certificates are mounted read-only for the `$OLDDOMAIN` Tailscale routes.
 
 ---
 
@@ -342,22 +348,17 @@ docker compose down
 docker compose logs -f sonarr
 
 # Pull latest images and recreate containers
-docker compose pull && docker compose up -d
-
-# Restart a single service
-docker compose restart jellyfin
-
-# Check running containers
-docker compose ps
+docker compose pull && docker compose up -d --remove-orphans
 ```
 
 ---
 
 ## 📝 Notes
 
-- The following services are currently **commented out** in `docker-compose.yml` and can be re-enabled as needed: AdGuard, Filebrowser, Homepage, Speedtest, Wizarr, Tracearr (+ its Timescale/TimescaleDB and Redis backends), Glances, Home Assistant, Homarr, Meilisearch, tdarr, standalone Caddy, NPM (Nginx Proxy Manager), plain Nginx, Profilarr, Tailscale, Feishin, Navidrome import tool, **Slskd**, **Soulsync**, and **Stirling PDF**.
-- **BentoPDF, Beszel, and Beszel Agent** are new additions since the last update — see their entries above for details.
+- The following services are currently **commented out** in `docker-compose.yml` and can be re-enabled as needed: AdGuard, Filebrowser, Homepage, Speedtest, Wizarr, Tracearr (+ its Timescale/TimescaleDB and Redis backends), Glances, Home Assistant, Homarr, Meilisearch, tdarr, standalone Caddy, NPM (Nginx Proxy Manager), plain Nginx, Profilarr, Tailscale, Feishin, Navidrome import tool, **Slskd**, **Soulsync**, and **Stirling PDF**. The Caddyfile still carries route definitions for most of these (adguard, feishin, filebrowser, homepage, slskd, soulsync, speedtest, stirling, tracearr, wizarr), so they'll 404/fail to connect until the corresponding compose service is uncommented.
+- **BentoPDF, Beszel, and Beszel Agent** are recent additions — see their entries above for details. BentoPDF and Beszel now both have Caddy routes (`pdf.yourdomain.com` and `beszel.yourdomain.com` respectively).
 - **Cockpit** (Ubuntu server web UI) is proxied through Caddy at `cockpit.yourdomain.com → 172.17.0.1:9090`. Make sure Cockpit allows the tunnel domain in `/etc/cockpit/cockpit.conf`.
 - **Watchtower** is pinned to `nickfedor/watchtower` (a maintained fork of `containrrr/watchtower`).
-- The `(proxy)` snippet in the Caddyfile is defined for convenience but each service block uses `reverse_proxy` directly for clarity.
-- The Caddyfile path changed from `./Caddyfile` to **`./old/Caddyfile`** — update your local file layout accordingly if migrating from an older version of this stack.
+- The `(proxy)` snippet in the Caddyfile is used via `import proxy` in the Tailscale-domain (`$OLDDOMAIN`) blocks; the public-domain blocks use `reverse_proxy` directly for clarity instead.
+- The Caddyfile path is **`./old/Caddyfile`** — update your local file layout accordingly if migrating from an older version of this stack.
+- Caddy does not hot-reload the Caddyfile on its own — after editing it, run `docker exec caddy-cloudflare caddy reload --config /etc/caddy/Caddyfile` (see [Caddy](#caddy) above) instead of restarting the container.
