@@ -435,7 +435,7 @@ services:
       tsdproxy.enable: "true"
       tsdproxy.name: "navidrome"
       tsdproxy.funnel: "true"
-      tsdproxy.port: "4533"
+      tsdproxy.container_port: 4533
     ports:
       - "4533:4533"
     restart: unless-stopped
