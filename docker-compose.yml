@@ -370,17 +370,20 @@ services:
 #      - "8096:8096"
 
 
-  lidatube: # reverse proxy to 5000
+  lidatube: # reverse proxy to http://lidatube:5000
     image: thewicklowwolf/lidatube:latest
     container_name: lidatube
     volumes:
-      - /mnt/docker/lidatube:/lidatube/config
+#      - /mnt/docker/lidatube:/lidatube/config
       - /mnt/media/torrent/Music:/lidatube/downloads
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "5000:5000"
+#    ports:
+#      - "5000:5000"
     restart: unless-stopped
     environment:
+      - lidarr_address=${LIDARR_ADDRESS}
+      - lidarr_api_key=${LIDARR_API_KEY}
+      - sync_schedule=7,20
       - attempt_lidarr_import=True
 
 
