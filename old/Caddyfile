@@ -118,6 +118,10 @@ seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
 }
 
+sharkord.{$DOMAIN} {
+    reverse_proxy sharkord:4991
+}
+
 slskd.{$DOMAIN} {
     reverse_proxy slskd:5030
 }
