@@ -660,6 +660,20 @@ services:
       - /mnt/docker/seerr/config:/app/config
 
 
+#  sharkord:
+#    image: sharkord/sharkord:latest
+#    container_name: sharkord
+#    restart: unless-stopped
+#    expose:
+#      - "4991"
+#    ports:
+#      - "40000:40000/udp"
+#    environment:
+#      SHARKORD_PORT: "4991"
+#    volumes:
+#      - /mnt/docker/sharkord:/home/bun/.config/sharkord
+
+
   sonarr: # reverse proxy to 8989
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
