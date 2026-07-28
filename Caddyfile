@@ -1,11 +1,26 @@
 {
-    # Use Cloudflare DNS challenge for all certs
-    acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	# =================================================
+	# GLOBAL OPTIONS
+	# =================================================
+
+	# Cloudflare DNS-01 for PUBLIC domain (required for wildcard)
+	acme_dns cloudflare {$CLOUDFLARE_API_TOKEN}
 }
 
-# -------------------------------------------------
-# Wildcard certificate
-# -------------------------------------------------
+# =================================================
+# GLOBAL SNIPPETS
+# =================================================
+
+# Common reverse proxy snippet
+(proxy) {
+	reverse_proxy {args[0]}
+}
+
+# =================================================
+# PUBLIC DOMAIN (Cloudflare + Let's Encrypt)
+# =================================================
+
+# ---- WILDCARD CERT ANCHOR (forces *.DOMAIN issuance) ----
 *.{$DOMAIN} {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
@@ -13,9 +28,7 @@
 	respond 404
 }
 
-# -------------------------------------------------
-# Services
-# -------------------------------------------------
+# ---- PUBLIC SERVICES ----
 
 adguard.{$DOMAIN} {
     reverse_proxy adguard:80
@@ -105,6 +118,11 @@ seerr.{$DOMAIN} {
     reverse_proxy seerr:5055
 }
 
+sharkord.{$DOMAIN} {
+    reverse_proxy sharkord:4991
+    encode gzip
+}
+
 slskd.{$DOMAIN} {
     reverse_proxy slskd:5030
 }
@@ -125,6 +143,10 @@ stirling.{$DOMAIN} {
     reverse_proxy stirling:8080
 }
 
+synapse.{$DOMAIN} {
+    reverse_proxy synapse:8008
+}
+
 tracearr.{$DOMAIN} {
     reverse_proxy tracearr:3020
 }
@@ -139,4 +161,34 @@ unmanic.{$DOMAIN} {
 
 wizarr.{$DOMAIN} {
     reverse_proxy wizarr:5690
+}
+
+# =================================================
+# TAILSCALE DOMAIN (Manual TLS) — TSDPROXY
+# =================================================
+
+# HTTP → HTTPS redirect for Tailscale domain
+http://*.{$OLDDOMAIN} {
+	redir https://{host}{uri} permanent
+}
+
+# Tailscale TLS snippet
+(tailscale_tls) {
+	tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
+	    /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
+}
+
+# https://beszel.{$OLDDOMAIN} {
+#	import tailscale_tls beszel
+#	import proxy beszel:8090
+# }
+
+ https://jellyfin.{$OLDDOMAIN} {
+	import tailscale_tls jellyfin
+	import proxy 172.17.0.1:8096
+}
+
+https://navidrome.{$OLDDOMAIN} {
+	import tailscale_tls navidrome
+	import proxy navidrome:4533
 }
