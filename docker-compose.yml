@@ -794,7 +794,6 @@ services:
     image: matrixdotorg/synapse:latest
     container_name: synapse
     restart: unless-stopped
-    user: "0:0"
     environment:
       - SYNAPSE_SERVER_NAME=synapse.${DOMAIN}
       - SYNAPSE_REPORT_STATS=no
