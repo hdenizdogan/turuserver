@@ -795,7 +795,7 @@ services:
     container_name: synapse
     restart: unless-stopped
     environment:
-      - SYNAPSE_SERVER_NAME=chat.${DOMAIN}
+      - SYNAPSE_SERVER_NAME=synapse.${DOMAIN}
       - SYNAPSE_REPORT_STATS=no
       - UID=${PUID}
       - GID=${PGID}
