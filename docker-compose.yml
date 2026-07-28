@@ -664,9 +664,8 @@ services:
     image: sharkord/sharkord:latest
     container_name: sharkord
     restart: unless-stopped
-    ports:
-      - "4991:4991"
-      - "40000:40000/udp"
+#    ports:
+#      - "40000:40000/udp"
     environment:
       SHARKORD_PORT: "4991"
     volumes:
@@ -790,6 +789,21 @@ services:
 #    environment:
 #      - DOCKER_ENABLE_SECURITY=false
 #      - LANGS=["tr_TR"]
+
+  synapse: # reverse proxy to http://synapse:8008
+    image: matrixdotorg/synapse:latest
+    container_name: synapse
+    restart: unless-stopped
+    environment:
+      - SYNAPSE_SERVER_NAME=chat.${DOMAIN}
+      - SYNAPSE_REPORT_STATS=no
+      - UID=${PUID}
+      - GID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /mnt/docker/synapse/data:/data
+#    ports:
+#      - "8008:8008"
 
 
 #  tailscale:
