@@ -120,6 +120,7 @@ seerr.{$DOMAIN} {
 
 sharkord.{$DOMAIN} {
     reverse_proxy sharkord:4991
+    encode gzip
 }
 
 slskd.{$DOMAIN} {
