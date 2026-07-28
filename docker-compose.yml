@@ -665,6 +665,7 @@ services:
     container_name: sharkord
     restart: unless-stopped
     ports:
+      - "4991:4991"
       - "40000:40000/udp"
     environment:
       SHARKORD_PORT: "4991"
