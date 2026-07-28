@@ -359,10 +359,9 @@ services:
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - /mnt/docker/jellyfin_config:/config
-      - /mnt/docker/jellyfin_cache:/cache
+      - /mnt/docker/jellyfin/jellyfin_config:/config
+      - /mnt/docker/jellyfin/jellyfin_cache:/cache
       - /mnt/media/torrent:/media/torrent
-      - /opt/jellyfin-fonts:/usr/share/fonts/truetype/jellyfin-fonts:ro
     environment:
       - TZ=${TZ}
     network_mode: host
