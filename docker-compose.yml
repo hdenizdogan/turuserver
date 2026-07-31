@@ -659,16 +659,16 @@ services:
       - /mnt/docker/seerr/config:/app/config
 
 
-#  sharkord: # reverse proxy to http://sharkord:4991
-#    image: sharkord/sharkord:latest
-#    container_name: sharkord
-#    restart: unless-stopped
-##    ports:
-##      - "40000:40000/udp"
-#    environment:
-#      SHARKORD_PORT: "4991"
-#    volumes:
-#      - /mnt/docker/sharkord:/home/bun/.config/sharkord
+  sharkord: # reverse proxy to http://sharkord:4991
+    image: sharkord/sharkord:latest
+    container_name: sharkord
+    restart: unless-stopped
+#    ports:
+#      - "40000:40000/udp"
+    environment:
+      SHARKORD_PORT: "4991"
+    volumes:
+      - /mnt/docker/sharkord:/home/bun/.config/sharkord
 
 
   sonarr: # reverse proxy to 8989
