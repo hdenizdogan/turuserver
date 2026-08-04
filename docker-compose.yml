@@ -951,8 +951,8 @@ services:
     container_name: watchtower
     environment:
       - TZ=${TZ}
-      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=$HOSTNAME
-      - WATCHTOWER_NOTIFICATION_URL=$WATCHTOWER_NOTIFICATION_URL
+      - WATCHTOWER_NOTIFICATIONS_HOSTNAME=${HOSTNAME}
+      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_NOTIFICATION_URL}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
