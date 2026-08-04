@@ -946,7 +946,7 @@ services:
       - /dev/dri:/dev/dri
 
   watchtower:
-    image: nickfedor/watchtower
+    image: nickfedor/watchtower:latest
     restart: unless-stopped
     container_name: watchtower
     environment:
