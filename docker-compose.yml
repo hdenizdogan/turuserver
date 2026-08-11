@@ -164,20 +164,6 @@ services:
     restart: unless-stopped
 
 
-#  filebrowser:
-#    image: filebrowser/filebrowser:latest
-#    container_name: filebrowser
-#    environment:
-#      - TZ=${TZ}
-#    ports:
-#      - "3010:80"
-#    volumes:
-#      - /mnt/docker/filebrowser/data:/database
-#      - /mnt/docker/filebrowser/config:/config
-#      - /mnt:/srv
-#    restart: unless-stopped
-
-
 #  feishin: # reverse proxy to http://feishin:9180
 #    container_name: feishin
 #    image: 'ghcr.io/jeffvli/feishin:latest'
@@ -215,11 +201,6 @@ services:
 #  glances:
 #    image: nicolargo/glances:latest
 #    container_name: glances
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "glances"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 61208
 #    restart: unless-stopped
 #    pid: host               # so it can see host processes
 #    network_mode: host      # gives accurate network metrics & web access
@@ -234,11 +215,6 @@ services:
 #  homeassistant:
 #    container_name: homeassistant
 #    image: "ghcr.io/home-assistant/home-assistant:stable"
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "homeassistant"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8123
 #    volumes:
 #      - /mnt/docker/homeassistant:/config
 #      - /etc/localtime:/etc/localtime:ro
@@ -264,11 +240,6 @@ services:
 #    container_name: homarr
 #    image: ghcr.io/homarr-labs/homarr:latest
 #    restart: unless-stopped
-##    labels:
-##      tsdproxy.enable: "true"
-##      tsdproxy.name: "homarr"
-##      tsdproxy.funnel: "true"
-##      tsdproxy.container_port: 7575
 #    volumes:
 #      - /var/lib/docker/volumes:/var/lib/docker/volumes
 #      - /mnt/docker/homarr/appdata:/appdata
@@ -549,11 +520,6 @@ services:
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "portainer"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 9000
     ports:
       - "9000:9000"
     environment:
@@ -562,32 +528,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
 
-
-#  profilarr:
-#    image: santiagosayshey/profilarr:latest # Use :beta for early access to new features
-#    container_name: profilarr
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "profilarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 6868
-#    ports:
-#      - "6868:6868"
-#    volumes:
-#      - /mnt/docker/profilarr:/config
-#    environment:
-#      - TZ=${TZ}
-#    restart: unless-stopped
-
   prowlarr: # reverse proxy to 9696
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "prowlarr"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 9696
     ports:
       - "9696:9696"
     environment:
@@ -602,11 +546,6 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "qbittorrent"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 8090
 #    ports:
 #      - "8090:8090"
 #      - "6881:6881"
@@ -624,11 +563,6 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "radarr"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 7878
     ports:
       - "7878:7878"
     environment:
@@ -657,11 +591,6 @@ services:
     init: true
     container_name: seerr
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "seerr"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 5055
     ports:
       - "5055:5055"
     environment:
@@ -689,11 +618,6 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "sonarr"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 8989
     ports:
       - "8989:8989"
     environment:
@@ -786,11 +710,6 @@ services:
 #    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
 #    container_name: stirling
 #    restart: unless-stopped
-#  #    labels:
-#  #      tsdproxy.enable: "true"
-#  #      tsdproxy.name: "stirling"
-#  #      tsdproxy.funnel: "true"
-#  #      tsdproxy.container_port: 8080
 #    ports:
 #      - "5050:8080"
 #    volumes:
@@ -839,11 +758,6 @@ services:
 #  tdarr: # reverse proxy to 8265
 #    image: ghcr.io/haveagitgat/tdarr:latest
 #    container_name: tdarr
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "tdarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 8265
 #    restart: unless-stopped
 #    environment:
 #      - TZ=${TZ}
@@ -941,11 +855,6 @@ services:
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
-  #    labels:
-  #      tsdproxy.enable: "true"
-  #      tsdproxy.name: "unmanic"
-  #      tsdproxy.funnel: "true"
-  #      tsdproxy.container_port: 8888
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -977,11 +886,6 @@ services:
 #    restart: unless-stopped
 #    ports:
 #      - '5690:5690'
-#    labels:
-#      tsdproxy.enable: "true"
-#      tsdproxy.name: "wizarr"
-#      tsdproxy.funnel: "true"
-#      tsdproxy.container_port: 5690
 #    volumes:
 #      - /mnt/docker/wizarr:/data
 #    environment:
