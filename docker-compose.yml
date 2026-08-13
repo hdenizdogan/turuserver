@@ -500,20 +500,20 @@ services:
 #      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
 #      - /var/run/docker.sock:/var/run/docker.sock:ro
 
-# nextexplorer:
-#   image: nxzai/explorer:latest
-#    container_name: nextexplorer
-#    restart: unless-stopped
-##    ports:
-##     - '3000:3000'
-#    volumes:
-#      - /mnt/docker/nextexplorer/config:/config
-#      - /mnt/docker/nextexplorer/cache:/cache
-#      # Each /mnt/<Label> mount becomes a top-level volume in the UI
-#      - /mnt:/mnt/Files
-#    environment:
-#      - NODE_ENV=production
-#      - PUBLIC_URL=https://nextexplorer.${DOMAIN}
+  nextexplorer:
+    image: nxzai/explorer:latest
+    container_name: nextexplorer
+    restart: unless-stopped
+    #    ports:
+    #     - '3000:3000'
+    volumes:
+      - /mnt/docker/nextexplorer/config:/config
+      - /mnt/docker/nextexplorer/cache:/cache
+      # Each /mnt/<Label> mount becomes a top-level volume in the UI
+      - /mnt:/mnt/Files
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_URL=https://nextexplorer.${DOMAIN}
 
 #  nginx:
 #    image: nginx:alpine
