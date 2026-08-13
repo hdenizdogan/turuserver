@@ -788,6 +788,26 @@ services:
 #      - DOCKER_ENABLE_SECURITY=false
 #      - LANGS=["tr_TR"]
 
+  subgen:
+    image: mccloud/subgen:latest
+    container_name: subgen
+    restart: unless-stopped
+#    ports:
+#      - "9001:9000"
+    environment:
+      - WHISPER_MODEL=base.en
+      - WHISPER_THREADS=2
+      - TRANSCRIBE_DEVICE=cpu
+      - TRANSCRIBE_OR_TRANSLATE=transcribe
+      - NAMESUBLANG=en
+    volumes:
+      - /mnt/docker/subgen-cache:/root/.cache
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1536M
+
 #  synapse: # reverse proxy to http://synapse:8008
 #    image: matrixdotorg/synapse:latest
 #    container_name: synapse
