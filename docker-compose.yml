@@ -338,6 +338,31 @@ services:
 #    ports:
 #      - "8096:8096"
 
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: libretranslate
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - LT_LOAD_ONLY=en,tr
+      - LT_DISABLE_WEB_UI=false
+    volumes:
+      - /mnt/docker/libretranslate/db:/app/db
+      - /mnt/docker/libretranslate/local:/home/libretranslate/.local
+
+  lingarr:
+    image: lingarr/lingarr:latest
+    container_name: lingarr
+    restart: unless-stopped
+    ports:
+      - "9876:9876"
+    environment:
+      - ASPNETCORE_URLS=http://+:9876
+    volumes:
+      - /mnt/media/torrent/Movies:/movies
+      - /mnt/media/torrent/Shows:/tv
+      - /mnt/docker/lingarr:/app/config
 
   lidatube: # reverse proxy to http://lidatube:5000
     image: thewicklowwolf/lidatube:latest
@@ -729,7 +754,7 @@ services:
 #    ports:
 #      - "9001:9000"
     environment:
-      - WHISPER_MODEL=base.en
+      - WHISPER_MODEL=small
       - WHISPER_THREADS=2
       - TRANSCRIBE_DEVICE=cpu
       - TRANSCRIBE_OR_TRANSLATE=transcribe
