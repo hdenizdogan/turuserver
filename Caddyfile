@@ -94,6 +94,10 @@ nextcloud.{$DOMAIN} {
     reverse_proxy nextcloud:80
 }
 
+nextexplorer.{$DOMAIN} {
+    reverse_proxy nextexplorer:3000
+}
+
 pdf.{$DOMAIN} {
     reverse_proxy bentopdf:8080
 }
