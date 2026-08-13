@@ -74,6 +74,10 @@ jellystat.{$DOMAIN} {
     reverse_proxy jellystat:3000
 }
 
+lingarr.{$DOMAIN} {
+    reverse_proxy lingarr:9876
+}
+
 lidarr.{$DOMAIN} {
     reverse_proxy lidarr:8686
 }
