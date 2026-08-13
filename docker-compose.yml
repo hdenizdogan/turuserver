@@ -757,6 +757,7 @@ services:
     environment:
       - WHISPER_MODEL=small
       - WHISPER_THREADS=2
+      - CONCURRENT_TRANSCRIPTIONS=1
       - TRANSCRIBE_DEVICE=cpu
       - TRANSCRIBE_OR_TRANSLATE=transcribe
       - NAMESUBLANG=en
@@ -766,7 +767,7 @@ services:
       resources:
         limits:
           cpus: '2.0'
-          memory: 1536M
+          memory: 2048M
 
 #  synapse: # reverse proxy to http://synapse:8008
 #    image: matrixdotorg/synapse:latest
