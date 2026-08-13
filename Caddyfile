@@ -74,16 +74,16 @@ jellystat.{$DOMAIN} {
     reverse_proxy jellystat:3000
 }
 
-lingarr.{$DOMAIN} {
-    reverse_proxy lingarr:9876
-}
-
 lidarr.{$DOMAIN} {
     reverse_proxy lidarr:8686
 }
 
 lidatube.{$DOMAIN} {
     reverse_proxy lidatube:5000
+}
+
+lingarr.{$DOMAIN} {
+    reverse_proxy lingarr:9876
 }
 
 metube.{$DOMAIN} {

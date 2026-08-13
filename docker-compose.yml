@@ -351,19 +351,6 @@ services:
       - /mnt/docker/libretranslate/db:/app/db
       - /mnt/docker/libretranslate/local:/home/libretranslate/.local
 
-  lingarr:
-    image: lingarr/lingarr:latest
-    container_name: lingarr
-    restart: unless-stopped
-#    ports:
-#      - "9876:9876"
-    environment:
-      - ASPNETCORE_URLS=http://+:9876
-    volumes:
-      - /mnt/media/torrent/Movies:/movies
-      - /mnt/media/torrent/Shows:/tv
-      - /mnt/docker/lingarr:/app/config
-
   lidatube: # reverse proxy to http://lidatube:5000
     image: thewicklowwolf/lidatube:latest
     container_name: lidatube
@@ -397,6 +384,20 @@ services:
     ports:
       - "8686:8686"
     restart: unless-stopped
+
+  lingarr:
+    image: lingarr/lingarr:latest
+    container_name: lingarr
+    restart: unless-stopped
+    #    ports:
+    #      - "9876:9876"
+    environment:
+      - ASPNETCORE_URLS=http://+:9876
+      - DB_CONNECTION=sqlite
+    volumes:
+      - /mnt/media/torrent/Movies:/movies
+      - /mnt/media/torrent/Shows:/tv
+      - /mnt/docker/lingarr:/app/config
 
 
 #  meilisearch:
