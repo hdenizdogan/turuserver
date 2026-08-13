@@ -510,7 +510,7 @@ services:
       - /mnt/docker/nextexplorer/config:/config
       - /mnt/docker/nextexplorer/cache:/cache
       # Each /mnt/<Label> mount becomes a top-level volume in the UI
-      - /mnt:/mnt/Files
+      - /mnt/media/torrent:/mnt/Files
     environment:
       - NODE_ENV=production
       - PUBLIC_URL=https://nextexplorer.${DOMAIN}
@@ -748,26 +748,26 @@ services:
 #      - DOCKER_ENABLE_SECURITY=false
 #      - LANGS=["tr_TR"]
 
-#  subgen:
-#    image: mccloud/subgen:latest
-#    container_name: subgen
-#    restart: unless-stopped
-##    ports:
-##      - "9001:9000"
-#    environment:
-#      - WHISPER_MODEL=small
-#      - WHISPER_THREADS=2
-#      - CONCURRENT_TRANSCRIPTIONS=1
-#      - TRANSCRIBE_DEVICE=cpu
-#      - TRANSCRIBE_OR_TRANSLATE=transcribe
-#      - NAMESUBLANG=en
-#    volumes:
-#      - /mnt/docker/subgen-cache:/root/.cache
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '2.0'
-#          memory: 2048M
+  subgen:
+    image: mccloud/subgen:latest
+    container_name: subgen
+    restart: unless-stopped
+#    ports:
+#      - "9001:9000"
+    environment:
+      - WHISPER_MODEL=small
+      - WHISPER_THREADS=2
+      - CONCURRENT_TRANSCRIPTIONS=1
+      - TRANSCRIBE_DEVICE=cpu
+      - TRANSCRIBE_OR_TRANSLATE=transcribe
+      - NAMESUBLANG=en
+    volumes:
+      - /mnt/docker/subgen-cache:/root/.cache
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
 
 #  synapse: # reverse proxy to http://synapse:8008
 #    image: matrixdotorg/synapse:latest
