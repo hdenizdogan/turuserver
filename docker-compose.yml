@@ -342,8 +342,8 @@ services:
     image: libretranslate/libretranslate:latest
     container_name: libretranslate
     restart: unless-stopped
-    ports:
-      - "5000:5000"
+#    ports:
+#      - "5000:5000"
     environment:
       - LT_LOAD_ONLY=en,tr
       - LT_DISABLE_WEB_UI=false
@@ -355,8 +355,8 @@ services:
     image: lingarr/lingarr:latest
     container_name: lingarr
     restart: unless-stopped
-    ports:
-      - "9876:9876"
+#    ports:
+#      - "9876:9876"
     environment:
       - ASPNETCORE_URLS=http://+:9876
     volumes:
