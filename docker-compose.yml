@@ -372,32 +372,32 @@ services:
       - "8686:8686"
     restart: unless-stopped
 
-#  lingarr:
-#    image: lingarr/lingarr:latest
-#    container_name: lingarr
-#    restart: unless-stopped
-#    #    ports:
-#    #      - "9876:9876"
-#    environment:
-#      - ASPNETCORE_URLS=http://+:9876
-#      - DB_CONNECTION=sqlite
-#    volumes:
-#      - /mnt/media/torrent/Movies:/movies
-#      - /mnt/media/torrent/Shows:/tv
-#      - /mnt/docker/lingarr:/app/config
-#
-#  libretranslate:
-#    image: libretranslate/libretranslate:latest
-#    container_name: libretranslate
-#    restart: unless-stopped
-#    #    ports:
-#    #      - "5000:5000"
-#    environment:
-#      - LT_LOAD_ONLY=en,tr
-#      - LT_DISABLE_WEB_UI=false
-#    volumes:
-#      - /mnt/docker/libretranslate/db:/app/db
-#      - /mnt/docker/libretranslate/local:/home/libretranslate/.local
+  lingarr:
+    image: lingarr/lingarr:latest
+    container_name: lingarr
+    restart: unless-stopped
+    #    ports:
+    #      - "9876:9876"
+    environment:
+      - ASPNETCORE_URLS=http://+:9876
+      - DB_CONNECTION=sqlite
+    volumes:
+      - /mnt/media/torrent/Movies:/movies
+      - /mnt/media/torrent/Shows:/tv
+      - /mnt/docker/lingarr:/app/config
+
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: libretranslate
+    restart: unless-stopped
+    #    ports:
+    #      - "5000:5000"
+    environment:
+      - LT_LOAD_ONLY=en,tr
+      - LT_DISABLE_WEB_UI=false
+    volumes:
+      - /mnt/docker/libretranslate/db:/app/db
+      - /mnt/docker/libretranslate/local:/home/libretranslate/.local
 
 
 #  meilisearch:
@@ -748,26 +748,26 @@ services:
 #      - DOCKER_ENABLE_SECURITY=false
 #      - LANGS=["tr_TR"]
 
-#  subgen:
-#    image: mccloud/subgen:latest
-#    container_name: subgen
-#    restart: unless-stopped
-##    ports:
-##      - "9001:9000"
-#    environment:
-#      - WHISPER_MODEL=small
-#      - WHISPER_THREADS=2
-#      - CONCURRENT_TRANSCRIPTIONS=1
-#      - TRANSCRIBE_DEVICE=cpu
-#      - TRANSCRIBE_OR_TRANSLATE=transcribe
-#      - NAMESUBLANG=en
-#    volumes:
-#      - /mnt/docker/subgen-cache:/root/.cache
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '2.0'
-#          memory: 2048M
+  subgen:
+    image: mccloud/subgen:latest
+    container_name: subgen
+    restart: unless-stopped
+#    ports:
+#      - "9001:9000"
+    environment:
+      - WHISPER_MODEL=small
+      - WHISPER_THREADS=2
+      - CONCURRENT_TRANSCRIPTIONS=1
+      - TRANSCRIBE_DEVICE=cpu
+      - TRANSCRIBE_OR_TRANSLATE=transcribe
+      - NAMESUBLANG=en
+    volumes:
+      - /mnt/docker/subgen-cache:/root/.cache
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
 
 #  synapse: # reverse proxy to http://synapse:8008
 #    image: matrixdotorg/synapse:latest
