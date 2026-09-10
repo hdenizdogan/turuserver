@@ -163,7 +163,6 @@ services:
     shm_size: 128mb
     restart: unless-stopped
 
-
 #  feishin: # reverse proxy to http://feishin:9180
 #    container_name: feishin
 #    image: 'ghcr.io/jeffvli/feishin:latest'
@@ -248,42 +247,52 @@ services:
 #    ports:
 #      - '7575:7575'
 
-
-  immich: # reverse proxy to 2283
+  immich:
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:release
+    image: ghcr.io/imagegenius/immich:openvino
     devices:
       - /dev/dri:/dev/dri
-    volumes:
-    # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
-      - /mnt/immichdata:/data
-      - /etc/localtime:/etc/localtime:ro
+    # If OpenVINO doesn't detect the GPU, some setups also need:
+    # device_cgroup_rules:
+    #   - 'c 189:* rmw'
+    # and an extra volume: - /dev/bus/usb:/dev/bus/usb
     environment:
-      - DB_PASSWORD=${DB_PASSWORD}
+      - PUID=1000                  # match your host user - run `id yourusername` to confirm
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DB_HOSTNAME=immich_postgres
       - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE_NAME=${DB_DATABASE_NAME}
+      - REDIS_HOSTNAME=localhost   # redis now runs inside this container via the docker mod
+      - DOCKER_MODS=imagegenius/mods:universal-redis
+      - SERVER_PORT=2283
+      - MACHINE_LEARNING_WORKERS=1
+    volumes:
+      - /mnt/docker/immich/config:/config   # app config + ML model cache (new)
+      - /mnt/immichdata:/photos             # same photo/video library you already have
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - '2283:2283'
     depends_on:
-      - redis
       - database
     restart: unless-stopped
 
 
-  immich-machine-learning:
-    container_name: immich_machine_learning
-  # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
-  # Example tag: ${IMMICH_VERSION:-release}-cuda
-    image: ghcr.io/immich-app/immich-machine-learning:release-openvino
-  # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
-  #   file: hwaccel.ml.yml
-  #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
-    volumes:
-      - /mnt/docker/immich/immich_machine_learning/cache:/cache
-    restart: unless-stopped
-    extends:
-      file: hwaccel.ml.yml
-      service: openvino
+#  immich-machine-learning:
+#    container_name: immich_machine_learning
+#  # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
+#  # Example tag: ${IMMICH_VERSION:-release}-cuda
+#    image: ghcr.io/immich-app/immich-machine-learning:release-openvino
+#  # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
+#  #   file: hwaccel.ml.yml
+#  #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+#    volumes:
+#      - /mnt/docker/immich/immich_machine_learning/cache:/cache
+#    restart: unless-stopped
+#    extends:
+#      file: hwaccel.ml.yml
+#      service: openvino
 
 
 #  jellystat: # reverse proxy to 3000
@@ -602,14 +611,14 @@ services:
       - /mnt/media/torrent/downloads:/downloads
 
 
-  redis: # for immich
-    container_name: immich_redis
-    image: docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411
-    healthcheck:
-      test: redis-cli ping || exit 1
-    restart: unless-stopped
-    volumes:
-      - /mnt/docker/immich/redis:/data
+#  redis: # for immich
+#    container_name: immich_redis
+#    image: docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411
+#    healthcheck:
+#      test: redis-cli ping || exit 1
+#    restart: unless-stopped
+#    volumes:
+#      - /mnt/docker/immich/redis:/data
 
 
   seerr: # reverse proxy to 5055
