@@ -257,20 +257,21 @@ services:
     #   - 'c 189:* rmw'
     # and an extra volume: - /dev/bus/usb:/dev/bus/usb
     environment:
-      - PUID=1000                  # match your host user - run `id yourusername` to confirm
-      - PGID=1000
-      - TZ=Etc/UTC
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - DB_HOSTNAME=immich_postgres
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE_NAME=${DB_DATABASE_NAME}
-      - REDIS_HOSTNAME=localhost   # redis now runs inside this container via the docker mod
+      - REDIS_HOSTNAME=localhost
       - DOCKER_MODS=imagegenius/mods:universal-redis
       - SERVER_PORT=2283
       - MACHINE_LEARNING_WORKERS=1
     volumes:
-      - /mnt/docker/immich/config:/config   # app config + ML model cache (new)
-      - /mnt/immichdata:/photos             # same photo/video library you already have
+      - /mnt/docker/immich/config:/config
+      - /mnt/immichdata:/photos
+      - /mnt/docker/immich/libraries:/libraries
       - /etc/localtime:/etc/localtime:ro
     ports:
       - '2283:2283'
