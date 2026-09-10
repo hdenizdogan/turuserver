@@ -286,35 +286,35 @@ services:
       service: openvino
 
 
-  jellystat: # reverse proxy to 3000
-    image: 'cyfershepard/jellystat:latest'
-    container_name: jellystat
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
-      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
-      JWT_SECRET: $JELLYSTAT_JWT_SECRET
-      TZ: $TZ
-    volumes:
-      - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
-#    ports:
-#      - '3000:3000'
-    depends_on:
-      - jellystat-db
-
-
-  jellystat-db:
-    image: 'postgres:15.2'
-    shm_size: 1gb
-    container_name: jellystat-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-    volumes:
-      - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
+#  jellystat: # reverse proxy to 3000
+#    image: 'cyfershepard/jellystat:latest'
+#    container_name: jellystat
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+#      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+#      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
+#      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
+#      JWT_SECRET: $JELLYSTAT_JWT_SECRET
+#      TZ: $TZ
+#    volumes:
+#      - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
+##    ports:
+##      - '3000:3000'
+#    depends_on:
+#      - jellystat-db
+#
+#
+#  jellystat-db:
+#    image: 'postgres:15.2'
+#    shm_size: 1gb
+#    container_name: jellystat-db
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+#      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+#    volumes:
+#      - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
 
 
   jellyfin: # reverse proxy to 8096
