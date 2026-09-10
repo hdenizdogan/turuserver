@@ -933,6 +933,8 @@ services:
       - TZ=${TZ}
       - WATCHTOWER_NOTIFICATIONS_HOSTNAME=${HOSTNAME}
       - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_NOTIFICATION_URL}
+      - REPO_USER=${GHCR_USER}
+      - REPO_PASS=${GHCR_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
