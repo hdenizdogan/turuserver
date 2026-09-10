@@ -937,7 +937,7 @@ services:
       - REPO_USER=${REPO_PASS}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --include-restarting --schedule "0 0 4 * * *"
+    command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
 #  wizarr: # reverse proxy to 5690
 #    container_name: wizarr
