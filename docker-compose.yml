@@ -934,7 +934,7 @@ services:
       - WATCHTOWER_NOTIFICATIONS_HOSTNAME=${HOSTNAME}
       - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_NOTIFICATION_URL}
       - REPO_USER=${REPO_USER}
-      - REPO_USER=${REPO_PASS}
+      - REPO_PASS=${REPO_PASS}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
