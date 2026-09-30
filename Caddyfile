@@ -188,10 +188,10 @@ http://*.{$OLDDOMAIN} {
 # TAILSCALE TLS SNIPPET
 # =================================================
 
-(tailscale_tls) {
-	tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
-		/certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
-}
+# (tailscale_tls) {
+#	tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
+#		/certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
+#}
 
 
 # =================================================
@@ -203,7 +203,7 @@ http://*.{$OLDDOMAIN} {
 #	import proxy 172.17.0.1:8096
 #}
 
-https://navidrome.{$OLDDOMAIN} {
-	import tailscale_tls navidrome
-	import proxy navidrome:4533
-}
+# https://navidrome.{$OLDDOMAIN} {
+#	import tailscale_tls navidrome
+#	import proxy navidrome:4533
+# }
