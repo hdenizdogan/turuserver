@@ -1,6 +1,6 @@
 services:
 
-#  adguard: # reverse proxy to 80
+#  adguard: # reverse proxy to http://adguard:80
 #    image: adguard/adguardhome:latest
 #    container_name: adguard
 #    restart: unless-stopped
@@ -184,7 +184,7 @@ services:
 #      - 9180:9180
 
 
-  flaresolverr: # reverse proxy to 8191
+  flaresolverr: # reverse proxy to http://flaresolverr:8191
     image: flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     restart: unless-stopped
@@ -296,7 +296,7 @@ services:
 #      service: openvino
 
 
-  jellystat: # reverse proxy to 3000
+  jellystat: # reverse proxy to http://jellystat:3000
     image: 'cyfershepard/jellystat:latest'
     container_name: jellystat
     restart: unless-stopped
@@ -327,7 +327,7 @@ services:
       - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
 
 
-  jellyfin: # reverse proxy to 8096
+  jellyfin: # reverse proxy to http://172.17.0.1:8096
     image: jellyfin/jellyfin
     container_name: jellyfin
 #    labels:
@@ -365,7 +365,7 @@ services:
       - attempt_lidarr_import=True
 
 
-  lidarr: # reverse proxy to 8686
+  lidarr: # reverse proxy to http://lidarr:8686
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
     environment:
@@ -382,7 +382,7 @@ services:
       - "8686:8686"
     restart: unless-stopped
 
-#  lingarr:
+#  lingarr: # reverse proxy to http://lingarr:9876
 #    image: lingarr/lingarr:latest
 #    container_name: lingarr
 #    restart: unless-stopped
@@ -396,7 +396,7 @@ services:
 #      - /mnt/media/torrent/Shows:/tv
 #      - /mnt/docker/lingarr:/app/config
 #
-#  libretranslate:
+#  libretranslate: # reverse proxy to http://libretranslate:5000
 #    image: libretranslate/libretranslate:latest
 #    container_name: libretranslate
 #    restart: unless-stopped
@@ -410,7 +410,7 @@ services:
 #      - /mnt/docker/libretranslate/local:/home/libretranslate/.local
 
 
-#  meilisearch:
+#  meilisearch: # reverse proxy to http://meilisearch:7700
 #    image: getmeili/meilisearch:latest
 #    container_name: meilisearch
 #    restart: unless-stopped
@@ -423,7 +423,7 @@ services:
 #      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
 
 
-  metube: # reverse proxy to 8081
+  metube: # reverse proxy to http://metube:8081
     image: ghcr.io/alexta69/metube
     container_name: metube
     restart: unless-stopped
@@ -433,7 +433,7 @@ services:
       - /downloads
 
 
-  navidrome: # reverse proxy to 4533
+  navidrome: # reverse proxy to http://navidrome:4533
     container_name: navidrome
     image: deluan/navidrome:latest
     labels:
@@ -477,7 +477,7 @@ services:
 #      - OUTPUT_DIR=/app/output
 #    restart: unless-stopped
 
-  nextcloud: # reverse proxy to 80
+  nextcloud: # reverse proxy to http://nextcloud:80
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
@@ -552,7 +552,7 @@ services:
 
 #        ipv4_address: 172.19.0.199
 
-  portainer: # reverse proxy to 9000
+  portainer: # reverse proxy to http://portainer:9000
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
@@ -564,7 +564,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/docker/portainer_data:/data
 
-  prowlarr: # reverse proxy to 9696
+  prowlarr: # reverse proxy to http://prowlarr:9696
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
@@ -578,7 +578,7 @@ services:
       - /mnt/docker/prowlarr:/config
 
 
-  qbittorrent: # reverse proxy to 8090
+  qbittorrent: # reverse proxy to http://qbittorrent:8090
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
@@ -595,7 +595,7 @@ services:
       - /mnt/docker/qbittorrent/config:/config
 
 
-  radarr: # reverse proxy to 7878
+  radarr: # reverse proxy to http://radarr:7878
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
@@ -622,7 +622,7 @@ services:
 #      - /mnt/docker/immich/redis:/data
 
 
-  seerr: # reverse proxy to 5055
+  seerr: # reverse proxy to http://seerr:5055
     image: ghcr.io/seerr-team/seerr:latest
     init: true
     container_name: seerr
@@ -650,7 +650,7 @@ services:
 #      - /mnt/docker/sharkord:/home/bun/.config/sharkord
 
 
-  sonarr: # reverse proxy to 8989
+  sonarr: # reverse proxy to http://sonarr:8989
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
@@ -858,7 +858,7 @@ services:
 #    networks:
 #      - local_net
 
-#  tracearr: # reverse proxy to 3020
+#  tracearr: # reverse proxy to http://tracearr:3020
 #    image: ghcr.io/connorgallopo/tracearr:latest
 #    container_name: tracearr
 #    ports:
@@ -894,7 +894,7 @@ services:
 #    networks:
 #      - local_net
 
-  tsdproxy: # reverse proxy to 8080
+  tsdproxy: # reverse proxy to http://tsdproxy:8080
     image: almeidapaulopt/tsdproxy:2
     container_name: tsdproxy
     volumes:
@@ -908,7 +908,7 @@ services:
       - "host.docker.internal:host-gateway"
 
 
-  unmanic: # reverse proxy to 8888
+  unmanic: # reverse proxy to http://unmanic:8888
     image: josh5/unmanic:latest
     container_name: unmanic
     restart: unless-stopped
@@ -937,7 +937,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --no-startup-message --include-restarting --schedule "0 0 4 * * *"
 
-#  wizarr: # reverse proxy to 5690
+#  wizarr: # reverse proxy to http://wizarr:5690
 #    container_name: wizarr
 #    image: ghcr.io/wizarrrr/wizarr:latest
 #    restart: unless-stopped
