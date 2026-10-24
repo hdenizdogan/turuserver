@@ -559,12 +559,12 @@ services:
     ports:
       - "5274:8080"
     environment:
-      - SUBSONIC_URL=${SUBSONIC_URL}
-      - SUBSONIC_ADMIN_USERNAME=${SUBSONIC_ADMIN_USERNAME}
-      - SUBSONIC_ADMIN_PASSWORD=${SUBSONIC_ADMIN_PASSWORD}
-      - DEEZER_ARL=${DEEZER_ARL}
-      - STORAGE_MODE=${STORAGE_MODE}
-      - FOLDER_TEMPLATE=${FOLDER_TEMPLATE}
+      - Subsonic__Url=${SUBSONIC_URL}
+      - Subsonic__AdminUsername=${SUBSONIC_ADMIN_USERNAME}
+      - Subsonic__AdminPassword=${SUBSONIC_ADMIN_PASSWORD}
+      - Deezer__Arl=${DEEZER_ARL}
+      - Subsonic__StorageMode=${STORAGE_MODE}
+      - Subsonic__FolderTemplate=${FOLDER_TEMPLATE}
     volumes:
       - /mnt/media/torrent/Music:/app/downloads
       - /mnt/docker/octo-fiesta:/config
