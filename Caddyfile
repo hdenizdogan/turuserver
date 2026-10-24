@@ -91,7 +91,7 @@ metube.{$DOMAIN} {
 }
 
 navidrome.{$DOMAIN} {
-	reverse_proxy navidrome:4533
+	reverse_proxy octo-fiesta:8080
 }
 
 nextcloud.{$DOMAIN} {
