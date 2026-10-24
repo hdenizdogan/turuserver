@@ -436,11 +436,11 @@ services:
   navidrome: # reverse proxy to http://navidrome:4533
     container_name: navidrome
     image: deluan/navidrome:latest
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.name: "navidrome"
-      tsdproxy.funnel: "true"
-      tsdproxy.container_port: 4533
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "navidrome"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 4533
     ports:
       - "4533:4533"
     restart: unless-stopped
@@ -555,6 +555,11 @@ services:
   octo-fiesta:
     image: ghcr.io/v1ck3s/octo-fiesta
     container_name: octo-fiesta
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "navidrome"
+      tsdproxy.funnel: "true"
+      tsdproxy.container_port: 4533
     restart: unless-stopped
     ports:
       - "5274:8080"
