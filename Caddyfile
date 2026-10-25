@@ -94,6 +94,10 @@ navidrome.{$DOMAIN} {
 	reverse_proxy octo-fiesta:8080
 }
 
+navidrome2.{$DOMAIN} {
+	reverse_proxy navidrome:4533
+}
+
 nextcloud.{$DOMAIN} {
 	reverse_proxy nextcloud:80
 }
