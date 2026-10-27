@@ -583,6 +583,7 @@ services:
       - LastFm__ApiKey=${ND_LASTFM_APIKEY}
       - LastFm__ApiSecret=${ND_LASTFM_SECRET}
       - RadioSources__SoundsAlike=false # octo-sonic not installed
+      - Metadata__FetchLyrics=true
     volumes:
       - /mnt/media/torrent/Music:/music
       - /mnt/docker/octo/config:/app/config
