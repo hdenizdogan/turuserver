@@ -106,10 +106,6 @@ nextexplorer.{$DOMAIN} {
 	reverse_proxy nextexplorer:3000
 }
 
-octo.{$DOMAIN} {
-	reverse_proxy octo:8080
-}
-
 pdf.{$DOMAIN} {
 	reverse_proxy bentopdf:8080
 }
