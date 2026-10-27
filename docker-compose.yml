@@ -552,27 +552,88 @@ services:
 
 #        ipv4_address: 172.19.0.199
 
-  octo-fiesta:
-    image: ghcr.io/v1ck3s/octo-fiesta
-    container_name: octo-fiesta
+  octo: # reverse proxy to http://octo:8080
+    image: ghcr.io/winters27/octo:latest
+    container_name: octo
+    restart: unless-stopped
     labels:
       tsdproxy.enable: "true"
       tsdproxy.name: "navidrome"
       tsdproxy.funnel: "true"
-      tsdproxy.container_port: 4533
-    restart: unless-stopped
+      tsdproxy.container_port: 8080
     ports:
       - "5274:8080"
     environment:
+      - TZ=${TZ}
+      # Navidrome (SUBSONIC_URL should be http://navidrome:4533)
       - Subsonic__Url=${SUBSONIC_URL}
       - Subsonic__AdminUsername=${SUBSONIC_ADMIN_USERNAME}
       - Subsonic__AdminPassword=${SUBSONIC_ADMIN_PASSWORD}
-      - Deezer__Arl=${DEEZER_ARL}
-      - Subsonic__StorageMode=${STORAGE_MODE}
-      - Subsonic__FolderTemplate=${FOLDER_TEMPLATE}
+      - Library__DownloadPath=/music
+      # Stream only: playing never downloads
+      - Subsonic__DownloadOnPlay=false
+      - Subsonic__LidarrAlbumOnPlay=false
+      - YouTube__ShimUrl=http://yt-dlp-shim:8080
+      # Hearts: Lidarr only
+      - Lidarr__BaseUrl=${LIDARR_ADDRESS}
+      - Lidarr__ApiKey=${LIDARR_API_KEY}
+      - Lidarr__RootFolderPath=/music
+      - Lidarr__CompletionMode=Imported
+      # Discovery / radio
+      - LastFm__ApiKey=${ND_LASTFM_APIKEY}
+      - LastFm__ApiSecret=${ND_LASTFM_SECRET}
+      - RadioSources__SoundsAlike=false # octo-sonic not installed
     volumes:
-      - /mnt/media/torrent/Music:/app/downloads
-      - /mnt/docker/octo-fiesta:/config
+      - /mnt/media/torrent/Music:/music
+      - /mnt/docker/octo/config:/app/config
+    depends_on:
+      - yt-dlp-shim
+
+  yt-dlp-shim:
+    image: ghcr.io/winters27/octo-yt-dlp-shim:latest
+    container_name: yt-dlp-shim
+    restart: unless-stopped
+    environment:
+      - SHIM_THREADS=128
+      - MAX_CONCURRENT_YTDLP=5
+      - GATE_RESERVE_INTERACTIVE=2
+      - BG_GATE_WAIT_SEC=10
+      - SEARCH_CACHE_MAX=1024
+      - URL_CACHE_MAX=512
+      - URL_CACHE_TTL=3600
+      - YTDLP_PLAYER_CLIENT=visionos
+      - DOWNLOAD_ROOT=/music
+      - YTDLP_PATH=/opt/ytdlp/yt-dlp
+      - META_DB_PATH=/var/lib/ytshim/meta.db
+    expose:
+      - "8080"
+    volumes:
+      - /mnt/docker/yt-dlp-shim/ytdlp-cache:/root/.cache/yt-dlp
+      - /mnt/docker/yt-dlp-shim/ytshim-cache:/var/lib/ytshim
+      - /mnt/docker/yt-dlp-shim/ytdlp-bin:/opt/ytdlp
+      - /mnt/media/torrent/Music:/music
+
+#  octo-fiesta:
+#    image: ghcr.io/v1ck3s/octo-fiesta
+#    container_name: octo-fiesta
+#    labels:
+#      tsdproxy.enable: "true"
+#      tsdproxy.name: "navidrome"
+#      tsdproxy.funnel: "true"
+#      tsdproxy.container_port: 4533
+#    restart: unless-stopped
+#    ports:
+#      - "5274:8080"
+#    environment:
+#      - Subsonic__Url=${SUBSONIC_URL}
+#      - Subsonic__AdminUsername=${SUBSONIC_ADMIN_USERNAME}
+#      - Subsonic__AdminPassword=${SUBSONIC_ADMIN_PASSWORD}
+#      - Deezer__Arl=${DEEZER_ARL}
+#      - Subsonic__StorageMode=${STORAGE_MODE}
+#      - Subsonic__FolderTemplate=${FOLDER_TEMPLATE}
+#    volumes:
+#      - /mnt/media/torrent/Music:/app/downloads
+#      - /mnt/docker/octo-fiesta:/config
 
   portainer: # reverse proxy to http://portainer:9000
     image: portainer/portainer-ce:latest
