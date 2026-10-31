@@ -630,8 +630,8 @@ services:
 #      - Subsonic__AdminUsername=${SUBSONIC_ADMIN_USERNAME}
 #      - Subsonic__AdminPassword=${SUBSONIC_ADMIN_PASSWORD}
 #      - Deezer__Arl=${DEEZER_ARL}
-#      - Subsonic__StorageMode=${STORAGE_MODE}
-#      - Subsonic__FolderTemplate=${FOLDER_TEMPLATE}
+#      - Subsonic__StorageMode=Cache
+#      - Subsonic__FolderTemplate={artist}/({year}) {album}/{artist} - {album} - {track} - {title}
 #    volumes:
 #      - /mnt/media/torrent/Music:/app/downloads
 #      - /mnt/docker/octo-fiesta:/config
