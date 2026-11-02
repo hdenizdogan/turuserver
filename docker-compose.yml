@@ -593,6 +593,7 @@ services:
       - /mnt/docker/octo/config:/app/config
     depends_on:
       - yt-dlp-shim
+      - navidrome
 
   yt-dlp-shim:
     image: ghcr.io/winters27/octo-yt-dlp-shim:latest
