@@ -594,6 +594,36 @@ services:
     depends_on:
       - yt-dlp-shim
       - navidrome
+  
+  octo-sonic: # reverse proxy to http://octo-sonic:8080
+    image: ghcr.io/winters27/octo-sonic:latest
+    container_name: octo-sonic
+    restart: unless-stopped
+    logging: *logging
+    # Passes docker stop's SIGTERM on and reaps the reader processes.
+    init: true
+    expose:
+      - "8080"
+    environment:
+      - MUSIC_ROOT=/music
+      - ANALYSE_CONCURRENCY=1
+      - SONIC_ENABLED=true
+    # Docker refuses a cap above the machine's CPUs, and compose up then fails, so the
+    # default is one. bliss uses about six threads a song.
+    cpus: 1
+    # A long file is decoded whole in memory; a limit keeps one from crowding out the rest.
+    mem_limit: 2g
+    # It only reads the music, as nobody unless SONIC_USER says otherwise (a folder only its
+    # owner can read: SONIC_USER=1000:1000).
+    user: ${SONIC_USER:-65534:65534}
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /mnt/media/torrent/Music:/music:ro
 
   yt-dlp-shim:
     image: ghcr.io/winters27/octo-yt-dlp-shim:latest
