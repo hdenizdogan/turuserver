@@ -586,7 +586,7 @@ services:
       - Metadata__FetchLyrics=true
       # Soulseek
       - Soulseek__BaseUrl=http://slskd:5030
-      - Soulseek__Username=${SLSKD_SLSK_USERNAME}
+      - Soulseek__Username=${SLSKD_USERNAME}
       - Soulseek__Password=${SLSKD_SLSK_PASSWORD}
     volumes:
       - /mnt/media/torrent/Music:/music
