@@ -771,6 +771,7 @@ services:
     volumes:
       - /mnt/docker/slskd/:/app
       - /mnt/media/torrent/downloads:/app/downloads
+      - /mnt/media/torrent/Music:/share
     restart: unless-stopped
 
 #  soulsync: # reverse proxy to 8008
