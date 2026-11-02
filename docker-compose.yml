@@ -767,6 +767,7 @@ services:
       - TZ=$TZ
     ports:
       - "5030:5030"
+      - "50300:50300"
     volumes:
       - /mnt/docker/slskd/:/app
       - /mnt/media/torrent/downloads:/app/downloads
