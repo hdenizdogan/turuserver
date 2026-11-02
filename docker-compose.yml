@@ -599,7 +599,6 @@ services:
     image: ghcr.io/winters27/octo-sonic:latest
     container_name: octo-sonic
     restart: unless-stopped
-    logging: *logging
     # Passes docker stop's SIGTERM on and reaps the reader processes.
     init: true
     expose:
