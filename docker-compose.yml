@@ -582,7 +582,7 @@ services:
       # Discovery / radio
       - LastFm__ApiKey=${ND_LASTFM_APIKEY}
       - LastFm__ApiSecret=${ND_LASTFM_SECRET}
-      - RadioSources__SoundsAlike=false # octo-sonic not installed
+      - RadioSources__SoundsAlike=true # octo-sonic installed
       - Metadata__FetchLyrics=true
       # Soulseek
       - Soulseek__BaseUrl=http://slskd:5030
