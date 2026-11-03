@@ -803,6 +803,7 @@ services:
       - /mnt/docker/slskd/:/app
       - /mnt/media/torrent/downloads:/app/downloads
       - /mnt/media/torrent/Music:/share
+      - /mnt/media/torrent/Music:/music
     restart: unless-stopped
 
 #  soulsync: # reverse proxy to 8008
