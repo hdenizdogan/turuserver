@@ -1042,7 +1042,7 @@ services:
     volumes:
       - /mnt/docker/unmanic:/config
       - /mnt/media/torrent:/library
-      - /tmp/unmanic:/tmp/unmanic
+#      - /tmp/unmanic:/tmp/unmanic
     ports:
       - "8888:8888"
     devices:
