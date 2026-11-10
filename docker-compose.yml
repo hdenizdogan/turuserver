@@ -452,7 +452,7 @@ services:
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
-      - ND_SESSIONTIMEOUT=720h
+#      - ND_SESSIONTIMEOUT=720h
       - TZ=${TZ}
     volumes:
       - "/mnt/docker/navidrome:/data"
@@ -623,30 +623,6 @@ services:
       - no-new-privileges:true
     volumes:
       - /mnt/media/torrent/Music:/music:ro
-
-  yt-dlp-shim:
-    image: ghcr.io/winters27/octo-yt-dlp-shim:latest
-    container_name: yt-dlp-shim
-    restart: unless-stopped
-    environment:
-      - SHIM_THREADS=128
-      - MAX_CONCURRENT_YTDLP=5
-      - GATE_RESERVE_INTERACTIVE=2
-      - BG_GATE_WAIT_SEC=10
-      - SEARCH_CACHE_MAX=1024
-      - URL_CACHE_MAX=512
-      - URL_CACHE_TTL=3600
-      - YTDLP_PLAYER_CLIENT=visionos
-      - DOWNLOAD_ROOT=/music
-      - YTDLP_PATH=/opt/ytdlp/yt-dlp
-      - META_DB_PATH=/var/lib/ytshim/meta.db
-    expose:
-      - "8080"
-    volumes:
-      - /mnt/docker/yt-dlp-shim/ytdlp-cache:/root/.cache/yt-dlp
-      - /mnt/docker/yt-dlp-shim/ytshim-cache:/var/lib/ytshim
-      - /mnt/docker/yt-dlp-shim/ytdlp-bin:/opt/ytdlp
-      - /mnt/media/torrent/Music:/music
 
 #  octo-fiesta:
 #    image: ghcr.io/v1ck3s/octo-fiesta
@@ -1047,6 +1023,30 @@ services:
       - "8888:8888"
     devices:
       - /dev/dri:/dev/dri
+
+  yt-dlp-shim:
+    image: ghcr.io/winters27/octo-yt-dlp-shim:latest
+    container_name: yt-dlp-shim
+    restart: unless-stopped
+    environment:
+      - SHIM_THREADS=128
+      - MAX_CONCURRENT_YTDLP=5
+      - GATE_RESERVE_INTERACTIVE=2
+      - BG_GATE_WAIT_SEC=10
+      - SEARCH_CACHE_MAX=1024
+      - URL_CACHE_MAX=512
+      - URL_CACHE_TTL=3600
+      - YTDLP_PLAYER_CLIENT=visionos
+      - DOWNLOAD_ROOT=/music
+      - YTDLP_PATH=/opt/ytdlp/yt-dlp
+      - META_DB_PATH=/var/lib/ytshim/meta.db
+    expose:
+      - "8080"
+    volumes:
+      - /mnt/docker/yt-dlp-shim/ytdlp-cache:/root/.cache/yt-dlp
+      - /mnt/docker/yt-dlp-shim/ytshim-cache:/var/lib/ytshim
+      - /mnt/docker/yt-dlp-shim/ytdlp-bin:/opt/ytdlp
+      - /mnt/media/torrent/Music:/music
 
   watchtower:
     image: nickfedor/watchtower:latest
