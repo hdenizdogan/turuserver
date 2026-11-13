@@ -1021,8 +1021,8 @@ services:
 #      - /tmp/unmanic:/tmp/unmanic
     ports:
       - "8888:8888"
-    tmpfs:
-    - /tmp/unmanic:size=8G
+#    tmpfs:
+#      - /tmp/unmanic:size=8G
     devices:
       - /dev/dri:/dev/dri
 
