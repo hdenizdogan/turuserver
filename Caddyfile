@@ -1,206 +1,174 @@
 # =================================================
-# GLOBAL OPTIONS
+# GLOBAL SNIPPETS
 # =================================================
-{
-	# Force Let's Encrypt PRODUCTION (log showed staging)
-	acme_ca https://acme-v02.api.letsencrypt.org/directory
+
+# Common reverse proxy snippet
+(proxy) {
+	reverse_proxy {args[0]}
 }
 
 
 # =================================================
 # PUBLIC DOMAIN
-# Cloudflare + Let's Encrypt (wildcard, DNS-01)
+# Cloudflare + Let's Encrypt
 # =================================================
+
+# ---- WILDCARD CERTIFICATE ANCHOR ----
+# Forces Caddy to obtain/maintain *.DOMAIN using
+# the Cloudflare DNS-01 challenge.
 
 *.{$DOMAIN} {
 	tls {
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-		# Bypass local AdGuard for ACME zone/TXT lookups (fixes SERVFAIL on com.)
-		resolvers 1.1.1.1 8.8.8.8
 	}
 
-	# ---- SERVICES ----
+	respond 404
+}
 
-	@adguard host adguard.{$DOMAIN}
-	handle @adguard {
-		reverse_proxy adguard:80
-	}
 
-	@bazarr host bazarr.{$DOMAIN}
-	handle @bazarr {
-		reverse_proxy bazarr:6767
-	}
+# =================================================
+# PUBLIC SERVICES
+# =================================================
 
-	@beszel host beszel.{$DOMAIN}
-	handle @beszel {
-		reverse_proxy beszel:8090
-	}
+adguard.{$DOMAIN} {
+	reverse_proxy adguard:80
+}
 
-	@cockpit host cockpit.{$DOMAIN}
-	handle @cockpit {
-		reverse_proxy 172.17.0.1:9090
-	}
+bazarr.{$DOMAIN} {
+	reverse_proxy bazarr:6767
+}
 
-	@dash host dash.{$DOMAIN}
-	handle @dash {
-		reverse_proxy dash:3001
-	}
+beszel.{$DOMAIN} {
+	reverse_proxy beszel:8090
+}
 
-	@feishin host feishin.{$DOMAIN}
-	handle @feishin {
-		reverse_proxy feishin:9180
-	}
+cockpit.{$DOMAIN} {
+	reverse_proxy 172.17.0.1:9090
+}
 
-	@filebrowser host filebrowser.{$DOMAIN}
-	handle @filebrowser {
-		reverse_proxy filebrowser:80
-	}
+dash.{$DOMAIN} {
+	reverse_proxy dash:3001
+}
 
-	@homepage host homepage.{$DOMAIN}
-	handle @homepage {
-		reverse_proxy homepage:3000
-	}
+feishin.{$DOMAIN} {
+	reverse_proxy feishin:9180
+}
 
-	@immich host immich.{$DOMAIN}
-	handle @immich {
-		reverse_proxy immich:2283
-	}
+filebrowser.{$DOMAIN} {
+	reverse_proxy filebrowser:80
+}
 
-	@jellyfin host jellyfin.{$DOMAIN}
-	handle @jellyfin {
-		reverse_proxy 172.17.0.1:8096
-	}
+homepage.{$DOMAIN} {
+	reverse_proxy homepage:3000
+}
 
-	@jellystat host jellystat.{$DOMAIN}
-	handle @jellystat {
-		reverse_proxy jellystat:3000
-	}
+immich.{$DOMAIN} {
+	reverse_proxy immich:2283
+}
 
-	@lidarr host lidarr.{$DOMAIN}
-	handle @lidarr {
-		reverse_proxy lidarr:8686
-	}
+jellyfin.{$DOMAIN} {
+	reverse_proxy 172.17.0.1:8096
+}
 
-	@lidatube host lidatube.{$DOMAIN}
-	handle @lidatube {
-		reverse_proxy lidatube:5000
-	}
+jellystat.{$DOMAIN} {
+	reverse_proxy jellystat:3000
+}
 
-	@lingarr host lingarr.{$DOMAIN}
-	handle @lingarr {
-		reverse_proxy lingarr:9876
-	}
+lidarr.{$DOMAIN} {
+	reverse_proxy lidarr:8686
+}
 
-	@metube host metube.{$DOMAIN}
-	handle @metube {
-		reverse_proxy metube:8081
-	}
+lidatube.{$DOMAIN} {
+	reverse_proxy lidatube:5000
+}
 
-	@navidrome host navidrome.{$DOMAIN}
-	handle @navidrome {
-		reverse_proxy octo:8080
-	}
+lingarr.{$DOMAIN} {
+	reverse_proxy lingarr:9876
+}
 
-	@nextcloud host nextcloud.{$DOMAIN}
-	handle @nextcloud {
-		reverse_proxy nextcloud:80
-	}
+metube.{$DOMAIN} {
+	reverse_proxy metube:8081
+}
 
-	@nextexplorer host nextexplorer.{$DOMAIN}
-	handle @nextexplorer {
-		reverse_proxy nextexplorer:3000
-	}
+navidrome.{$DOMAIN} {
+	reverse_proxy octo:8080
+}
 
-	@pdf host pdf.{$DOMAIN}
-	handle @pdf {
-		reverse_proxy bentopdf:8080
-	}
+nextcloud.{$DOMAIN} {
+	reverse_proxy nextcloud:80
+}
 
-	@portainer host portainer.{$DOMAIN}
-	handle @portainer {
-		reverse_proxy portainer:9000
-	}
+nextexplorer.{$DOMAIN} {
+	reverse_proxy nextexplorer:3000
+}
 
-	@prowlarr host prowlarr.{$DOMAIN}
-	handle @prowlarr {
-		reverse_proxy prowlarr:9696
-	}
+pdf.{$DOMAIN} {
+	reverse_proxy bentopdf:8080
+}
 
-	@qbittorrent host qbittorrent.{$DOMAIN}
-	handle @qbittorrent {
-		reverse_proxy qbittorrent:8090
-	}
+portainer.{$DOMAIN} {
+	reverse_proxy portainer:9000
+}
 
-	@radarr host radarr.{$DOMAIN}
-	handle @radarr {
-		reverse_proxy radarr:7878
-	}
+prowlarr.{$DOMAIN} {
+	reverse_proxy prowlarr:9696
+}
 
-	@seerr host seerr.{$DOMAIN}
-	handle @seerr {
-		reverse_proxy seerr:5055
-	}
+qbittorrent.{$DOMAIN} {
+	reverse_proxy qbittorrent:8090
+}
 
-	@sharkord host sharkord.{$DOMAIN}
-	handle @sharkord {
-		encode gzip
-		reverse_proxy sharkord:4991
-	}
+radarr.{$DOMAIN} {
+	reverse_proxy radarr:7878
+}
 
-	@slskd host slskd.{$DOMAIN}
-	handle @slskd {
-		reverse_proxy slskd:5030
-	}
+seerr.{$DOMAIN} {
+	reverse_proxy seerr:5055
+}
 
-	@sonarr host sonarr.{$DOMAIN}
-	handle @sonarr {
-		reverse_proxy sonarr:8989
-	}
+sharkord.{$DOMAIN} {
+	reverse_proxy sharkord:4991
+	encode gzip
+}
 
-	@soulsync host soulsync.{$DOMAIN}
-	handle @soulsync {
-		reverse_proxy soulsync:8008
-	}
+slskd.{$DOMAIN} {
+	reverse_proxy slskd:5030
+}
 
-	@speedtest host speedtest.{$DOMAIN}
-	handle @speedtest {
-		reverse_proxy speedtest:80
-	}
+sonarr.{$DOMAIN} {
+	reverse_proxy sonarr:8989
+}
 
-	@stirling host stirling.{$DOMAIN}
-	handle @stirling {
-		reverse_proxy stirling:8080
-	}
+soulsync.{$DOMAIN} {
+	reverse_proxy soulsync:8008
+}
 
-	@synapse host synapse.{$DOMAIN}
-	handle @synapse {
-		reverse_proxy synapse:8008
-	}
+speedtest.{$DOMAIN} {
+	reverse_proxy speedtest:80
+}
 
-	@tracearr host tracearr.{$DOMAIN}
-	handle @tracearr {
-		reverse_proxy tracearr:3020
-	}
+stirling.{$DOMAIN} {
+	reverse_proxy stirling:8080
+}
 
-	@tsdproxy host tsdproxy.{$DOMAIN}
-	handle @tsdproxy {
-		reverse_proxy tsdproxy:8080
-	}
+synapse.{$DOMAIN} {
+	reverse_proxy synapse:8008
+}
 
-	@unmanic host unmanic.{$DOMAIN}
-	handle @unmanic {
-		reverse_proxy unmanic:8888
-	}
+tracearr.{$DOMAIN} {
+	reverse_proxy tracearr:3020
+}
 
-	@wizarr host wizarr.{$DOMAIN}
-	handle @wizarr {
-		reverse_proxy wizarr:5690
-	}
+tsdproxy.{$DOMAIN} {
+	reverse_proxy tsdproxy:8080
+}
 
-	# ---- FALLBACK ----
-	handle {
-		respond 404
-	}
+unmanic.{$DOMAIN} {
+	reverse_proxy unmanic:8888
+}
+
+wizarr.{$DOMAIN} {
+	reverse_proxy wizarr:5690
 }
 
 
@@ -210,33 +178,30 @@
 # =================================================
 
 # HTTP → HTTPS redirect for Tailscale domain
+
 http://*.{$OLDDOMAIN} {
 	redir https://{host}{uri} permanent
 }
 
 
 # =================================================
-# TAILSCALE TLS SNIPPET (disabled)
+# TAILSCALE TLS SNIPPET
 # =================================================
 
 # (tailscale_tls) {
 #	tls /certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.crt \
 #		/certs/{args[0]}/certs/{args[0]}.{$OLDDOMAIN}.key
-# }
+#}
 
 
 # =================================================
-# TAILSCALE SERVICES (disabled)
+# TAILSCALE SERVICES
 # =================================================
-
-# (proxy) {
-#	reverse_proxy {args[0]}
-# }
 
 # https://jellyfin.{$OLDDOMAIN} {
 #	import tailscale_tls jellyfin
 #	import proxy 172.17.0.1:8096
-# }
+#}
 
 # https://navidrome.{$OLDDOMAIN} {
 #	import tailscale_tls navidrome
