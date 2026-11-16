@@ -435,6 +435,7 @@ services:
 
   musike: # reverse proxy to http://musike:4180
     image: ghcr.io/ernani1234/musike:latest
+    container_name: musike
     #      ports:
     #        - "4180:4180"
     volumes:
