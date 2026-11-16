@@ -90,6 +90,10 @@ metube.{$DOMAIN} {
 	reverse_proxy metube:8081
 }
 
+musike.{$DOMAIN} {
+	reverse_proxy musike:4180
+}
+
 navidrome.{$DOMAIN} {
 	reverse_proxy octo:8080
 }
