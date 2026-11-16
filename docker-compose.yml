@@ -433,17 +433,6 @@ services:
       - /downloads
 
 
-  musike: # reverse proxy to http://musike:4180
-    image: ghcr.io/ernani1234/musike:latest
-    container_name: musike
-    #      ports:
-    #        - "4180:4180"
-    volumes:
-      - /mnt/docker/musike/data:/data   # library: playlists, favorites, history
-      - /mnt/docker/musike/cache:/cache # HD videos already downloaded
-    restart: unless-stopped
-
-
   navidrome: # reverse proxy to http://navidrome:4533
     container_name: navidrome
     image: deluan/navidrome:latest
