@@ -591,6 +591,7 @@ services:
     volumes:
       - /mnt/media/torrent/Music:/music
       - /mnt/docker/octo/config:/app/config
+      - /mnt/media/torrent/Music/octo/prefetch:/app/config/prefetch
     depends_on:
       - yt-dlp-shim
       - navidrome
