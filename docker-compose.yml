@@ -591,8 +591,8 @@ services:
     volumes:
       - /mnt/media/torrent/Music:/music
       - /mnt/docker/octo/config:/app/config
+      - /mnt/media/torrent/octo-prefetch:/app/config/prefetch
     depends_on:
-      - yt-dlp-shim
       - navidrome
   
   octo-sonic: # reverse proxy to http://octo-sonic:8080
