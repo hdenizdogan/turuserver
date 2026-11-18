@@ -74,8 +74,8 @@ filebrowser.{$DOMAIN} {
 	reverse_proxy filebrowser:80
 }
 
-homepage.{$DOMAIN} {
-	reverse_proxy homepage:3000
+holyarrs.{$DOMAIN} {
+	reverse_proxy holyarrs:6262
 }
 
 immich.{$DOMAIN} {
@@ -109,6 +109,10 @@ metube.{$DOMAIN} {
 navidrome.{$DOMAIN} {
 	log
 	reverse_proxy octo:8080
+}
+
+navidrome2.{$DOMAIN} {
+	reverse_proxy navidrome:4533
 }
 
 nextcloud.{$DOMAIN} {

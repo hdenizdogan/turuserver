@@ -17,8 +17,8 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
-    ports:
-      - "6767:6767"
+#    ports:
+#      - "6767:6767"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -132,8 +132,8 @@ services:
     container_name: dash
     restart: unless-stopped
     privileged: true
-    ports:
-      - "3001:3001"
+#    ports:
+#      - "3001:3001"
     environment:
       - DASHDOT_WIDGET_LIST=os,cpu,storage,ram,network
       - DASHDOT_SHOW_DASH_VERSION=bottom_right
@@ -191,11 +191,10 @@ services:
     environment:
       - LOG_LEVEL=info
       - CAPTCHA_SOLVER=none
-    ports:
-      - "8191:8191"
+ #   ports:
+ #     - "8191:8191"
     volumes:
       - /mnt/docker/flaresolverr:/config
-
 
 #  glances:
 #    image: nicolargo/glances:latest
@@ -210,6 +209,24 @@ services:
 #      - /etc/os-release:/etc/os-release:ro
 #    environment:
 #      - GLANCES_OPT=-w    # start in web server mode
+
+#   holyarrs: # reverse proxy to http://holyarrs:6262
+#      image: holyarrs/holyarrs:latest
+#      container_name: holyarrs
+#      environment:
+#        - PUID=${PUID}
+#        - PGID=${PGID}
+#        - TZ=${TZ}
+#      volumes:
+#        - /mnt/docker/holyarrs:/config
+#        - /mnt/media/torrent/Movies:/movies #optional
+#        - /mnt/media/torrent/Shows:/tv #optional
+#        - /mnt/media/torrent/Music:/music #optional
+#        - /mnt/media/torrent/downloads:/downloads #optional
+##      ports:
+##        - 6262:6262
+#      restart: unless-stopped
+ 
 
 #  homeassistant:
 #    container_name: homeassistant
@@ -273,8 +290,8 @@ services:
       - /mnt/immichdata:/photos
       - /mnt/docker/immich/libraries:/libraries
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - '2283:2283'
+  #  ports:
+  #    - '2283:2283'
     depends_on:
       - database
     restart: unless-stopped
@@ -296,35 +313,35 @@ services:
 #      service: openvino
 
 
-  jellystat: # reverse proxy to http://jellystat:3000
-    image: 'cyfershepard/jellystat:latest'
-    container_name: jellystat
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
-      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
-      JWT_SECRET: $JELLYSTAT_JWT_SECRET
-      TZ: $TZ
-    volumes:
-      - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
+#  jellystat: # reverse proxy to http://jellystat:3000
+#    image: 'cyfershepard/jellystat:latest'
+#    container_name: jellystat
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+#      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+#      POSTGRES_IP: $JELLYSTATDB_POSTGRES_IP
+#      POSTGRES_PORT: $JELLYSTATDB_POSTGRES_PORT
+#      JWT_SECRET: $JELLYSTAT_JWT_SECRET
+#      TZ: $TZ
+#    volumes:
+#      - /mnt/docker/jellystat/jellystat-backup-data:/app/backend/backup-data
 #    ports:
 #      - '3000:3000'
-    depends_on:
-      - jellystat-db
+#    depends_on:
+#      - jellystat-db
 
 
-  jellystat-db:
-    image: 'postgres:15.2'
-    shm_size: 1gb
-    container_name: jellystat-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
-      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
-    volumes:
-      - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
+#  jellystat-db:
+#    image: 'postgres:15.2'
+#    shm_size: 1gb
+#    container_name: jellystat-db
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: $JELLYSTATDB_POSTGRES_USER
+#      POSTGRES_PASSWORD: $JELLYSTATDB_POSTGRES_PASSWORD
+#    volumes:
+#      - /mnt/docker/jellystat/jellystat-db/postgres-data:/var/lib/postgresql/data
 
 
   jellyfin: # reverse proxy to http://172.17.0.1:8096
@@ -378,8 +395,8 @@ services:
       - /mnt/media/torrent/downloads:/downloads
       - /mnt/media/torrent/staging:/staging
       - /mnt/media/torrent/Manual Download:/Manual Download
-    ports:
-      - "8686:8686"
+#    ports:
+#      - "8686:8686"
     restart: unless-stopped
 
 #  lingarr: # reverse proxy to http://lingarr:9876
@@ -441,18 +458,18 @@ services:
 #      tsdproxy.name: "navidrome"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 4533
-    ports:
-      - "4533:4533"
+#    ports:
+#      - "4533:4533"
     restart: unless-stopped
     environment:
       - ND_BASEURL=https://navidrome.${DOMAIN}
       - ND_PLAYLISTSPATH=/music/Playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
-      - ND_LYRICSPRIORITY=embedded,.ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,nd-lyrics
+      - ND_LYRICSPRIORITY=embedded,.lrc,.elrc,.txt,.ttml,.yaml,.yml,.srt,nd-lyrics
       - ND_LASTFM_ENABLED=true
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
-#      - ND_SESSIONTIMEOUT=720h
+      - ND_SESSIONTIMEOUT=720h
       - TZ=${TZ}
     volumes:
       - "/mnt/docker/navidrome:/data"
@@ -481,8 +498,8 @@ services:
     image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
-    ports:
-      - "8083:80"
+#    ports:
+#      - "8083:80"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -561,8 +578,8 @@ services:
       tsdproxy.name: "navidrome"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8080
-    ports:
-      - "5274:8080"
+#    ports:
+#      - "5274:8080"
     environment:
       - TZ=${TZ}
       # Navidrome (SUBSONIC_URL should be http://navidrome:4533)
@@ -591,8 +608,8 @@ services:
     volumes:
       - /mnt/media/torrent/Music:/music
       - /mnt/docker/octo/config:/app/config
+      - /mnt/media/torrent/octo-prefetch:/app/config/prefetch
     depends_on:
-      - yt-dlp-shim
       - navidrome
   
   octo-sonic: # reverse proxy to http://octo-sonic:8080
@@ -601,8 +618,8 @@ services:
     restart: unless-stopped
     # Passes docker stop's SIGTERM on and reaps the reader processes.
     init: true
-    expose:
-      - "8080"
+#    expose:
+#      - "8080"
     environment:
       - MUSIC_ROOT=/music
       - ANALYSE_CONCURRENCY=1
@@ -650,8 +667,8 @@ services:
     image: portainer/portainer-ce:latest
     container_name: portainer
     restart: unless-stopped
-    ports:
-      - "9000:9000"
+#    ports:
+#      - "9000:9000"
     environment:
       - TZ=${TZ}
     volumes:
@@ -662,8 +679,8 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
-    ports:
-      - "9696:9696"
+#    ports:
+#      - "9696:9696"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -694,8 +711,8 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-    ports:
-      - "7878:7878"
+#    ports:
+#      - "7878:7878"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -722,8 +739,8 @@ services:
     init: true
     container_name: seerr
     restart: unless-stopped
-    ports:
-      - "5055:5055"
+#    ports:
+#      - "5055:5055"
     environment:
       - LOG_LEVEL=info
       - TZ=${TZ}
@@ -749,8 +766,8 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-    ports:
-      - "8989:8989"
+#    ports:
+#      - "8989:8989"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -762,25 +779,25 @@ services:
       - /mnt/media/torrent/downloads:/downloads
 
 
-  slskd: # reverse proxy to 5030
-    image: slskd/slskd:latest
-    container_name: slskd
-    environment:
-      - SLSKD_REMOTE_CONFIGURATION=true
-      - SLSKD_API_KEY=$SLSKD_API_KEY
-      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
-      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
-      - SLSKD_DOWNLOADS_DIR=/music
-      - TZ=$TZ
-    ports:
-      - "5030:5030"
-      - "50300:50300"
-    volumes:
-      - /mnt/docker/slskd/:/app
-      - /mnt/media/torrent/downloads:/app/downloads
-      - /mnt/media/torrent/Music:/share
-      - /mnt/media/torrent/Music:/music
-    restart: unless-stopped
+#  slskd: # reverse proxy to 5030
+#    image: slskd/slskd:latest
+#    container_name: slskd
+#    environment:
+#      - SLSKD_REMOTE_CONFIGURATION=true
+#      - SLSKD_API_KEY=$SLSKD_API_KEY
+#      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
+#      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
+#      - SLSKD_DOWNLOADS_DIR=/music
+#      - TZ=$TZ
+#    ports:
+#      - "5030:5030"
+#      - "50300:50300"
+#    volumes:
+#      - /mnt/docker/slskd/:/app
+#      - /mnt/media/torrent/downloads:/app/downloads
+#      - /mnt/media/torrent/Music:/share
+#      - /mnt/media/torrent/Music:/music
+#    restart: unless-stopped
 
 #  soulsync: # reverse proxy to 8008
 #    image: boulderbadgedad/soulsync:latest
@@ -1019,8 +1036,8 @@ services:
       - /mnt/docker/unmanic:/config
       - /mnt/media/torrent:/library
 #      - /tmp/unmanic:/tmp/unmanic
-    ports:
-      - "8888:8888"
+#    ports:
+#      - "8888:8888"
 #    tmpfs:
 #      - /tmp/unmanic:size=8G
     devices:
@@ -1042,8 +1059,8 @@ services:
       - DOWNLOAD_ROOT=/music
       - YTDLP_PATH=/opt/ytdlp/yt-dlp
       - META_DB_PATH=/var/lib/ytshim/meta.db
-    expose:
-      - "8080"
+#    expose:
+#      - "8080"
     volumes:
       - /mnt/docker/yt-dlp-shim/ytdlp-cache:/root/.cache/yt-dlp
       - /mnt/docker/yt-dlp-shim/ytshim-cache:/var/lib/ytshim
