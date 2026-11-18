@@ -196,7 +196,6 @@ services:
     volumes:
       - /mnt/docker/flaresolverr:/config
 
-
 #  glances:
 #    image: nicolargo/glances:latest
 #    container_name: glances
@@ -210,6 +209,24 @@ services:
 #      - /etc/os-release:/etc/os-release:ro
 #    environment:
 #      - GLANCES_OPT=-w    # start in web server mode
+
+#   holyarrs: # reverse proxy to http://holyarrs:6262
+#      image: holyarrs/holyarrs:latest
+#      container_name: holyarrs
+#      environment:
+#        - PUID=${PUID}
+#        - PGID=${PGID}
+#        - TZ=${TZ}
+#      volumes:
+#        - /mnt/docker/holyarrs:/config
+#        - /mnt/media/torrent/Movies:/movies #optional
+#        - /mnt/media/torrent/Shows:/tv #optional
+#        - /mnt/media/torrent/Music:/music #optional
+#        - /mnt/media/torrent/downloads:/downloads #optional
+##      ports:
+##        - 6262:6262
+#      restart: unless-stopped
+ 
 
 #  homeassistant:
 #    container_name: homeassistant
