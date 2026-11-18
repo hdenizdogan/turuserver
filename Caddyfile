@@ -58,8 +58,8 @@ filebrowser.{$DOMAIN} {
 	reverse_proxy filebrowser:80
 }
 
-homepage.{$DOMAIN} {
-	reverse_proxy homepage:3000
+holyarrs.{$DOMAIN} {
+	reverse_proxy holyarrs:6262
 }
 
 immich.{$DOMAIN} {
