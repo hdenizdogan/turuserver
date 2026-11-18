@@ -223,8 +223,8 @@ services:
 #      - /mnt/media/torrent/Shows:/tv #optional
 #      - /mnt/media/torrent/Music:/music #optional
 #      - /mnt/media/torrent/downloads:/downloads #optional
-#      ports:
-#        - 6262:6262
+    ports:
+      - 6262:6262
     restart: unless-stopped
  
 
