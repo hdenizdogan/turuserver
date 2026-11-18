@@ -1,17 +1,17 @@
 # =================================================
 # GLOBAL OPTIONS (must be first in the file)
 # =================================================
-{
-	# TEMPORARY TEST: disable HTTP/3 (QUIC)
-	servers {
-		protocols h1 h2
-	}
-
-	log {
-		output stderr
-		level DEBUG
-	}
-}
+#{
+#	# TEMPORARY TEST: disable HTTP/3 (QUIC)
+#	servers {
+#		protocols h1 h2
+#	}
+#
+#	log {
+#		output stderr
+#		level DEBUG
+#	}
+#}
 
 
 # =================================================
@@ -107,7 +107,6 @@ metube.{$DOMAIN} {
 }
 
 navidrome.{$DOMAIN} {
-	log
 	reverse_proxy octo:8080
 }
 
