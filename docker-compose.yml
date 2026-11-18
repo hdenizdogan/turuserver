@@ -17,8 +17,8 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     restart: unless-stopped
-#    ports:
-#      - "6767:6767"
+    ports:
+      - "6767:6767"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -711,8 +711,8 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-#    ports:
-#      - "7878:7878"
+    ports:
+      - "7878:7878"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -739,8 +739,8 @@ services:
     init: true
     container_name: seerr
     restart: unless-stopped
-#    ports:
-#      - "5055:5055"
+    ports:
+      - "5055:5055"
     environment:
       - LOG_LEVEL=info
       - TZ=${TZ}
@@ -766,8 +766,8 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-#    ports:
-#      - "8989:8989"
+    ports:
+      - "8989:8989"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
