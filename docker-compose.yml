@@ -219,10 +219,10 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/holyarrs:/config
-#      - /mnt/media/torrent/Movies:/movies #optional
-#      - /mnt/media/torrent/Shows:/tv #optional
-#      - /mnt/media/torrent/Music:/music #optional
-#      - /mnt/media/torrent/downloads:/downloads #optional
+      - /mnt/media/torrent/Movies:/movies #optional
+      - /mnt/media/torrent/Shows:/tv #optional
+      - /mnt/media/torrent/Music:/music #optional
+      - /mnt/media/torrent/downloads:/downloads #optional
     ports:
       - 6262:6262
     restart: unless-stopped
