@@ -578,8 +578,8 @@ services:
       tsdproxy.name: "navidrome"
       tsdproxy.funnel: "true"
       tsdproxy.container_port: 8080
-#    ports:
-#      - "5274:8080"
+    ports:
+      - "5274:8080"
     environment:
       - TZ=${TZ}
       # Navidrome (SUBSONIC_URL should be http://navidrome:4533)
