@@ -458,8 +458,8 @@ services:
 #      tsdproxy.name: "navidrome"
 #      tsdproxy.funnel: "true"
 #      tsdproxy.container_port: 4533
-#    ports:
-#      - "4533:4533"
+    ports:
+      - "4533:4533"
     restart: unless-stopped
     environment:
       - ND_BASEURL=https://navidrome.${DOMAIN}
