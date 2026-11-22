@@ -62,6 +62,10 @@ cockpit.{$DOMAIN} {
 	reverse_proxy 172.17.0.1:9090
 }
 
+convert.{$DOMAIN} {
+	reverse_proxy convert:3000
+}
+
 dash.{$DOMAIN} {
 	reverse_proxy dash:3001
 }

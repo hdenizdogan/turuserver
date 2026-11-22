@@ -116,6 +116,18 @@ services:
 
 #        ipv4_address: 172.19.0.199
 
+  convertx:
+    image: ghcr.io/c4illin/convertx
+    container_name: convertx
+    restart: unless-stopped
+#    ports:
+#      - "3000:3000"
+    environment:
+      - PUID=${PUID} # user id for file permissions (should match your host user id)
+#      - JWT_SECRET=aLongAndSecretStringUsedToSignTheJSONWebToken1234 # will use randomUUID() if unset
+#      - HTTP_ALLOWED=true # uncomment this if accessing it over a non-https connection
+    volumes:
+      - /mnt/convertx/data:/app/data
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
