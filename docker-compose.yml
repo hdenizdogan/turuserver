@@ -23,7 +23,7 @@ services:
       - /mnt/docker/arcane-data:/app/data
       - /opt/docker:/opt/docker
     environment:
-      - ARCANE_APP_URL=http://localhost:3552
+      - ARCANE_APP_URL=https://arcane.${DOMAIN}
       - PUID=${PUID}
       - PGID=${PGID}
       - ARCANE_ENCRYPTION_KEY=${ARCANE_ENCRYPTION_KEY}
