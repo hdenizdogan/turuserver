@@ -50,6 +50,10 @@ adguard.{$DOMAIN} {
 	reverse_proxy adguard:80
 }
 
+arcane.{$DOMAIN} {
+	reverse_proxy arcane:3552
+}
+
 bazarr.{$DOMAIN} {
 	reverse_proxy bazarr:6767
 }
