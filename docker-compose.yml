@@ -1076,6 +1076,13 @@ services:
     devices:
       - /dev/dri:/dev/dri
 
+
+  vert:
+    container_name: vert
+    image: ghcr.io/vert-sh/vert:latest
+    restart: unless-stopped
+#    ports:
+#      - ${PORT:-3000}:80
   yt-dlp-shim:
     image: ghcr.io/winters27/octo-yt-dlp-shim:latest
     container_name: yt-dlp-shim

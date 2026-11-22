@@ -67,7 +67,7 @@ cockpit.{$DOMAIN} {
 }
 
 convert.{$DOMAIN} {
-	reverse_proxy convertx:3000
+	reverse_proxy vert:80
 }
 
 dash.{$DOMAIN} {
