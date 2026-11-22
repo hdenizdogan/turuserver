@@ -28,6 +28,7 @@ services:
       - PGID=${PGID}
       - ARCANE_ENCRYPTION_KEY=${ARCANE_ENCRYPTION_KEY}
       - ARCANE_PROJECTS_DIRECTORY=/opt/docker
+      - TZ=${TZ}
     cgroup: host
     restart: unless-stopped
 
