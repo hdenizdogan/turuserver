@@ -146,7 +146,9 @@ services:
 ##      - JWT_SECRET=aLongAndSecretStringUsedToSignTheJSONWebToken1234 # will use randomUUID() if unset
 ##      - HTTP_ALLOWED=true # uncomment this if accessing it over a non-https connection
 #    volumes:
-#      - /mnt/convertx/data:/app/data
+#      - /mnt/docker/convertx/data:/app/data
+
+
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
