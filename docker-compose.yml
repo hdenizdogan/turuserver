@@ -13,23 +13,23 @@ services:
 #      - /mnt/docker/caddy-cloudflare/caddy_data/caddy/certificates:/certs:ro
 
 
-  arcane:
-    image: ghcr.io/getarcaneapp/manager:latest
-    container_name: arcane
-#    ports:
-#      - "3552:3552"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/arcane-data:/app/data
-      - /opt/docker:/opt/docker
-    environment:
-      - ARCANE_APP_URL=https://arcane.${DOMAIN}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - ARCANE_ENCRYPTION_KEY=${ARCANE_ENCRYPTION_KEY}
-      - ARCANE_PROJECTS_DIRECTORY=/opt/docker
-    cgroup: host
-    restart: unless-stopped
+#  arcane:
+#    image: ghcr.io/getarcaneapp/manager:latest
+#    container_name: arcane
+##    ports:
+##      - "3552:3552"
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /mnt/docker/arcane-data:/app/data
+#      - /opt/docker:/opt/docker
+#    environment:
+#      - ARCANE_APP_URL=https://arcane.${DOMAIN}
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - ARCANE_ENCRYPTION_KEY=${ARCANE_ENCRYPTION_KEY}
+#      - ARCANE_PROJECTS_DIRECTORY=/opt/docker
+#    cgroup: host
+#    restart: unless-stopped
 
 
   bazarr: # reverse proxy to http://bazarr:6767
