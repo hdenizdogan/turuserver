@@ -710,17 +710,17 @@ services:
       - /mnt/docker/prowlarr:/config
 
 
-  qbittorrent: # reverse proxy to http://qbittorrent:8090
+  qbittorrent: # reverse proxy to http://qbittorrent:8080
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
 #    ports:
-#      - "8090:8090"
+#      - "8090:8080"
 #      - "6881:6881"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - WEBUI_PORT=8090
+      - WEBUI_PORT=8080
       - TZ=${TZ}
     volumes:
       - /mnt/media/torrent/downloads:/downloads
