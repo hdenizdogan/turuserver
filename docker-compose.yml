@@ -484,7 +484,7 @@ services:
     restart: unless-stopped
     environment:
       - ND_BASEURL=https://navidrome.${DOMAIN}
-      - ND_PLAYLISTSPATH=/music/Playlists
+      - ND_PLAYLISTSPATH=/music/playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
       - ND_LYRICSPRIORITY=embedded,.lrc,.elrc,.txt,.ttml,.yaml,.yml,.srt,nd-lyrics
       - ND_LASTFM_ENABLED=true
@@ -492,7 +492,6 @@ services:
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
       - ND_SESSIONTIMEOUT=720h
       - TZ=${TZ}
-      - ND_JELLYFIN_ENABLED=true
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music"
