@@ -492,6 +492,7 @@ services:
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
       - ND_SESSIONTIMEOUT=720h
       - TZ=${TZ}
+      - ND_JELLYFIN_ENABLED=true
     volumes:
       - "/mnt/docker/navidrome:/data"
       - "/mnt/media/torrent/Music:/music"
