@@ -240,10 +240,10 @@ services:
 #      - TZ=${TZ}
 #    volumes:
 #      - /mnt/docker/holyarrs:/config
-#      - /mnt/media/torrent/Movies:/movies #optional
-#      - /mnt/media/torrent/Shows:/tv #optional
-#      - /mnt/media/torrent/Music:/music #optional
-#      - /mnt/media/torrent/downloads:/downloads #optional
+#      - /mnt/media/Movies:/movies #optional
+#      - /mnt/media/Shows:/tv #optional
+#      - /mnt/media/Music:/music #optional
+#      - /mnt/media/downloads:/downloads #optional
 #    ports:
 #      - 6262:6262
 #    restart: unless-stopped
@@ -379,7 +379,7 @@ services:
     volumes:
       - /mnt/docker/jellyfin/jellyfin_config:/config
       - /mnt/docker/jellyfin/jellyfin_cache:/cache
-      - /mnt/media/torrent:/media
+      - /mnt/media:/media
     environment:
       - TZ=${TZ}
     network_mode: host
@@ -391,7 +391,7 @@ services:
     container_name: lidatube
     volumes:
       - /mnt/docker/lidatube:/lidatube/config
-      - /mnt/media/torrent/Music:/lidatube/downloads
+      - /mnt/media/Music:/lidatube/downloads
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "5000:5000"
@@ -412,10 +412,10 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/lidarr:/config
-      - /mnt/media/torrent/Music:/music
-      - /mnt/media/torrent/downloads:/downloads
-      - /mnt/media/torrent/staging:/staging
-      - /mnt/media/torrent/Manual Download:/Manual Download
+      - /mnt/media/Music:/music
+      - /mnt/media/downloads:/downloads
+      - /mnt/media/staging:/staging
+      - /mnt/media/Manual Download:/Manual Download
     ports:
       - "8686:8686"
     restart: unless-stopped
@@ -430,8 +430,8 @@ services:
 #      - ASPNETCORE_URLS=http://+:9876
 #      - DB_CONNECTION=sqlite
 #    volumes:
-#      - /mnt/media/torrent/Movies:/movies
-#      - /mnt/media/torrent/Shows:/tv
+#      - /mnt/media/Movies:/movies
+#      - /mnt/media/Shows:/tv
 #      - /mnt/docker/lingarr:/app/config
 #
 #  libretranslate: # reverse proxy to http://libretranslate:5000
@@ -494,7 +494,7 @@ services:
       - TZ=${TZ}
     volumes:
       - "/mnt/docker/navidrome:/data"
-      - "/mnt/media/torrent/Music:/music"
+      - "/mnt/media/Music:/music"
 
 
 #  navidrome-import: # reverse proxy to 8888
@@ -504,7 +504,7 @@ services:
 #      - "8890:8888"
 #    volumes:
 #      - "/mnt/docker/navidrome:/data:ro" # shares the navidrome.db read-only
-#      - "/mnt/media/torrent/Music/Playlists:/app/output"   # where M3U files are written
+#      - "/mnt/media/Music/Playlists:/app/output"   # where M3U files are written
 #    environment:
 #      - PUID=$PUID
 #      - PGID=$PGID
@@ -558,7 +558,7 @@ services:
 #      - /mnt/docker/nextexplorer/config:/config
 #      - /mnt/docker/nextexplorer/cache:/cache
 #      # Each /mnt/<Label> mount becomes a top-level volume in the UI
-#      - /mnt/media/torrent:/mnt/Files
+#      - /mnt/media:/mnt/Files
 #    environment:
 #      - NODE_ENV=production
 #      - PUBLIC_URL=https://nextexplorer.${DOMAIN}
@@ -627,9 +627,9 @@ services:
       - Soulseek__Username=${SLSKD_USERNAME}
       - Soulseek__Password=${SLSKD_SLSK_PASSWORD}
     volumes:
-      - /mnt/media/torrent/Music:/music
+      - /mnt/media/Music:/music
       - /mnt/docker/octo/config:/app/config
-      - /mnt/media/torrent/octo-prefetch:/app/config/prefetch
+      - /mnt/media/octo-prefetch:/app/config/prefetch
     depends_on:
       - navidrome
   
@@ -660,7 +660,7 @@ services:
     security_opt:
       - no-new-privileges:true
     volumes:
-      - /mnt/media/torrent/Music:/music:ro
+      - /mnt/media/Music:/music:ro
 
 #  octo-fiesta:
 #    image: ghcr.io/v1ck3s/octo-fiesta
@@ -681,7 +681,7 @@ services:
 #      - Subsonic__StorageMode=Cache
 #      - Subsonic__FolderTemplate={artist}/({year}) {album}/{artist} - {album} - {track} - {title}
 #    volumes:
-#      - /mnt/media/torrent/Music:/app/downloads
+#      - /mnt/media/Music:/app/downloads
 #      - /mnt/docker/octo-fiesta:/config
 
   portainer: # reverse proxy to http://portainer:9000
@@ -723,8 +723,8 @@ services:
       - WEBUI_PORT=8080
       - TZ=${TZ}
     volumes:
-      - /mnt/media/torrent/downloads:/downloads
-      - /mnt/media/torrent/Manual Download:/Manual Download
+      - /mnt/media/downloads:/downloads
+      - /mnt/media/Manual Download:/Manual Download
       - /mnt/docker/qbittorrent/config:/config
 
 
@@ -740,10 +740,9 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/radarr:/config
-      - /mnt/media/torrent/Movies:/mnt/media/torrent/Movies
-      - /mnt/media/torrent/Movies:/mnt/media/Movies
-      - /mnt/media/torrent/Manual Download:/Manual Download
-      - /mnt/media/torrent/downloads:/downloads
+      - /mnt/media/Movies:/mnt/media/Movies
+      - /mnt/media/Manual Download:/Manual Download
+      - /mnt/media/downloads:/downloads
 
 
 #  redis: # for immich
@@ -796,10 +795,9 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/sonarr:/config
-      - /mnt/media/torrent/Shows:/mnt/media/torrent/Shows
-      - /mnt/media/torrent/Shows:/mnt/media/Shows
-      - /mnt/media/torrent/Manual Download:/Manual Download
-      - /mnt/media/torrent/downloads:/downloads
+      - /mnt/media/Shows:/mnt/media/Shows
+      - /mnt/media/Manual Download:/Manual Download
+      - /mnt/media/downloads:/downloads
 
 
 #  slskd: # reverse proxy to 5030
@@ -817,9 +815,9 @@ services:
 #      - "50300:50300"
 #    volumes:
 #      - /mnt/docker/slskd/:/app
-#      - /mnt/media/torrent/downloads:/app/downloads
-#      - /mnt/media/torrent/Music:/share
-#      - /mnt/media/torrent/Music:/music
+#      - /mnt/media/downloads:/app/downloads
+#      - /mnt/media/Music:/share
+#      - /mnt/media/Music:/music
 #    restart: unless-stopped
 
 #  soulsync: # reverse proxy to 8008
@@ -842,12 +840,12 @@ services:
 #      - "/mnt/docker/soulsync/config:/app/config"
 #      - "/mnt/docker/soulsync/logs:/app/logs"
 #      - "/mnt/docker/soulsync/transfer:/app/Transfer"
-#      - "/mnt/media/torrent/staging:/app/Staging"
+#      - "/mnt/media/staging:/app/Staging"
 #      - "/mnt/docker/soulsync/MusicVideos:/app/MusicVideos"
-#      - "/mnt/media/torrent/downloads:/app/downloads"
+#      - "/mnt/media/downloads:/app/downloads"
 #      - "/mnt/docker/soulsync/scripts:/app/scripts"
 #      - "/mnt/docker/soulsync/soulsync_database:/app/data"
-#      - "/mnt/media/torrent/Music:/host/music"
+#      - "/mnt/media/Music:/host/music"
 #    restart: unless-stopped
 #    healthcheck:
 #      test: [ "CMD", "curl", "-f", "http://localhost:8008/" ]
@@ -1057,7 +1055,7 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/docker/unmanic:/config
-      - /mnt/media/torrent:/library
+      - /mnt/media:/library
 #      - /tmp/unmanic:/tmp/unmanic
 #    ports:
 #      - "8888:8888"
@@ -1095,7 +1093,7 @@ services:
       - /mnt/docker/yt-dlp-shim/ytdlp-cache:/root/.cache/yt-dlp
       - /mnt/docker/yt-dlp-shim/ytshim-cache:/var/lib/ytshim
       - /mnt/docker/yt-dlp-shim/ytdlp-bin:/opt/ytdlp
-      - /mnt/media/torrent/Music:/music
+      - /mnt/media/Music:/music
 
 #  watchtower:
 #    image: nickfedor/watchtower:latest
