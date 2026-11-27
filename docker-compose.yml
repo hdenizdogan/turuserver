@@ -136,19 +136,6 @@ services:
 
 #        ipv4_address: 172.19.0.199
 
-#  convertx:
-#    image: ghcr.io/c4illin/convertx
-#    container_name: convertx
-#    restart: unless-stopped
-##    ports:
-##      - "3000:3000"
-#    environment:
-#      - PUID=${PUID} # user id for file permissions (should match your host user id)
-##      - JWT_SECRET=aLongAndSecretStringUsedToSignTheJSONWebToken1234 # will use randomUUID() if unset
-##      - HTTP_ALLOWED=true # uncomment this if accessing it over a non-https connection
-#    volumes:
-#      - /mnt/docker/convertx/data:/app/data
-
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -399,21 +386,21 @@ services:
 #    ports:
 #      - "8096:8096"
 
-#  lidatube: # reverse proxy to http://lidatube:5000
-#    image: thewicklowwolf/lidatube:latest
-#    container_name: lidatube
-#    volumes:
-#      - /mnt/docker/lidatube:/lidatube/config
-#      - /mnt/media/torrent/Music:/lidatube/downloads
-#      - /etc/localtime:/etc/localtime:ro
-#    ports:
-#      - "5000:5000"
-#    restart: unless-stopped
-#    environment:
-#      - lidarr_address=${LIDARR_ADDRESS}
-#      - lidarr_api_key=${LIDARR_API_KEY}
-#      - sync_schedule=7,20
-#      - attempt_lidarr_import=True
+  lidatube: # reverse proxy to http://lidatube:5000
+    image: thewicklowwolf/lidatube:latest
+    container_name: lidatube
+    volumes:
+      - /mnt/docker/lidatube:/lidatube/config
+      - /mnt/media/torrent/Music:/lidatube/downloads
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    environment:
+      - lidarr_address=${LIDARR_ADDRESS}
+      - lidarr_api_key=${LIDARR_API_KEY}
+      - sync_schedule=7,20
+      - attempt_lidarr_import=True
 
 
   lidarr: # reverse proxy to http://lidarr:8686
@@ -497,7 +484,7 @@ services:
     restart: unless-stopped
     environment:
       - ND_BASEURL=https://navidrome.${DOMAIN}
-      - ND_PLAYLISTSPATH=/music/Playlists
+      - ND_PLAYLISTSPATH=/music/playlists
       - ND_SUBSONIC_DEFAULTREPORTREALPATH=true
       - ND_LYRICSPRIORITY=embedded,.lrc,.elrc,.txt,.ttml,.yaml,.yml,.srt,nd-lyrics
       - ND_LASTFM_ENABLED=true
@@ -723,17 +710,17 @@ services:
       - /mnt/docker/prowlarr:/config
 
 
-  qbittorrent: # reverse proxy to http://qbittorrent:8090
+  qbittorrent: # reverse proxy to http://qbittorrent:8080
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
 #    ports:
-#      - "8090:8090"
+#      - "8090:8080"
 #      - "6881:6881"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - WEBUI_PORT=8090
+      - WEBUI_PORT=8080
       - TZ=${TZ}
     volumes:
       - /mnt/media/torrent/downloads:/downloads
