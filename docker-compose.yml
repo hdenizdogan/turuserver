@@ -617,7 +617,7 @@ services:
     environment:
       - TZ=${TZ}
       # Navidrome (SUBSONIC_URL should be http://navidrome:4533)
-      - Subsonic__Url=${SUBSONIC_URL}
+      - Subsonic__Url=http://navidrome:4533
       - Subsonic__AdminUsername=${SUBSONIC_ADMIN_USERNAME}
       - Subsonic__AdminPassword=${SUBSONIC_ADMIN_PASSWORD}
       - Library__DownloadPath=/music
@@ -626,7 +626,7 @@ services:
       - Subsonic__LidarrAlbumOnPlay=false
       - YouTube__ShimUrl=http://yt-dlp-shim:8080
       # Hearts: Lidarr only
-      - Lidarr__BaseUrl=${LIDARR_ADDRESS}
+      - Lidarr__BaseUrl=http://lidarr:8686
       - Lidarr__ApiKey=${LIDARR_API_KEY}
       - Lidarr__RootFolderPath=/music
       - Lidarr__CompletionMode=Imported
@@ -813,25 +813,25 @@ services:
       - /mnt/media/torrent/downloads:/downloads
 
 
-  slskd: # reverse proxy to 5030
-    image: slskd/slskd:latest
-    container_name: slskd
-    environment:
-      - SLSKD_REMOTE_CONFIGURATION=true
-      - SLSKD_API_KEY=$SLSKD_API_KEY
-      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
-      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
-      - SLSKD_DOWNLOADS_DIR=/music
-      - TZ=$TZ
-    ports:
-      - "5030:5030"
-      - "50300:50300"
-    volumes:
-      - /mnt/docker/slskd/:/app
-      - /mnt/media/torrent/downloads:/app/downloads
-      - /mnt/media/torrent/Music:/share
-      - /mnt/media/torrent/Music:/music
-    restart: unless-stopped
+#  slskd: # reverse proxy to 5030
+#    image: slskd/slskd:latest
+#    container_name: slskd
+#    environment:
+#      - SLSKD_REMOTE_CONFIGURATION=true
+#      - SLSKD_API_KEY=$SLSKD_API_KEY
+#      - SLSKD_SLSK_USERNAME=$SLSKD_SLSK_USERNAME
+#      - SLSKD_SLSK_PASSWORD=$SLSKD_SLSK_PASSWORD
+#      - SLSKD_DOWNLOADS_DIR=/music
+#      - TZ=$TZ
+#    ports:
+#      - "5030:5030"
+#      - "50300:50300"
+#    volumes:
+#      - /mnt/docker/slskd/:/app
+#      - /mnt/media/torrent/downloads:/app/downloads
+#      - /mnt/media/torrent/Music:/share
+#      - /mnt/media/torrent/Music:/music
+#    restart: unless-stopped
 
 #  soulsync: # reverse proxy to 8008
 #    image: boulderbadgedad/soulsync:latest
