@@ -379,6 +379,7 @@ services:
     volumes:
       - /mnt/docker/jellyfin/jellyfin_config:/config
       - /mnt/docker/jellyfin/jellyfin_cache:/cache
+      - /mnt/media:/media/torrent
       - /mnt/media:/media
     environment:
       - TZ=${TZ}
